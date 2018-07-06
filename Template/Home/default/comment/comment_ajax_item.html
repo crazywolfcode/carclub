@@ -1,0 +1,15 @@
+<div class= "media" id="comment-item">
+    <a class="pull-left" href="#">
+        <img class="media-object" src="{$c['userhead']|default='__IMG__/default_head2.png'}" alt="">
+    </a>
+    <div class="media-body">
+        <h4 class="media-heading">          
+            {$c['username']|default="匿名"}&nbsp;&nbsp;
+            <small style="font-size: 12px;">{$c['uoauth']==0?'本站用户':($c['uoauth']==1?'微信用户':'QQ用户')}</small>  
+            <small style="font-size: 12px;">{$c['level']}</small>
+            <span class="qh-up-btn qh-cmt-icon" style="float: right;margin-right: 20px;padding-left: 18px; ">{$c['usefuls']|default='0'}</span>
+            <span style="float: right;margin-right: 10px;">{$c['addtime']|friend_date}</span>
+        </h4>
+        <p>{$c['content']|getSubstr=0,150} </p>
+    </div>
+</div>

@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title></title>
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <link rel="shortcut icon" href="favicon.ico"> <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+        <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+        <link href="__CSS__/animate.css" rel="stylesheet">
+        <link href="__CSS__/plugins/summernote/summernote.css" rel="stylesheet">
+        <link href="__CSS__/plugins/summernote/summernote-bs3.css" rel="stylesheet">
+        <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    </head>
+
+    <body class="gray-bg">
+        <div class="wrapper wrapper-content">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>用户协议</h5>
+                            <div class="ibox-tools">
+
+                            </div>
+                        </div>
+                        <div class="ibox-content no-padding">
+                            <div class="summernote" id='content'>
+                                {$agreements.value|htmlspecialchars_decode}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id='hiddenid' style='display: none'>
+                {$agreements.id}
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <button class="btn btn-primary" id='subbutton' type="button">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 全局js -->
+        <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+        <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+        <!-- 自定义js -->
+        <script src="__JS__/content.js?v=1.0.0"></script>
+        <!-- SUMMERNOTE -->
+        <script src="__JS__/plugins/summernote/summernote.min.js"></script>
+        <script src="__JS__/plugins/summernote/summernote-zh-CN.js"></script>
+        <script type="text/javascript" src="__LAYER__/layer.js"></script>
+        <script type="text/javascript" src="__JS__/function.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('.summernote').summernote({
+                    lang: 'zh-CN'
+                });
+
+            });
+            var edit = function () {
+                $("#eg").addClass("no-padding");
+                $('.click2edit').summernote({
+                    lang: 'zh-CN',
+                    focus: true
+                });
+            };
+            var save = function () {
+                $("#eg").removeClass("no-padding");
+                var aHTML = $('.click2edit').code(); //save HTML If you need(aHTML: array).
+                $('.click2edit').destroy();
+            };
+            $("#content").click(function () {
+                $(".note-editor > .note-editable").html('jskldfjl');
+            });
+
+            $(document).ready(function () {
+                $(".note-editor > .note-editable").mousemove(function (e) {
+                    var content = $(".note-editor > .note-editable").html();
+                    if (content == '') {
+                        $(".note-editor > .note-editable").html('未填写协议 ！');
+                        return false;
+                    }
+                });
+            });
+            $("#subbutton").click(function () {
+                var content = $(".note-editor > .note-editable").html();
+                if (content == '') {
+                    show_info('未填写简介！');
+                    return false;
+                } else {
+                    var data = {};
+                    data['content'] = content;
+                    data['id'] = $("#hiddenid").text().trim();
+                    var url = "{:U(agreements)}";
+                    $.ajax({
+                        type: 'post',
+                        dataType: 'json',
+                        url: url,
+                        data: data,
+                        success: function (res) {
+                            if (res == 1) {
+                                alert(res.info);
+                            } else {
+                                alert(res.info);
+                                return false;
+                            }
+                        },
+                        error: function () {
+                            alert("请求或者返回出错！");
+                        }
+                    });
+                }
+            });
+        </script>
+
+    </body>
+
+</html>

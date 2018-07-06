@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <link rel="shortcut icon" href="favicon.ico">
+        <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+        <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="__CSS__/plugins/simditor/simditor.css" />
+        <link href="__CSS__/animate.css" rel="stylesheet">
+        <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+        <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    </head>
+
+    <body class="gray-bg">
+        <div class="wrapper wrapper-content animated fadeInRight">      
+            <div class="row">        
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>修改图集</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="form_basic.html#">
+                                    <i class="fa fa-wrench"></i>
+                                </a>
+
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <form class="form-horizontal m-t" id="form" method="POST" action="{:U('ImageList/update')}" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">标题：</label>
+                                    <div class="col-sm-8">
+                                        <input id="firstname" onchange="" name="title" class="form-control" type="text" value="{$imglist['title']|default=''}">                                     
+                                    </div>
+                                </div>                           
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">简介：</label>
+                                    <div class="col-sm-8">                                      
+                                        <textarea id="introid" name='intro' placeholder="这里输入内容" autofocus>
+                                            {$imglist['intro']|htmlspecialchars_decode}
+                                        </textarea>                                        
+                                    </div>
+                                </div>    
+                               <input  onchange="" name="id" class="form-control" type="hidden" value="{$imglist['id']}"> 
+                                <div class="form-group">
+                                    <div class="col-sm-8 col-sm-offset-3">
+                                        <button class="btn btn-primary" type="submit" id="submitbtn">提交</button>
+                                        <button class="btn btn-primary hidden" type="reset" id="resetbtn"></button>
+                                    </div>                                      
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 全局js -->
+        <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+        <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+
+        <!-- 自定义js -->
+        <script src="__JS__/content.js?v=1.0.0"></script>
+
+        <!-- jQuery Validation plugin javascript-->
+        <script src="__JS__/plugins/validate/jquery.validate.min.js"></script>
+        <script src="__JS__/plugins/validate/messages_zh.min.js"></script>
+        <script src="__JS__/demo/form-validate-demo.js"></script>
+        <!-- simditor -->
+        <script type="text/javascript" src="__JS__/plugins/simditor/module.js"></script>
+        <script type="text/javascript" src="__JS__/plugins/simditor/uploader.js"></script>
+        <script type="text/javascript" src="__JS__/plugins/simditor/hotkeys.js"></script>
+        <script type="text/javascript" src="__JS__/plugins/simditor/simditor.js"></script>
+       
+        <script>
+                                            $(document).ready(function () {                                               
+                                                var introeditor = new Simditor({
+                                                    textarea: $('#introid'),
+                                                    toolbar: false,
+                                                });
+                                            });
+                          
+        </script>
+    </body>
+
+</html>

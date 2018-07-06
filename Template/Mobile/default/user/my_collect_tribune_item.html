@@ -1,0 +1,24 @@
+<volist name="tribunelist" id="tribune">
+    <div class="article-item white-bg" id="article-item-{$tribune['tribune']['id']}">       
+        <div>
+            <a href="{:U('Tribune/tribuneDetail',array('id'=>$tribune['tribune']['id'],'cateid'=>$tribune['tribune']['cateid']))}">
+                <div class="title">
+                    {$tribune['title']|getSubstr=0,20}
+                </div>
+                <div class="from">{$tribune['tribune']['addtime']|friend_date} </div>
+                <div class="intro introfont" style="padding-right: 6px; ">
+                    {$tribune['tribune']['intro']|htmlspecialchars_decode|getSubstr=0,100}
+                </div>
+            </a>
+        </div>
+        <div class="my-option" >     
+            <a class="no-decoration opt-delete"  data-url="{:U('Collect/delete',array('id'=>$tribune['id']))}" >删除</a>
+        </div>
+        <div class="statistic" style="padding-left: 24px;margin-top: 10px;"> 
+            <span class="img-comment">作者  {$tribune['tribune']['addusername']}</span>
+            <span class="img-comment">跟贴  {$tribune['tribune']['comments']}</span>
+            <span class="img-comment">收藏 {$tribune['tribune']['collects']}</span>
+            <span class="view-num">浏览 {$tribune['tribune']['views']}</span>
+        </div>
+    </div>
+</volist>

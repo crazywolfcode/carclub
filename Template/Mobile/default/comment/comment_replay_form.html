@@ -1,0 +1,17 @@
+<div class="comment-form block hidden" id="comment-replay-body">        
+    <form  method="POST" id='comment-replay-form' class="block">
+        <div class="block">
+            <textarea name='content' id='comment-replay-contents' class="CheckLogin block content-area h-70" onkeyup="checkLen(this)" placeholder="请输入回复的内容..."></textarea>
+        </div>          
+        <input name="userid" id="adduserids" value="{$Think.session.user.id}" type="hidden"/>
+        <input name="unick_name"  value="{$Think.session.user.nick_name}" type="hidden"/>   
+        <input name="username"  value="{$Think.session.user.name}" type="hidden"/>       
+        <input name="parentid" id="parentids"  type="hidden"/>
+        <input name="uhead" id="userheads" value="{$Think.session.user.head}" type="hidden"/>
+        <input name="ulevel" id="userheads" value="{$Think.session.user.level}" type="hidden"/>
+        <input name="isreplay" id="userheads" value="1" type="hidden"/>
+    </form>
+    <div class="form_div2">
+        <div style="margin-left:5px;" class="inline-block">您还可以输入 <span id="count">200</span> 个字符</div>        
+    </div>
+</div>

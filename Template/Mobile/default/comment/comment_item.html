@@ -1,0 +1,70 @@
+<volist name="commentlist" id ="c" >
+    <div class="comment-item">
+        <div class="qh-cmt qh-reset-font">
+            <div class="qh-cmt-bar">
+                <div class="qh-avatar">
+                    <if condition="$user.oauth eq 1">
+                        <img src="{$c['uwxhead']|default='__IMG__/default_head2.png'}" alt="">
+                        <else/>
+                        <img src="{$c['uqqhead']|default='__IMG__/default_head2.png'}" alt="">
+                    </if> 
+                </div>
+                <div class="qh-user-nt">
+                    <div class="qh-u-name">
+                        <if condition="$user.oauth eq 1">
+                            {$c['uwxnickname']|default="匿名"}&nbsp;&nbsp;
+                            <else/>
+                            {$c['uwxnickname']|default="匿名"}&nbsp;&nbsp;
+                        </if> 
+                        <small style="font-size: 12px;">{$c['uoauth']==0?'本站用户':($c['uoauth']==1?'微信用户':'QQ用户')}</small>  
+                        <small style="font-size: 12px;">{$c['ulevel']}</small>
+                    </div>
+                    <div class="qh-u-time block">
+                        {$c['addtime']|friend_date}
+                    </div>
+                </div>
+                <div class="qh-cmt-lr">
+                    <div class="qh-cmt-ups qh-cmt-up" >
+                        <a class="qh-cmt-icon" data-id="{$c['id']}" data-adduserid="{$c['userid']}"></a>
+                        <span class="qh-up-btn">{$c['usefuls']|default='0'}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="qh-cmt-cont-wrap">
+                <div class="qh-cmt-cont">
+                    <div class="qh-cmt-cont-t">
+                        {$c['content']}
+                    </div>    
+                    <volist name="c.replay" id ="r">
+                        <div class="qh-sub-cmt">
+                            <div class="qh-cmt-bar" style="margin-top: 4px;">
+                                <div class="qh-avatar">
+                                    <img src="__IMG__/default_head1.png" alt="">
+                                </div>
+                                <div class="qh-user-nt" style="padding-top: 10px;">
+                                    <div class="qh-u-name">
+                                        {$c['name']|default="匿名"}&nbsp;&nbsp;{$c['ulevel']}
+                                    </div>
+                                </div>
+                                <div class="qh-cmt-lr">
+                                    <div class="qh-cmt-ups qh-cmt-up" >                                    
+                                        <span class="qh-ups-num qh-up-btn"> 
+                                            {$c['addtime']|friend_date}                                                
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="qh-cmt-cont-wrap" style="padding-left: 0px;">
+                            <div class="qh-cmt-cont">
+                                <div class="qh-cmt-cont-t block">
+                                    {$c['content']}
+                                </div>
+                            </div>
+                        </div>
+                    </volist>
+                </div>
+            </div>
+        </div>
+    </div>
+</volist>

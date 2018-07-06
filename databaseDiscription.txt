@@ -1,0 +1,51 @@
+============================= config 配制表=====================================
+id 
+name 配制项名称;
+value 值
+description 说明
+status 状态
+sort 排序
+
+============================= action 活动表=====================================
+id 
+propaganda_img 宣传图片
+title 标题
+intro 简介
+content 详情
+views 查看次数
+comments 评论数
+images 拥有图片数
+videos 拥有视频数
+addtime 添加时间
+starttime 开始时间
+endtime 结束时间
+addusername 添加用户
+adduserid 添加用户的id
+status 活动的状态，0未开始的活动 1 正在进行的活动 2已经结束的活动
+isshow 是否在首页显示 1显示
+isdelete 是否删除
+
+============================= tribune 论版文章表=====================================
+id 
+title 标题
+content 详情
+views 查看次数
+comments 评论数
+type 所属类型; 1属性论版 2其它
+addtime 添加时间
+addusername 添加用户
+adduserid 添加用户的id
+status 改评论状态：0待审核；1审核通过（可显示在前台）；2内容非法或者其他因素（不显示给用户看到）
+isdelete 是否删除
+
+============================= comment 所有的评论表=====================================
+id 
+content 内容
+parentid 该评论是关于什么的，parentid就是所评论的ID ,所回复评论的ID
+type 评论的类型 1关于论版文章 2 关于图集 3关于视频 4关于活动 5关于其它
+addtime 添加时间
+username 评论人
+userid 评论人ID
+isreplay 是否为回复 1回复 
+status 改评论状态：0待审核；1审核通过（可显示在前台）；2内容非法或者其他因素（不显示给用户看到）
+isdelete 是否删除

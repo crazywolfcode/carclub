@@ -1,0 +1,32 @@
+<div class='sub-comment-replay-item' id="sub-comment-replay-item-{$r['id']}">
+    <div class="qh-sub-cmt">
+        <div class="qh-cmt-bar" style="margin-top: 4px;">
+            <div class="qh-avatar">
+                <img src="{$r['uhead']|default='__IMG__/default_head1.png'}" alt="">
+            </div>
+            <div class="qh-user-nt" style="padding-top: 10px;">
+                <div class="qh-u-name">
+                    {$r['unick_name']|default="匿名"}&nbsp;&nbsp;{$r['ulevel']}
+                </div>
+            </div>
+            <div class="qh-cmt-lr">
+                <div class="qh-cmt-ups qh-cmt-up" >                                    
+                    <span class="qh-ups-num qh-up-btn"> 
+                        {$r['addtime']|friend_date}                                                
+                    </span>
+                    | <a class="no-decoration cursor-pointer" 
+                         style="font-size: 12px;color: #4595e6;margin-right: 6px;"                         
+                         onclick="Commentdelete('{:U(\'Comment/delete\',array(\'id\'=>$r[\'id\'],\'isreplay\'=>1))}','{$r[\'id\']}')"
+                         >删除</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="qh-cmt-cont-wrap" style="padding-left: 0px;">
+        <div class="qh-cmt-cont">
+            <div class="qh-cmt-cont-t block">
+                {$r['content']}
+            </div>
+        </div>
+    </div>
+</div>

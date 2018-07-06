@@ -1,0 +1,40 @@
+<div class="navbar">                                
+    <div class="navbar-inner">                                  
+        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </a><!-- /nav-collapse -->                                  
+        <div class="nav-collapse collapse">                                     
+            <ul class="nav top-2">
+                <li class="active" id="homeNavIndex">
+                    <a href="{:U('Index/index')}">首页                                           
+                    </a>                                       
+                </li>
+
+                <li id="homeNav-tribune">
+                    <a href="" class="dropdown-toggle" data-toggle="dropdown">论坛
+                        <b class="caret"></b>                            
+                    </a>
+                    <ul class="dropdown-menu">
+                        <include file="Public:tribune_dropdown_menu"/>
+                    </ul>
+                    <b class="caret-out"></b>                        
+                </li>
+                <li  id="homeNav-img">
+                    <a href="{:U('WonderfulImg/imgList')}" class="dropdown-toggle">精彩图集                                                    
+                    </a>                                                
+                </li>
+                <li  id="homeNav-video">
+                    <a href="{:U('WonderfulVideo/VideoList')}" class="dropdown-toggle">精彩视频                                                     
+                    </a>                                            
+                </li>
+                <li  id="homeNav-action">
+                    <a href="{:U('Action/actionList')}" class="dropdown-toggle" >历史活动                                                        
+                    </a>            
+                </li>                                                 
+            </ul>
+        </div>
+        <!-- /nav-collapse -->                                
+    </div><!-- /navbar-inner -->
+</div>

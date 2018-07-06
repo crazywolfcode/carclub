@@ -1,0 +1,80 @@
+
+<html>
+    <head>
+        <title>用户登陆</title>
+    <include file="Public:meta"/>
+</head>
+<style>
+    img.head{width: 120px;height: 120px;border-radius:60px;border: 3px #FFF solid;margin-bottom: 10px;}
+    input{
+        border: 1px #ccc solid;line-height: 45px;height: 45px;
+        border-radius:6px;
+        width: 200px;
+        display: block;
+    }
+    button{       
+        line-height: 35px;
+        height: 35px;
+        background: #72c02c;
+        border-radius:6px;
+        color: #FFF;
+        font-size: 18px;
+        font-weight: bold;
+        text-decoration: none;
+        text-align: center;
+        margin:20px auto;
+        cursor: pointer;
+        border: 0px;
+        width: 200px;
+    }
+</style>
+<body style="height: auto;width:auto;background: #eee">
+    <div class="inline-block" style="width: 200px;text-align: center;margin: 110px auto;">
+        <div> 
+            <img class="head" src="{$user['head']|default='__IMG__/default_head2.png'}" />
+            <span style=";font-size: 16px;">CrazyWolf</span>
+        </div>
+
+        <form class="form-horizontal" id='f-finish' style="margin-top: 20px;" action="{:U('Login/index')}" method="post">                    
+            <input id='pwd' name='password' data-required="true"  placeholder="请输入你的密码" type="password">
+            <input type="hidden" name='loginName' value="{$user['loginName']}">      
+            <input type="hidden" name='type' value="2">     
+            <div class="control-group">
+                <div class="controls">                       
+                    <button type="submit"  id="login-btn" class="btn-u">登陆 </button>
+                </div>
+            </div>
+        </form>
+    </div>    
+    <script type="text/javascript" src="__JS__/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+    <script type="text/javascript" >
+        $("#login-btn").click(function () {
+            var data = $("#f-finish").serialize();
+            var pwd = $("#pwd").val();
+            var url =$("#f-finish").attr("action");
+            if (pwd.length < 3) {
+                layer.msg("密码不能为空", {time: 1200});
+                $("#pwd").focus();
+                return false;
+            }
+            $.ajax({
+                type: 'post',
+                data: data,
+                dataType: 'text',
+                url:url,
+                success: function (res) {
+                    var obj = $.parseJSON(res);
+                    if (obj.status == 1) {
+                        layer.msg(obj.info);
+                        window.location.href = obj.url;
+                    } else {
+                        layer.msg(obj.info);
+                    }
+                }
+            });
+            return false;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+  <volist name='imglist' id='data'>
+        <div class="imglist-item" id="imglist-item{$dtaa['id']}">
+            <p class="title">
+                {$data['title']|getSubstr=0,24}
+            </p>
+            <div class="imgs">
+                <volist name='data.imgs' id='imgdata' offset='0' length='3' empty="     暂时还没有图片！">
+                    <a href="{:U('WonderfulImg/imgDetail',array('id'=>$imgdata['id'],'type'=>$imgdata['type'],'aid'=>$imgdata['action_id'],'lid'=>$imgdata['list_id']))}">
+                        <img src="{$imgdata['url']}"  height="100px"/>
+                    </a>
+                </volist>
+            </div>
+            <div class="statistic">
+                <span class="vides-time">{$data['addtime']|friend_date}</span>
+                <span class="img-num">图{$data['images']}</span>
+                <span class="view-num">{$data['views']}次</span>
+            </div>
+        </div>
+    </volist>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<extend name="public:mobilebase" /></extend>
+<block name='top'> 
+    <include file='public:top2'/>
+</block>
+<block name='main'>
+    <div class="main_content">
+        <div style="padding-left: 12px;" >
+            <div class="form-body container">
+                <form class="login-form" id="f-finish">
+                    <div class="container text-left block">
+                        <div class="block text-center">
+                            <a href="{:U('user/updatehead',array('id'=>$user['id']))}">
+                                <if condition="$user.oauth eq 1">
+                                    <img class="block" src="{$user.wx_head}" style="width: 94%;height: 250px;border-radius: 6px;padding: 2px;4px;"/>                            
+                                    <else /> 
+                                    <img class="block" src="{$user.qq_head}" style="width: 94%;height: 250px;border-radius: 6px;padding: 2px;4px;"/>                          
+                                </if>  
+                            </a>                            
+                        </div>
+                        <div class="">
+                            <span class="inline-block">真实姓名：</span>
+                            <span class=" inline-block">{$user.name}</span>
+                        </div>
+                        <div class="">
+                            <span class="inline-block">来源：</span>
+                            <span class=" inline-block">{$user.oauth==1?'微信':($user.oauth==2?'QQ':'本站')}</span>
+                        </div>
+                        <div class="">
+                            <span class="inline-block">昵称：</span>
+                            <if condition="$user.oauth eq 1">
+                                <span class=" inline-block">{$user.wx_nick_name}</span>                                
+                                <else /> 
+                                <span class=" inline-block">{$user.qq_nick_name}</span>                                
+                            </if>                         
+                        </div>
+                        <div class="">
+                            <span class="inline-block">性别：</span>
+                            <div style="text-align: left;padding-left:12%;vertical-align: middle ">                               
+                                <input class="inline-block" name="gender" type="radio" value="1" <if condition="$user['gender']==1">checked="checked"</if> style="width: 20px"/>
+                                <span class="gender-type">先生</span>
+                                <input class="inline-block" name="gender" type="radio" value="0" <if condition="$user['gender']==0">checked="checked"</if> style="width: 20px"/>
+                                <span class="gender-type">小姐</span>
+                                <input class="inline-block" name="gender" type="radio" value="2" <if condition="$user['gender']==2">checked="checked"</if> style="width: 20px"/>
+                                <span class="gender-type">保密</span>
+                            </div>                            
+                        </div>
+                        <div class="">
+                            <span class="inline-block">手机号：</span>
+                            <span class=" inline-block">{$user.mobile}</span>
+                        </div>
+                        <div class="">
+                            <span class="inline-block">邮箱：</span>
+
+                            <span class=" inline-block">{$user.email}</span>
+                        </div>
+                        <div class="">
+                            <span class="inline-block">联系地址：</span>
+
+                            <span class=" inline-block">{$user.address}</span>
+                        </div>
+                        <div class="">
+                            <span class="inline-block">车牌号：</span>
+
+                            <span class=" inline-block">{$user.car_number}</span>
+                        </div>        
+                        <div class="">
+                            <span class="inline-block">职业：</span>
+                            <span class=" inline-block">{$user.work}</span>
+                        </div> 
+                        <div class="">
+                            <span class="inline-block">单位：</span>
+                            <span class=" inline-block">{$user.department}</span>
+                        </div> 
+                    </div>
+                    <div class="login-btn" id="finish-btn">
+                        <a href="{:U('User/finishInfo')}">  修改 </a>
+                    </div>                 
+                </form> 
+            </div>       
+        </div>
+    </div>
+
+</block>
+
+<block name='js'>
+    <include file='public:footerjs'/>      
+</block>

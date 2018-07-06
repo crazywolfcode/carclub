@@ -1,0 +1,105 @@
+<php>
+    $c = count($videolist);
+    if($c%2 !=0){
+    $count=$c/2+1;
+    }else{
+    $count = $c/2;                                                    
+    }
+
+</php>
+<div id="gtco-testimonial" class="inline-bolck">
+    <div class="gtco-container">
+        <!-- <div class="row"> -->
+        <div class="row animate-box fadeInUp animated-fast">
+            <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+                <h2><a href="{:U('WonderfulVideo/videoList')}" class="no-decoration">精彩视频</a></h2>                    
+            </div>
+        </div>
+        <div class="container">
+            <div class="col-md-6 col-md-offset-3 col-sm-12 col-xs-12">
+                <div id="carousel-example-generic" class="carousel slide inline-bolck text-center" data-ride="carousel"> 
+                    <div class="carousel-inner" role="listbox">
+                        <assign name='f' valve='0'/>
+                        <div class="item active">
+                            <div class="intro-content text-center">
+                                <div class="class-grids">
+                                    <volist name='videolist' id='data'>
+                                        <div class="span5 class-grid wow zoomInLeft animated">
+                                            <a  href="{:U('WonderfulVideo/videoDetail',array('id'=>$data['id']))}">
+                                                <img src="{$data['img_src']}" class="img-responsiveup" alt="" />                                                                                      
+                                                <i class="replay"></i>
+                                            </a> 
+                                            <div class="bottom-color">
+                                                <h4>{$data['title']}</h4>  
+                                                <P>{$data['addusername']|default='爨行天下户外俱乐部'}</p>
+                                            </div>
+                                            <div class="class-bottom row myrow">                                             
+                                                <div class="span2 class-time myspan">
+                                                    <ul class="time">
+                                                        <li><i class="time"></i><span>{$data['addtime']|friend_date}</span></li>   
+                                                         <li><i class="icon-play"></i><span>{$data['views']}次</span></li>   
+                                                        <div class="clearfix"></div>
+                                                    </ul>
+                                                </div>
+                                                <div class="span2 class-text myspan">
+                                                    <div class="single-one "><span><a href="#"><i class="com"> </i><br/>{$data['comments']}</a></span></div>
+                                                    <div class="single-one ">
+                                                        <span>
+                                                            <a  class="collecting" data-id="{$data['id']}" data-type="{$data['type']}">                                                                
+                                                                <i class="{$data['id']|checkCollect=$data['type']}"> </i>                                                                
+                                                                <br/>{$data['collects']}
+                                                            </a>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <!--<a class="button span1 myspan text-center" href="{:U('WonderfulVideo/videoDetail',array('id'=>$data['id']))}">
+                                                <img src="__IMG__/read.png" class="img-responsive" alt="" />
+                                                </a>    
+                                                -->                                          
+                                            </div>
+                                        </div>
+                                        <php> $f++; </php>
+                                        <if condition="($f%2 eq 0) && ($f lt 10)">
+                                            </div>
+                                            </div>
+                                            </div> 
+                                            <if condition="$f neq $c">
+                                                <div class="item">                                                
+                                                    <div class="intro-content text-center">
+                                                        <div class="class-grids">   
+                                                            </if>
+                                                            </if>
+                                                            </volist>   
+                                                            <if condition="$f neq $c">
+                                                        </div>
+                                                    </div>
+                                                </div> 
+                                            </if>
+                                            </div>
+                                            </div>
+                                            </div>
+
+
+
+
+                                            </div>
+
+
+                                            <ol class="carousel-indicators">
+                                                <php>
+                                                    for($i=0;$i<$count;$i++ ){
+                                                </php>
+                                                <eq name="i" value="0">
+                                                <li data-target="#carousel-example-generic" data-slide-to="{$i}" class="active"></li>
+                                                <else/>
+                                                <li data-target="#carousel-example-generic" data-slide-to="{$i}"></li>
+                                                </eq>
+                                                <php>
+                                                    }
+                                                </php>
+                                            </ol>
+                                            </div>
+                                            </div>
+                                            </div> 
+                                            </div>
+                                            </div>

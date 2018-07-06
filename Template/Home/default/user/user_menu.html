@@ -1,0 +1,123 @@
+<div class="span3">
+    <div class="headline"><h3>操作菜单</h3></div>
+
+    <div class="accordion acc-home" id="accordion3">
+
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseTwo1">
+                    文章管理
+                </a>
+            </div>
+            <div id="collapseTwo1" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    <p><a href="{:U('User/addtribune')}" class="a-menu" id='tribune-add'>发布文章</a></p>    
+                    <p><a href="{:U('User/mytribune',array('status'=>1))}" class="a-menu " id='tribune-s'>我的公开文章</a><small class="badge pull-right badge-success">{$statis.mytribuneshow}</small></p>  
+                    <p><a href="{:U('User/mytribune',array('status'=>0))}" class="a-menu" id='tribune-h'>我的未公开文章</a><small class="badge pull-right badge-success">{$statis.mytribunehide}</small></p> 
+
+                </div>
+            </div>
+        </div>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree1">
+                    我的评论 
+                </a>
+            </div>
+            <div id="collapseThree1" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    <p>
+                        <a href="{:U('User/mycomment',array('status'=>1))}" class="a-menu" id='mycomment-s'>公开的评论</a>
+                        <small class="badge pull-right badge-success">{$statis.mycommentshow}</small>
+                    </p>
+                    <p>
+                        <a href="{:U('User/mycomment',array('status'=>0))}" class="a-menu"  id='mycomment-h'>未公开的评论</a>
+                        <small class="badge pull-right badge-success">{$statis.mycommenthide}</small>
+                    </p>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapsefour1">
+                    收藏管理 
+                </a>
+            </div>
+            <div id="collapsefour1" class="accordion-body collapse" style="height: 0px;">
+                <div class="accordion-inner">
+                    <p><a href="{:U('User/collectaction')}" class="a-menu" id="collectaction">活动</a><small class="badge pull-right badge-success">{$statis.collectaction}</small></p>
+                    <p><a href="{:U('User/collecttribune')}" class="a-menu" id="collecttribune">文章</a><small class="badge pull-right badge-success">{$statis.collectvideo}</small></p>
+                    <p><a href="{:U('User/collectvideo')}" class="a-menu" id="collectvideo">视频</a><small class="badge pull-right badge-success">{$statis.collecttribune}</small></p>
+                    <p><a href="{:U('User/collectimglist')}" class="a-menu" id="collectimglist">图集</a><small class="badge pull-right badge-success">{$statis.collectimglist}</small></p> 
+                </div>
+            </div>
+        </div>
+
+
+        <if condition="($ismoderater eq 1) or ($isadmin eq 1)">
+            <div class="accordion-group">
+                <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseFire1">
+                        我的管理 
+                        <small style="font-size: 12px;color: red;margin-left: 20px;margin-right: 10px;">
+                            <if condition="$isadmin eq 1">我是
+                                &nbsp;超级管理员   &nbsp;<elseif condition="$ismoderater eq 1"/> 
+                                &nbsp;  【{$cate['name']}】版主   &nbsp;
+                                <else/> 
+
+                            </if>
+                        </small>
+                    </a>
+
+                </div>
+                <div id="collapseFire1" class="accordion-body collapse" style="height: 0px;">
+                    <div class="accordion-inner">            
+                        <p>
+                            <a href="{:U('User/managertribune',array('cateid'=>$cate['id'],'isadmin'=>$isadmin))}" class="a-menu" id="managertribune">
+                                文章
+                            </a>
+                            <small class="badge pull-right badge-success">{$statis.managertribune}</small>
+                        </p>
+                        <p>
+                            <a href="{:U('User/manageruser',array('cateid'=>$cate['id'],'isadmin'=>$isadmin))}" class="a-menu" id="manageruser">
+                                会员
+                            </a>
+                            <small class="badge pull-right badge-success">{$statis.manageruser}</small>
+                        </p>  
+                        <if condition="($isadmin eq 1)">
+                            <p>
+                                <a href="{:U('User/lookadmin')}" class="a-menu" id="lookadmin">
+                                    其它管理员
+                                </a>
+                                <small class="badge pull-right badge-success">{$statis.admins}</small>
+                            </p>
+                            <p>
+                                <a href="{:U('User/lookmoderate')}" class="a-menu" id="lookmoderate">
+                                    其它版主
+                                </a>
+                                <small class="badge pull-right badge-success">{$statis.moderates}</small>
+                            </p>  
+                        </if>
+                    </div>
+                </div>
+            </div>
+        </if>
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#collapseOne1">
+                    个人设置
+                </a>
+            </div>
+            <div id="collapseOne1" class="accordion-body  collapse" style="height: ;">
+                <div class="accordion-inner">
+                    <p ><a href="{:U('User/index')}" class="a-menu" id='index'>基本信息</a></p>    
+                    <p><a href="{:U('User/finishInfo')}" class="a-menu" id='finishInfo'>完善信息</a></p>      
+                    <p><a href="{:U('User/updatePwd')}" class="a-menu" id='updatePwd'>修改密码</a></p>   
+                    <p><a href="">账号</a></p>      
+                    <p><a href="{:U('Login/logout')}">退出</a></p>   
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

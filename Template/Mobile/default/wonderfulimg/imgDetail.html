@@ -1,0 +1,79 @@
+<extend name="public:mobilebase" />
+<block name='title'>
+    <notempty name="pagetitle">
+        <title>{$pagetitle}</title>
+        <else/>
+        <title>{:C('WEB_SITE_TITLE')}</title>
+    </notempty>
+</block> 
+<block name='top'> 
+    <include file='public:top'/>
+</block>
+<block name='main'>
+    <!--活动 -->
+    <include file="WonderfulImg:detail_info"/>     
+    <!-- //活动 -->  
+</block>
+<block name='footer'>
+    <include file='public:footer'/>
+    <include file='public:gototop'/>
+    <include file="Public:share_page"/>   
+</block>
+<block name='js'>
+    <include file='public:footerjs'/>
+    <script  type="text/javascript" src="__PUBLICJS__/slider.js"></script>    
+    <script>
+        $(function ()
+        {
+            TouchSlide({
+                slideCell: "#focuss",
+                //titCell: ".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+                mainCell: ".bd ul",
+                delayTime: 600,
+                interTime: 4000,
+                effect: "leftLoop",
+                //autoPlay: true, //自动播放
+                // autoPage: true, //自动分页
+                switchLoad: "_src" //切换加载，真实图片路径为"_src"
+            });
+            //动态加载CSS文件
+            // var header = document.getElementsByTagName('head')[0];
+            //  var link = document.createElement('link');
+            // link.href = "__CSS__/photo.css";
+            //link.rel = 'stylesheet';
+            //.type = 'text/css';
+            //header.appendChild(link);
+            //改变导航条的状态    
+            $('ul.nav li').removeClass("active");
+            $('#homeNav-img').addClass("active");
+        });
+        //定义分享的内容        
+        var ShareTitle = "{$tager['title']}";
+        var ShareDesc = "{$tager['title']}";
+        var ShareLink = "<php>echo $_SERVER['HTTP_REFERER']</php>";
+        var ShareImgUrl = "{$imagelist[0]['url']}";
+        if (ShareImgUrl.indexOf('http') < 1) {
+            ShareImgUrl = "{:C('WEB_DOMIAN')}" + ShareImgUrl;
+        }
+    </script>  
+    <script>
+        $(".icon-gotop").click(function () {
+            $('html,body').animate({scrollTop: 0}, 1200);
+        });
+    </script>
+    <script type="text/javascript">
+        function getdomain() {
+            var url = document.domain;
+            if (url.indexOf('http://') === -1) {
+                url = 'http://' + url;
+            }
+            return url;
+        }
+
+    </script>
+    <script src="__JS__/myrollow.js" type="text/javascript"></script>
+    <script src="__PUBLICJS__/mycollect.js" type="text/javascript"></script>
+    <script src="__JS__/myshare.js" type="text/javascript"></script>
+    <script type="text/javascript" src="__JS__/myCommentAjax.js"></script>
+</block>
+</extends>

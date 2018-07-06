@@ -1,0 +1,28 @@
+<volist name='userlist' id='u'>
+    <div class="user-item black" style="position: relative;"> 
+        <if condition="$islookm eq 1">
+            <div class="moderate_catename">{$u['id']|getCateNmaeUid}</div>
+        </if>
+        <div class="user-left inline-block">
+            <img class="user-head black" src="__IMG__/s5.jpg"/><br/>
+            <span class="user-nickname black">{$u['nick_name']} <small>{$u['gender']==1?"先生":($u['gender']==0?"女士":"保密")}</small></span>
+        </div>
+        <div class="user-right inline-block ">
+            <div class="black">
+                <span class="key">来源：</span><span class="value">{$u['oauth']==0?'本站用户':($u['oauth']==1?'微信用户':'QQ用户')}</span>
+            </div>
+            <div class="black">
+                <span class="key">等级：</span><span class="value">{$u['level']}</span>
+            </div>
+            <div class="black">
+                <span class="key" >积分：</span><span id="user-point-{$u['id']}" class="value">{$u['point']}</span><span class="value">分</span>
+            </div>
+            <div class="black">
+                <span class="key">注册时间：</span><span class="value">{$u['reg_time']|friend_date}</span>
+            </div>
+            <div class="black">
+                <span class="key">用户状态：</span><span class="value">{$u['status'] ==1?"正常":(u['status'] ==2?"禁言":(u['status'] ==3?"封号":"其它"))}</span>
+            </div>
+        </div>
+    </div>
+</volist>

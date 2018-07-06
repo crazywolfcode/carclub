@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>H+ 后台主题UI框架 - 联系人</title>
+        <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+        <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+
+        <link rel="shortcut icon" href="favicon.ico"> <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+        <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+        <link href="__CSS__/animate.css" rel="stylesheet">
+        <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+        <link rel="stylesheet" href="__LAYUI__/css/layui.css"  media="all">     
+    </head>
+
+    <body class="gray-bg">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row" id="userlist">
+                <include file="User:item"/>
+            </div>
+            <div class="pagination pagination-centered col-sm-12 text-center">
+                <div class="pages">
+                    {$page}
+                </div>
+            </div>
+        </div>
+
+        <!--  设置版主-->
+        <div class="modal inmodal" id="setmoderater" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated flipInY">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">请选择要论版分类</h4>
+                    </div>
+                    <div class="modal-body">                 
+                        <form id="form" class="form-horizontal inline" action="{:U('User/setmoderater')}">
+                            <div class="col-md-12">  
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">分类名称：</label>
+                                    <div class="col-sm-8">
+                                        <select name="cateid" id='cateselect' class="form-control" >
+                                            <option value="">请选择论版分类名称</option>
+                                            <volist name="catelist" id="data">
+                                                <option value="{$data.id}">{$data.name}</option>
+                                            </volist>
+                                        </select>                                     
+                                    </div>
+                                </div>
+                            </div>      
+                            <input name="userid" id="t_userid" type="hidden"/>                         
+                            <input name="type" id="t_type" type="hidden"/>
+                            <button type="reset" class="hidden" id = "resetbtn">重置</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary mybtnsave" id="mybtnsave">保存</button>                
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--  禁言-->
+        <div class="modal inmodal" id="gagmodal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated flipInY">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">会员禁言</h4>
+                    </div>
+                    <div class="modal-body">                 
+                        <form id="gagform" class="form-horizontal inline" action="{:U('User/setmoderater')}">
+                            <div class="col-md-12">  
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">禁言天数：</label>
+                                    <div class="col-sm-8">
+                                        <input id='days' name ="days" class="form-control"/>                           
+                                    </div>
+                                </div>
+                            </div>      
+                            <input name="userid" id="g_userid" type="hidden"/> 
+                            <input name="type" id="g_type" type="hidden"/> 
+                            <button type="reset" class="hidden" id = "resetbtn">重置</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary " id="gagsavebtn">保存</button>                
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--  加分 -->
+        <div class="modal inmodal" id="addpointmodal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated fadeInUp">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">会员加分</h4>
+                    </div>
+                    <div class="modal-body">                 
+                        <form id="gagform" class="form-horizontal inline" action="{:U('User/setmoderater')}">
+                            <div class="col-md-12">  
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">分数：</label>
+                                    <div class="col-sm-8">
+                                        <input id='pointnum' name ="point" class="form-control"/>                           
+                                    </div>
+                                </div>
+                            </div>      
+                            <input name="userid" id="m_userid" type="hidden"/>   
+                            <button type="reset" class="hidden" id = "resetbtn">重置</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary " id="addpoinsavebtn">保存</button>                
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- 全局js -->
+        <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+        <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+        <!-- 自定义js -->
+        <script src="__JS__/content.js?v=1.0.0"></script>
+        <script type="text/javascript" src="__LAYER__/layer.js"></script>
+        <script>
+            var reduce = 0;
+            $(document).ready(function () {
+                $('.contact-box').each(function () {
+                    animationHover(this, 'pulse');
+                });
+            });
+            //show modal
+            $('.moderater-opt').click(function () {
+                var userid = $(this).attr("data-userid");
+                var type = $(this).attr("data-type");
+                if (type == 0) {
+                    var url = $(this).attr("data-url");
+                    var cateid = $(this).attr("data-cateid");
+                    $.ajax({
+                        type: 'post',
+                        url: url,
+                        dataType: 'text',
+                        data: {
+                            userid: userid, cateid: cateid, type: type
+                        },
+                        success: function (res) {
+                            var obj = $.parseJSON(res);
+                            if (obj.status == 1) {
+                                layer.msg(obj.info);
+                                handledoc(userid);
+                            } else {
+                                layer.msg(obj.info);
+                            }
+                        },
+                        error: function () {
+                            layer.msg("请求出错！", {time: 1200});
+                        }
+                    });
+                } else {
+                    $('#t_userid').val(userid);
+                    $('#t_type').val(type);
+                    $('#setmoderater').modal("show");
+                }
+            });
+            //set moderater
+            $('#mybtnsave').click(function () {
+                var form = $('#form');
+                var url = form.attr("action");
+                var ueserid = $('#t_userid').val();
+                var cateid = $("#cateselect").children("option:selected").val();
+                var data = form.serialize();
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'text',
+                    data: data,
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.status == 1) {
+                            layer.msg(obj.info);
+                            $("resetbtn").click();
+                            $('#setmoderater').modal("hide");
+                            $("#moderater-opt-" + ueserid).attr("data-cateid", cateid);
+                            handledoc(ueserid);
+                        } else {
+                            layer.msg(obj.info);
+                        }
+                    },
+                    error: function () {
+                        layer.msg("请求出错！", {time: 1200});
+                    }
+                });
+                return false;
+            });
+            function handledoc(id) {
+                var doc = $("#moderater-opt-" + id);
+                var type = doc.attr("data-type");
+                var retype = doc.attr("data-retype");
+                var text = doc.text();
+                var retext = doc.attr("data-retext");
+                doc.attr("data-type", retype);
+                doc.attr("data-retype", type);
+                doc.attr("data-retext", text);
+                doc.text(retext);
+            }
+            $(".admin-opt").click(function () {
+                var _this = $(this);
+                var userid = $(this).attr("data-userid");
+                var type = $(this).attr("data-type");
+                var retype = $(this).attr("data-retype");
+                var text = $(this).text();
+                var retext = $(this).attr("data-retext");
+                var url = $(this).attr("data-url");
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'text',
+                    data: {
+                        userid: userid, type: type
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.status == 1) {
+                            layer.msg(obj.info);
+                            _this.attr("data-retext", text);
+                            _this.text(retext);
+                            _this.attr("data-retype", type);
+                            _this.attr("data-type", retype);
+                        } else {
+                            layer.msg(obj.info);
+                        }
+                    },
+                    error: function () {
+                        layer.msg("请求出错！", {time: 1200});
+                    }
+                });
+            });
+
+            //addpoint-btn
+            $(".addpoint-btn").click(function () {
+                var userid = $(this).attr("data-userid");
+                if ("{$Think.session.admin_user.id}" == userid) {
+                    layre.msg("自己不可以为自己加分", {time: 800});
+                    return false;
+                }
+                reduce = 0;
+                $("#m_userid").val(userid);
+                $("#addpointmodal").modal('show');
+            });
+            $(".reducepoint-btn").click(function () {
+                var userid = $(this).attr("data-userid");
+                if ("{$Think.session.admin_user.id}" == userid) {
+                    layre.msg("自己不可以为自己减分", {time: 800});
+                    return false;
+                }
+                reduce = 1;
+                $("#m_userid").val(userid);
+                $("#addpointmodal").modal('show');
+            });
+            $("#addpoinsavebtn").click(function () {
+                var userid = $("#m_userid").val();
+                var point = $("#pointnum").val();
+                var url;
+                if (reduce == 1) {
+                    url = "{:U('User/reducepoint')}";
+                } else {
+                    url = "{:U('User/addpoint')}";
+                }
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'text',
+                    data: {
+                        userid: userid, point: point
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.status == 1) {
+                            layer.msg(obj.info);
+                            $("#addpointmodal").modal('hide');
+                            var currP = $("#user-point-" + userid);
+                            var oldP = currP.text();
+                            if (reduce == 1) {
+                                currP.text((parseInt(oldP) - parseInt(point)));
+                            } else {
+                                currP.text((parseInt(oldP) + parseInt(point)));
+                            }
+                        } else {
+                            layer.msg(obj.info);
+                        }
+                    },
+                    error: function () {
+                        layer.msg("请求出错！", {time: 1200});
+                    }
+                });
+                return false;
+            });
+            //gag-btn
+            $(".gag-btn").click(function () {
+                var userid = $(this).attr("data-userid");
+                if ("{$Think.session.admin_user.id}" == userid) {
+                    layre.msg("自己不可以操作自己", {time: 800});
+                    return false;
+                }
+                var type = $(this).attr("data-type");
+                var url = "{:U('User/gag')}";
+                if (type == 1) {
+                    $.ajax({
+                        type: 'post',
+                        url: url,
+                        dataType: 'text',
+                        data: {
+                            userid: userid, type: type
+                        },
+                        success: function (res) {
+                            var obj = $.parseJSON(res);
+                            if (obj.status == 1) {
+                                layer.msg(obj.info);
+                                gaghandel(userid);
+                            } else {
+                                layer.msg(obj.info);
+                            }
+                        },
+                        error: function () {
+                            layer.msg("请求出错！", {time: 1200});
+                        }
+                    });
+                } else {
+                    $("#g_userid").val(userid);
+                    $("#g_type").val(type);
+                    $("#gagmodal").modal('show');
+                }
+
+            });
+            $("#gagsavebtn").click(function () {
+                var userid = $("#g_userid").val();
+                var days = $("#days").val();
+                var type = $("#g_type").val();
+                var url = "{:U('User/gag')}";
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'text',
+                    data: {
+                        userid: userid, days: days, type: type
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.status == 1) {
+                            layer.msg(obj.info);
+                            $("#gagmodal").modal('hide');
+                            gaghandel(userid);
+                        } else {
+                            layer.msg(obj.info);
+                        }
+                    },
+                    error: function () {
+                        layer.msg("请求出错！", {time: 1200});
+                    }
+                });
+                return fasle;
+            });
+            function gaghandel(id) {
+                var obj = $("#gag-" + id);
+                var type = obj.attr("data-type");
+                var retype = obj.attr("data-retype");
+                var text = obj.text();
+                var retext = obj.attr("data-retext");
+                obj.attr("data-type", retype);
+                obj.attr("data-retype", type);
+                obj.attr("data-retext", text);
+                obj.text(retext);
+                $("#moderate-catename-" + id).text(text);
+            }
+            // 封号 解封 等处理操作
+            $(".lockuser-opt").click(function () {
+                var _this = $(this);
+                var userid = $(this).attr("data-userid");
+                var type = $(this).attr("data-type");
+                var retype = $(this).attr("data-retype");
+                var text = $(this).text();
+                var retext = $(this).attr("data-retext");
+                var url = $(this).attr("data-url");
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'text',
+                    data: {
+                        userid: userid, type: type
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.status == 1) {
+                            layer.msg(obj.info);
+                            _this.attr("data-retext", text);
+                            _this.text(retext);
+                            _this.attr("data-retype", type);
+                            _this.attr("data-type", retype);
+                        } else {
+                            layer.msg(obj.info);
+                        }
+                    },
+                    error: function () {
+                        layer.msg("请求出错！", {time: 1200});
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<volist name="likelist" id="v">
+    <div class="recomont-video-item block h-60">
+        <a href="{:U('WonderfulImg/imgDetail',array('id'=>$v['imgs'][0]['id'],'type'=>$v['imgs'][0]['type'],'aid'=>$v['imgs'][0]['action_id'],'lid'=>$v['imgs'][0]['list_id']))}">
+            <div class="video-img">
+                <img src="{$v['imgs'][0]['url']}" class="w-60 h-60 left0"/>
+            </div>
+            <div class="video-info left0">
+                <p class="title p-t-4 left10 h-40">
+                    {$v['title']|getSubstr=0,25}" 
+                </p>           
+            </div>
+        </a>
+        <div class="statistic" >
+            <span class="time">{$v['addtime']|friend_date}</span>
+            <span class="comments">跟贴 {$v['comments']}</span>
+            <span class="images">图{$v['images']}</span>
+            <span class="views">看{$v['views']}</span>
+        </div>
+    </div>
+</volist>
+

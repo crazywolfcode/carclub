@@ -1,0 +1,155 @@
+<!-- JS Global Compulsory -->	
+<script type="text/javascript" src="__JS__/jquery-1.8.3.min.js"></script>
+<script type="text/javascript" src="__PUBLICSTATIC__/layer/layer.js"></script>
+<script src="__JS__/jquery.easing.1.3.js" type="text/javascript"></script> 
+<script src="__JS__/wow.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        $(".content-area").val("");
+    });
+    var Share_success_url = "{:U(Home/Index/sharesuccess)}";
+</script>
+
+<script type="text/javascript" src="__JS__/function.js"></script>
+<script type="text/javascript">
+    $(".togglemore").click(function () {
+        $(this).css({"display": "none"});
+        $(".togglesingle").css({"display": "inline-block"});
+        $(".navmore").css({"display": "inline-block"});
+    });
+    $(".togglesingle").click(function () {
+        $(this).css({"display": "none"});
+        $(".togglemore").css({"display": "inline-block"});
+        $(".navmore").css({"display": "none"});
+    });
+//滚动的js 
+
+    function checkLen(obj)
+    {
+        var maxChars = 200; //最多字符数
+        if (obj.value.length > maxChars)
+            obj.value = obj.value.substring(0, maxChars);
+        var curr = maxChars - obj.value.length;
+        document.getElementById("count").innerHTML = curr.toString();
+    }
+</script>
+<script type="text/javascript">
+</script>
+<script type="text/javascript">
+    $(".CheckLogin").focusin(function () {
+        checkLogin();
+    });
+</script>
+<script type="text/javascript">
+    //评论
+    $(".send_btn_u").click(function () {
+        var content_area = $(".content-area");
+        if (content_area.val().trim().length < 1) {
+            layer.msg("评论的内容不能为空！");
+            return false;
+        }
+        var form = $("#comment-form");
+        var commentbody = $("#detail-comment-body");
+        var url = "{:U('Comment/addComment')}";
+        $.ajax({
+            type: 'POST',
+            dataType: 'text',
+            url: url,
+            data: form.serialize(),
+            success: function (response) {
+                var obj = $.parseJSON(response);
+                if (obj.status == 1) {
+                    commentbody.prepend(obj.data);
+                    content_area.val("");
+                    $("#count").text("200");
+                    layer.open({
+                        content: '评论成功',
+                        style: 'background-color:#09C1FF; color:#fff; border:none;',
+                        time: 500
+                    });
+                } else {
+                    layer.open({
+                        content: obj.info,
+                        style: 'background-color:#09C1FF; color:#fff; border:none;',
+                        time: 1000
+                    });
+                }
+            }
+        });
+        return false;
+    });</script>
+
+<script type="text/javascript">
+    //评论设置有用；
+    $(".qh-cmt-icon").click(function () {
+        //没有登陆不行
+        if ("{$Think.session.user.id}" == null || 　"{$Think.session.user.id}" < 1) {
+            var l = layer.confirm('您还没有登录！是否要登录？', {
+                btn: ['是', '否'] //按钮
+            }, function () {
+                location.href = "{:U('Login/login')}";
+            }, function () {
+                layer.close(l);
+                return false;
+            });
+            return false;
+        }
+        var id = $(this).attr("data-id");
+        var adduserid = $(this).attr("data-adduserid");
+        //自己和文章不行
+        if ("{$Think.session.user.id}" == adduserid) {
+            layer.msg("这是你的评论。");
+            return false;
+        }
+        if ($(this).hasClass('icon-active')) {
+            upsHandle($(this), id, adduserid, -1);
+            $(this).removeClass("icon-active");
+        } else {
+            upsHandle($(this), id, adduserid, 1);
+            $(this).addClass("icon-active");
+        }
+        return false;
+    });
+</script>
+<script type="text/javascript">
+    //点击有用图标里的处理
+    function upsHandle(_this, id, adduserid, type) {
+        var upsobj = _this.siblings().eq(0);
+        var num = Number(upsobj.text());
+        if (type == -1) {
+            if (num > 0) {
+                upsobj.text(num - 1);
+            }
+        } else if (type == 1) {
+            upsobj.text(num + 1);
+        }
+        var url = "{:U('Comment/setuseful')}";
+        $.ajax({
+            type: 'post',
+            url: url,
+            dataType: 'text',
+            data: {id: id, num: type, authorid: adduserid},
+            function(res) {}
+        });
+    }
+</script>
+<script type="text/javascript">
+    function checkLogin() {
+        if ("{$Think.session.user.id}" == null || 　"{$Think.session.user.id}" < 1) {
+            var l = layer.confirm('您还没有登录！是否要登录？', {
+                btn: ['是', '否'] //按钮
+            }, function () {
+                location.href = "{:U('Login/login')}";
+            }, function () {
+                layer.close(l);
+                return false;
+            });
+        } else if ("{$Think.session.user.status}" == 2) {
+            layer.msg('您被禁言，过一段时间发表。');
+        }
+    }
+    function share_success(type) {
+        var url = Share_success_url;
+        $.post(url, {type: type}, function () {});
+    }
+</script>

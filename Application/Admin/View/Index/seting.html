@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>系统参数配置</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico"> <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+
+    <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>系统参数配置</h5>
+                        <div class="ibox-tools">
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <form class="form-horizontal m-t" id="signupForm">
+                            <volist name ="config" id ="v">
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">{$v.short_title}：</label>
+                                    <div class="col-sm-8">
+                                        <input id="{$v.id}" name="{$v.name}" class="form-control" type="text" value="{$v.value}" >
+                                        <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> {$v.description}</span>
+                                    </div>
+                                </div>
+                            </volist>
+                 
+                            <div class="form-group">
+                                <div class="col-sm-8 col-sm-offset-3">
+                                    <button class="btn btn-primary" type="button" onclick="edit_info('确定提交？','{:U()}','#signupForm');">提交</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+    </div>
+
+
+     <include file="Public:footerStyle" /> 
+</body>
+
+</html>

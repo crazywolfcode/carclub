@@ -1,0 +1,36 @@
+<div class="usertop span12">
+    <div class="user-top-head inline-block span3">
+        <if condition="$Think.session.user.oauth eq 1">
+            <img  src="{$Think.session.user.wx_head|default='__IMG__/default_avatar.png'}">
+            <else />                        
+            <img  src="{$Think.session.user.qq_head|default='__IMG__/default_avatar.png'}" >
+        </if>  
+    </div>
+    <div class="user-top-info inline-block span8">       
+        <if condition="$Think.session.user.oauth eq 1">
+            <h2>{$Think.session.user.wx_nick_name}</h2>
+            <else /> 
+            <h2>{$Think.session.user.qq_nick_name}</h2>
+        </if> 
+        <p>
+        <if condition="$Think.session.user.gender eq 1">
+            男
+            <elseif condition="$Think.session.user.gender eq 0"/>
+            女
+            <else/>
+            保密
+        </if>
+        &nbsp;&nbsp; 积分 {$Think.session.user.point}
+        &nbsp;&nbsp;{$Think.session.user.level}
+        &nbsp;&nbsp;注册时间：{$Think.session.user.reg_time|friend_date}</p>    
+        <p class="pull-right">
+        <if condition="$isadmin eq 1">
+            &nbsp;超级管理员   &nbsp;<elseif condition="$ismoderater eq 1"/> 
+            &nbsp;  【{$cate['name']}】版主   &nbsp;
+            <else/> 
+
+        </if>
+        最后登陆时间：{$Think.session.user.last_login_time|friend_date}
+        </p>
+    </div>
+</div>

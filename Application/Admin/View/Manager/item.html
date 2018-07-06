@@ -1,0 +1,54 @@
+<volist name="userlist" id ="data" empty="没有数据啦">
+    <div class='col-sm-4'>
+        <div class='contact-box' id="moderater-opt-{$data.id}">
+            <if condition="$data.cateid gt 0">
+                <div class="moderate_catename">{$data['cateid']|getCateName}</div>
+            </if>
+            <a href='#'>
+                <div class='col-sm-4'>
+                    <div class='text-center'>
+                        <if condition="$data.oauth eq 1">
+                            <img alt="image" class='img-circle m-t-xs img-responsive' src="{$data['wx_head']|default='__IMG__/default_head1.png'}" style="width: 120px;height: 120px;">
+                            <div class='m-t-xs font-bold'>{$data['wx_nick_name']|default="会员呢称"}</div>
+                            <else/>
+                            <img alt="image" class='img-circle m-t-xs img-responsive' src="{$data['qq_head']|default='__IMG__/default_head1.png'}" style="width: 120px;height: 120px;">
+                            <div class='m-t-xs font-bold'>{$data['qq_nick_name']|default="会员呢称"}</div>
+                        </if>
+                    </div>
+                </div>
+                <div class='col-sm-8'>
+                    <h3><i class='fa fa-user'></i>姓名:{$data['name']}</h3>
+                    <p><i class='fa fa-map-marker'></i>地址:{$data['address']}</p>
+                    <p><i class='fa fa-map-marker'></i>来源:{$data['oauth']==2?'QQ互联':($data['oauth']==1?'微信':'本站')}</p>
+                    <address>                      
+                        <i class='glyphicon glyphicon-earphone'></i>联系方式:{$data['mobile']}<br/>                       
+                        注册时间：{$data['reg_time']|friend_date}<br/>
+                        会员积分：<span id="user-point-{$data['id']}">{$data['point']}分</span><br/>
+                        会员状态：{$data['status']==0?"未审核":($data['status']==1?"正常":($data['status']==2?"禁言":($data['status']==3?"封号":"未知")))}<br/>
+                    </address>
+                </div>
+                <div class='col-sm-12'style="text-align: right"> 
+                    <a class="option-btn addpoint-btn" data-userid="{$data.id}">加分</a>
+                    <a class="option-btn reducepoint-btn" data-userid="{$data.id}">减分</a>
+                    <if condition="$data['type'] eq 1">
+                        <a class="option-btn moderater-opt" 
+                           data-url="{:U('User/setmoderater')}" 
+                           data-cateid="{$data.cateid}" 
+                           data-userid="{$data.id}">取消版主</a>
+                    </if>
+                    <if condition="$data['type'] eq 2">
+                        <a class="option-btn admin-opt"
+                           data-url="{:U('User/setadmin')}"                         
+                           data-userid="{$data.id}"  
+                           data-retext="设为超管" 
+                           data-type="0"
+                           data-retype="1">
+                            取消超管
+                        </a>                       
+                    </if>
+                </div>
+                <div class='clearfix'></div>
+            </a>
+        </div>
+    </div>
+</volist>

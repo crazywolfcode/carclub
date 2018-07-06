@@ -1,0 +1,21 @@
+<volist name="action.videolist" id="v">
+    <div class="recomont-video-item">
+        <div class="video-img">
+            <a href="{:U('WonderfulVideo/videoDetail',array('id'=>$v['id'],'type'=>$v['type'],'aid'=>$v['action_id']))}">
+                <img src="{$v['img_src']}"/>
+                <i class="replay replaytwo replayth"></i>
+            </a>
+        </div>
+        <div class="video-info">
+            <p class="title p-t-4">
+                {$v['title']|getSubstr=0,14}
+            </p>
+            <div class="statistic" >
+                <span class="vides-time">{$v['addtime']|friend_date}</span>
+                <span class="img-collect">跟贴 {$v['collects']}</span>
+                <span class="img-comment">藏{$v['collects']}</span>
+                <span class="view-num">看{$v['views']}</span>
+            </div>
+        </div>
+    </div> 
+</volist>

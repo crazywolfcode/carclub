@@ -1,0 +1,70 @@
+<volist name="commentlist" id ="c" >
+    <div class="comment-item">
+        <div class="qh-cmt qh-reset-font">
+            <div class="qh-cmt-bar h-28">                
+                <div class="qh-user-nt">    
+                    <div class="qh-u-time block">
+                        <i class="sort-hot">c</i>
+                        {$c['addtime']|friend_date} <span>{$c['type']==1?"关于论版文章":($c['type']==2?"关于图集":($c['type']==3?"关于视频 ":"关于活动"))}</span>
+                    </div>
+                </div>
+                <div class="qh-cmt-lr">
+                    <div class="qh-cmt-ups qh-cmt-up" >
+                        <a class="qh-cmt-icon" data-id="{$c['id']}" data-adduserid="{$c['userid']}"></a>
+                        <span class="qh-ups-num qh-up-btn">{$c['usefuls']|default='0'}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="qh-cmt-cont-wrap p-l-20">
+                <div class="qh-cmt-cont">
+                    <div class="qh-cmt-cont-t">
+                        {$c['content']}
+                    </div>    
+                    <div class="my-option text-right" >                        
+                        <a class="no-decoration opt-update cursor-pointer" data-id="{$c['id']}" title="修改"><i class="icon-pencil"></i></a>
+                        <if condition="$c['status'] eq 1" >
+                            <a  class="no-decoration opt-showorhide cursor-pointer" data-url="{:U('Comment/showorhide')}" data-type="0" data-id="{$c['id']}" title="不公开">
+                                <i class="icon-eye-close"> </i>                            
+                            </a>
+                            <else/>
+                            <a  class="no-decoration opt-showorhide cursor-pointer" data-url="{:U('Comment/showorhide')}" data-type="1" data-id="{$c['id']}" title="公开">
+                                <i class="icon-eye-open"> </i>                             
+                            </a>
+                        </if>
+                        <a class="no-decoration opt-delete cursor-pointer" data-url=" {:U('Comment/delete',array('id'=>$c['id']))}" title="删除" >
+                            <i class="icon-trash"></i>
+                        </a>
+                    </div>
+                    <volist name="c.replay" id ="r">
+                        <div class="qh-sub-cmt p-l-20">
+                            <div class="qh-cmt-bar" style="margin-top: 4px;">
+                                <div class="qh-avatar">
+                                    <img src="__IMG__/default_head1.png" alt="">
+                                </div>
+                                <div class="qh-user-nt" style="padding-top: 10px;">
+                                    <div class="qh-u-name">
+                                        {$c['name']|default="匿名"}&nbsp;&nbsp;{$c['ulevel']}
+                                    </div>
+                                </div>
+                                <div class="qh-cmt-lr">
+                                    <div class="qh-cmt-ups qh-cmt-up" >                                    
+                                        <span class="qh-ups-num qh-up-btn"> 
+                                            {$c['addtime']|friend_date}                                                
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="qh-cmt-cont-wrap" style="padding-left: 0px;">
+                            <div class="qh-cmt-cont">
+                                <div class="qh-cmt-cont-t block">
+                                    {$c['content']}
+                                </div>
+                            </div>
+                        </div>
+                    </volist>
+                </div>
+            </div>
+        </div>
+    </div>
+</volist>

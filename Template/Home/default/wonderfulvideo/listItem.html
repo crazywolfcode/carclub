@@ -1,0 +1,26 @@
+<div class="container inline-bolck text-center" style="margin:20px auto;">
+    <volist name="list" id="v" >
+        <div class="span4 myspan  class-grid wow fadeInUp  animated" data-wow-delay="0.1s">
+            <a class="no-decoration" href="{:U('WonderfulVideo/videoDetail',array('id'=>$v['id']))}">
+                <img src="{$v.img_src}" class="img-responsiveup" alt="" />
+                <i class="replay"></i> 
+            </a>     
+            <div class="bottom-color">
+                <h4><attr title="{$v.title}">{$v.title|str_substr}</attr></h4>
+                <P>{$data['addusername']|default='爨行天下户外俱乐部'}</p>
+            </div>
+            <div class="class-bottom row myrow" style="background: #eee">                                             
+                <div class="class-time myspan">
+                    <ul class="time">
+                        <li><i class="time"></i><span>{$v.addtime|friend_date}</span></li> 
+                         <li><i class="icon-play"></i><span>{$v.views}次</span></li>  
+                    </ul>
+                </div>
+                <div class="span2 class-text myspan">
+                    <div class="single-one "><span><a href="#"><i class="com"> </i><br/>{$v.comments}</a></span></div>
+                    <div class="single-one "><span><a href="#"><i class="four"> </i><br/>{$v.collects}</a></span></div>                   
+                </div>
+            </div>
+        </div>
+    </volist>
+</div>

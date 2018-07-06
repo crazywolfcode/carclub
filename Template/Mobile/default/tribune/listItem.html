@@ -1,0 +1,39 @@
+<volist name="tribunelist" id="tribune">
+    <div class="article-item" id="article-item-{$tribune['id']}">
+        <div class="share" data-title="{$tribune['title']}" data-summary="{$tribune['id']}" data-url="{$tribune['id']}">
+        </div>
+        <div>
+            <a href="{:U('Tribune/tribuneDetail',array('id'=>$tribune['id'],'cateid'=>$tribune['cateid']))}">
+                <if condition="$tribune['isboutique'] eq 1">
+                    <div class="title boutique-title">
+                        {$tribune['title']|getSubstr=0,20}
+                    </div>
+                    <else/>
+                    <div class="title">
+                        {$tribune['title']|getSubstr=0,20}
+                    </div>
+                </if>
+
+                <div class="from">
+                    <img class="user-level-icon" src="{$tribune.ulevelicon|default='__PUBLICIMG__/jx/jx1.png'}">
+                    {$tribune['ulevel']|default="注册会员"} 
+                    <if condition="$tribune.uoauth eq 1">
+                        {$tribune['uwxnickname']|default="匿名"}
+                        <else/>
+                        {$tribune['uqqnickname']|default="匿名"}
+                    </if>                  
+
+                </div>
+                <div class="intro introfont" style="padding-right: 6px; ">
+                    {$tribune['intro']|htmlspecialchars_decode|getSubstr=0,100}
+                </div>
+            </a>         
+        </div>
+        <div class="statistic" style="padding-left: 24px;">
+            <span class="vides-time"> {$tribune['addetime']}</span>
+            <span class="img-comment">跟贴  {$tribune['comments']}</span>
+            <span class="img-comment">藏{$tribune['collects']}</span>
+            <span class="view-num"> {$tribune['views']}次</span>
+        </div>
+    </div>
+</volist>

@@ -1,0 +1,112 @@
+<script src="__PUBLICJS__/html5media.min.js" type="text/javascript"></script>
+<div class="container">		
+    <div class="row-fluid blog-page blog-item">       
+        <!-- Right Sidebar -->
+        <div class="span9">
+            <div class="blog margin-bottom-30">
+                <h3 id="WebShareTitle">{$video['title']}</h3>                
+                <div class="demo">
+                    <video class="video" poster="{$video['img_src']}" width="100%" controls preload>
+                        <source src="{$video['src']}"></source>                   
+                    </video>
+                </div>   <br/>             
+                {$video['description']|htmlspecialchars_decode|getSubstr=0,200}
+            </div>
+            <div class="content hidden" id='WebShareSummary'>
+                {$video['description']|htmlspecialchars_decode|getSubstr=0,110}
+            </div>
+            <div class="share">
+                <div class="inline-block">
+                    <p class="inline-block">分享  </p>
+                    <div  data-title="" data-summary="" data-url="">
+                        <span style="margin-left: 10px;margin-right: 20px;font-size: 14px;position: relative;top: 10px;">
+                            <span style="margin-left: 6px;">
+                                <i class="icon-user"> </i>作者 {$video.addusername|default="未知"}
+                            </span>
+                            <span style="margin-left: 6px;">
+                                <i class="icon-time"> </i><span class="num">{$video['addtime']|friend_date}</span>
+                            </span>
+                            <span class="collect-btn" style="margin-left: 6px;"
+                                  data-url="{:U('Collect/add')}" 
+                                  data-parentid="{$video['id']}" 
+                                  data-userid="{$Think.session.user.id}" 
+                                  data-option="1" 
+                                  data-type="2"
+                                  data-adduserid="{$video['adduserid']}" 
+                                  login-url="{:U('Login/Login')}">
+                                <i class="myi collect"> </i>收藏<span class="collect-num">{$video.collects}</span>
+                            </span>
+                            <span  style="margin-left: 6px;">
+                                <i class="icon-comment"> </i>评论<span class="num">{$video.comments}</span>
+                            </span>
+                            <span style="margin-left: 6px;">
+                                <i class="icon-play"> </i>观看<span class="num">{$video.views}次</span>
+                            </span>
+                        </span>
+                        <a class="jiathis_button_qzone"><img src="__PUBLICIMG__/share_qq.png"></a>    
+                        <a class="jiathis_button_weixin"><img src="__PUBLICIMG__/share_wechat.png"></a>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <hr>
+            <!--评论-->
+            <include file='Public:comments'/>
+            <!--/评论-->
+        </div><!--/span9-->
+        <div class="span3 ">           
+            <div class="posts">
+                <div class="headline"><h3>{$sametitle}</h3></div>
+                <volist name="vlist" id="vl">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            <a href="{:U('WonderfulVideo/videoDetail',array('id'=>$vl['id'],'type'=>$vl['type']))}">
+                                <img src="{$vl['img_src']}" alt="{$vl['title']}">
+                                <i class="replay replayThree"></i>
+                            </a>                       
+                        </dt>
+                        <dd>
+                            <p>
+                                <a href="{:U('WonderfulVideo/videoDetail',array('id'=>$vl['id'],'type'=>$vl['type']))}">
+                                    {$vl['title']|getSubstr=0,40}
+                                </a>
+                            </p> 
+                        </dd>
+                    </dl>
+                </volist>
+                <php> if(count($vlist)>5){</php>
+                <button class="btn-u">更多...</button>
+                <php>}</php>
+            </div>
+            <div class="posts" style="margin-top: 2em">
+                <div class="headline"><h3>其它精彩视频</h3></div>
+                <volist name="avlist" id="avl">
+                    <dl class="dl-horizontal">
+                        <dt>
+                            <a href="{:U('WonderfulVideo/videoDetail',array('id'=>$avl['id'],'type'=>$avl['type']))}">
+                                <img src="{$avl['img_src']}" alt="{$avl['title']}">
+                                <i class="replay replayThree"></i>
+                            </a>                       
+                        </dt>
+                        <dd>
+                            <p>
+                                <a href="{:U('WonderfulVideo/videoDetail',array('id'=>$avl['id'],'type'=>$avl['type']))}">
+                                    {$avl['title']|getSubstr=0,40}
+                                </a>
+                            </p> 
+
+                            <p>                              
+                                {$avl['addtime']|friend_date}
+                            </p> 
+                        </dd>
+                    </dl>
+                </volist>
+                <php> if(count($avlist)>5){</php>
+                <button class="btn-u">更多...</button>
+                <php>}</php>
+            </div>
+        </div>
+    </div><!--/row-fluid-->        
+</div>

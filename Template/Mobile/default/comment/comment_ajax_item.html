@@ -1,0 +1,31 @@
+<div class="comment-item">
+    <div class="qh-cmt qh-reset-font">
+        <div class="qh-cmt-bar">
+            <div class="qh-avatar">         
+                <img src="{$c['userhead']|default='__IMG__/default_head2.png'}" alt="">
+            </div>
+            <div class="qh-user-nt">
+                <div class="qh-u-name">                 
+                    {$c['username']|default="匿名"}                       
+                    &nbsp;&nbsp;<small style="font-size: 12px;">{$c['level']|default='超级VIP'}</small>
+                </div>
+                <div class="qh-u-time">
+                    刚刚
+                </div>
+            </div>
+            <div class="qh-cmt-lr">
+                <div class="qh-cmt-ups qh-cmt-up" >
+                    <a class="qh-cmt-icon"></a>
+                    <span class="qh-ups-num qh-up-btn">{$c['usefuls']|default='0'}</span>
+                </div>
+            </div>
+        </div>
+        <div class="qh-cmt-cont-wrap">
+            <div class="qh-cmt-cont">
+                <div class="qh-cmt-cont-t block">
+                    {$c['content']}
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<extend name="public:mobilebase" /></extend>
+<block name='top'> 
+    <include file='public:top2'/>
+</block>
+
+<block name='main'>
+    <div class="main_content">
+        <div class="login_panel">
+            <div class="form-body container">
+                <form class="login-form">
+                    <div class="container text-center block">
+                        <div class="">
+                            <input name="emailormobile" id='emailormobile' data-type="email" data-required="true"  placeholder="手机/邮箱" type="text">
+                        </div>
+                        <div class="">
+                            <input placeholder="密码" id='password' name="password" type="password">
+                        </div>
+                        <div class="error-label hidden">
+                            <label>社交账号登录</label>
+                        </div>
+                    </div>
+                    <div class="login-btn">
+                        登陆 
+                    </div>               
+                </form> 
+            </div>
+            <div class="third_login">
+                <p class="title">社交账号登录</p>
+                <div class="select_section">
+                    <div class="section_wrap">
+                        <a id="qq_login" href="{:U('Home/Login/qclogin',array('logintype'=>'mobile'))}" class="login_item iconfont iconfont_qq">&#xe625</a>
+                    </div>
+                    <div class="section_wrap">
+                        <a id="weichat_login" href="" class="login_item iconfont iconfont_weichat">&#xe603</a>
+                    </div>
+                </div>
+            </div>
+            <div class="loginbox footerbox clearfix">
+                <div class="inline-block"><a href="{:U('Login/forgetPwd')}">忘记密码</a></div>
+                <div class="wall inline-block"></div>
+                <div class="inline-block"><a href="{:U('Login/reg')}">立即注册</a></div>
+            </div>
+            <!--要删除--> 
+            <!--<a href="{:U('Login/binding')}">测试绑定</a>-->
+        </div>
+    </div>
+
+
+</block>
+
+<block name='js'>
+    <include file='public:footerjs'/>    
+    <script type="text/javascript">
+        new WOW().init();
+        $(".login-btn").click(function () {
+            var url = "{:U('Login/login')}";
+            var emailormobile = $("#emailormobile").val();
+            var pwd = $("#password").val();
+            $.ajax({
+                type: "post",
+                url: url,
+                dataType: "text",
+                data: ({
+                    emailormobile: emailormobile,
+                    password: pwd
+                }),
+                success: function (res) {
+                    var obj = $.parseJSON(res);
+                    if (obj.status == 1) {
+                        layer.open({
+                            title: '登陆成功',
+                            content: '登陆成功',
+                            style: 'background-color:#09C1FF; color:#fff; border:none;',
+                            time: 500
+                        });
+                        location.href = "{:U('Index/index')}";
+                    } else {
+                        layer.open({
+                            title: '登陆失败',
+                            content: obj.info,
+                            style: 'background-color:#09C1FF; color:#fff; border:none;',
+                            time: 500
+                        });
+                    }
+                },
+                error: function (e) {
+                    layer.open({
+                        title: '登陆出错',
+                        content: e.msg,
+                        style: 'background-color:#09C1FF; color:#fff; border:none;',
+                        time: 500
+                    });
+                }
+            });
+            return false;
+        });
+        $("#weichat_login").click(function () {
+            if (isWeiXin() == false) {
+                layer.msg("请在微信上打开");
+                return false;
+            }
+        });
+        function isWeiXin() {
+            var ua = window.navigator.userAgent.toLowerCase();
+            if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
+</block>

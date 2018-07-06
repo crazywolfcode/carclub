@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{$web_info['WEB_SITE_TITLE']}</title>
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <link rel="stylesheet" type="text/css" href="__CSS__/plugins/simditor/simditor.css" />
+        <link rel="shortcut icon" href="favicon.ico"> <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+        <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+        <link href="__CSS__/animate.css" rel="stylesheet">
+        <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+        <link href="__CSS__/plugins/blueimp/css/blueimp-gallery.min.css" rel="stylesheet">
+        <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="__CSS__/plugins/webuploader/webuploader.css">
+        <link rel="stylesheet" type="text/css" href="__CSS__/demo/webuploader-demo.css">
+        <style>
+            .lightBoxGallery img {
+                margin: 5px;
+                width: 120px;
+            }
+        </style>
+    </head>
+
+    <body class="gray-bg">
+        <div class="wrapper wrapper-content">
+            <div class="row animated fadeInRight">
+                <!--img-->
+                <div class="col-sm-6">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>活动中的图片</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link">
+                                    <i class="fa fa-chevron-up"></i>
+                                </a>
+                                <a class="close-link">
+                                    <i class="fa fa-times"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="ibox-content">
+                            <div>
+                                <div class="feed-activity-list">
+                                    <div class="feed-element">
+                                        <a href="profile.html#" class="pull-left">
+                                            <img alt="image" class="img-circle" src="__IMG__/default_avatar.png">
+                                        </a>
+                                        <div class="media-body ">
+                                            <small class="pull-right">{$imglist['addtime']|friend_date}</small>
+                                            <strong>{$imglist['addusername']|default="官方"}</strong>
+                                            <br>                                           
+                                            <div class="ibox float-e-margins">
+                                                <div class="ibox-content">
+                                                    <p>
+                                                        {$imglist['title']} 中的图片
+                                                    </p>
+                                                    <div class="lightBoxGallery">
+                                                        <volist name="listimgs" id="data">
+                                                            <a href="{$data['url']}" title="图片" data-gallery=""><img src="{$data['url']}"></a>
+                                                        </volist>
+                                                        <div id="blueimp-gallery" class="blueimp-gallery">
+                                                            <div class="slides"></div>
+                                                            <h3 class="title"></h3>
+                                                            <a class="prev">‹</a>
+                                                            <a class="next">›</a>
+                                                            <a class="close">×</a>
+                                                            <a class="play-pause"></a>
+                                                            <ol class="indicator"></ol>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>                                
+                                </div>
+                                <button class="btn btn-primary  m" id="upimgbtnmodal"><i class="fa fa-arrow-up"></i> 上传图片</button>
+                                <button class="btn btn-default  m" ic="showmoreimgbtn"><i class="fa fa-arrow-down"></i> 显示更多</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- up img-->
+        <div class="modal inmodal" id="upimgModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated flipInY">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">上传图片</h4>
+                    </div>
+                    <div id="saveMoreimgDiv" class="hidden"></div>
+                    <div class="modal-body">  
+                        <div class="ibox-content">
+                            <div class="page-container">                              
+                                <div id="uploader" class="wu-example">
+                                    <div class="queueList">
+                                        <div id="dndArea" class="placeholder">
+                                            <div id="filePicker"></div>
+                                            <p>或将照片拖到这里，单次最多可选300张</p>
+                                        </div>
+                                    </div>
+                                    <div class="statusBar" style="display:none;">
+                                        <div class="progress">
+                                            <span class="text">0%</span>
+                                            <span class="percentage"></span>
+                                        </div>
+                                        <div class="info"></div>
+                                        <div class="btns">
+                                            <div id="filePicker2"></div>
+                                            <div class="uploadBtn">开始上传</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                     
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" id="saveMoreimg">保存</button>    
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>                                  
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 全局js -->
+        <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+        <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+        <script type="text/javascript">
+            // 添加全局站点信息
+            var BASE_URL = '__JS__/plugins/webuploader';
+            var SERVER = "{:U('Myupload/imageUp')}";
+        </script>
+        <!-- blueimp gallery -->
+        <script src="__JS__/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+        <!-- 自定义js -->
+        <script src="__JS__/content.js?v=1.0.0"></script>
+        <!-- Peity -->
+        <script src="__JS__/plugins/peity/jquery.peity.min.js"></script>
+        <!-- Peity -->
+        <script src="__JS__/demo/peity-demo.js"></script>
+        <!-- blueimp gallery -->
+        <script src="__JS__/plugins/blueimp/jquery.blueimp-gallery.min.js"></script>
+        <!-- simditor -->
+        <script type="text/javascript" src="__JS__/plugins/simditor/module.js"></script>
+        <script type="text/javascript" src="__JS__/plugins/simditor/uploader.js"></script>
+        <script type="text/javascript" src="__JS__/plugins/simditor/hotkeys.js"></script>
+        <script type="text/javascript" src="__JS__/plugins/simditor/simditor.js"></script>
+        <script src="__JS__/jquery-form.js" type="text/javascript"></script>
+        <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>   
+        <script src="__JS__/plugins/webuploader/webuploader.min.js"></script>
+        <script src="__JS__/demo/webuploader-demo.js"></script>
+        <script>
+            //自动上传
+            function autoup(a) {
+                var url, form;
+                if (a == 1) {
+                    form = $("#videoform");
+                    url = "{:U('Myupload/videoUp')}";
+                } else {
+                    form = $("#imgformtemp");
+                    url = "{:U('Myupload/imageUp')}";
+                }
+                form.ajaxSubmit({
+                    type: "POST",
+                    url: url,
+                    dataType: 'text',
+                    success: function (v) {
+                        var obj = $.parseJSON(v);
+                        if (obj.status) {
+                            if (a == 1) {
+                                $("#srcid").attr("value", obj.file_path);
+                            } else {
+                                $('#preview').attr("src", obj.file_path);
+                                $("#propaganda_imgs").attr("value", obj.file_path);
+                            }
+                        } else {
+                            alert(obj.msg);
+                        }
+                    },
+                    error: function (v) {
+                        alert(v.getMessage());
+                    }
+                });
+            }
+            $("#upvideobtn ,#upimgbtn").click(function () {
+                var url, data, form;
+                if ($(this).attr("id") == "upvideobtn") {
+                    form = $("#videoform");
+                    url = form.attr("action");
+                    data = form.serialize();
+                } else {
+                    form = $("#imgform");
+                    url = form.attr("action");
+                    data = form.serialize();
+                }
+                $.ajax({
+                    type: "POST",
+                    data: data,
+                    url: url,
+                    dataType: 'text',
+                    success: function (v) {
+                        var obj = $.parseJSON(v);
+                        if (obj.status == 1) {
+                            $("#resetbtn").click();
+                            swal({title: obj.msg, text: "", type: "success"});
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 300);
+                        } else {
+                            swal(obj.msg, "请刷新后重试！", "error");
+                        }
+                    }
+                });
+                return false;
+            });
+            $("#upvideobtnmodal").click(function () {
+                $("#upvideoModal").modal('show');
+            });
+            $("#upimgbtnmodal").click(function () {
+                $("#upimgModal").modal('show');
+            });
+            $("#videoresetbtn").click(function () {
+                $("#temprest").click();
+            });
+            $("#saveMoreimg").click(function () {
+                var imgs = $("#saveMoreimgDiv").text();
+                $.ajax({
+                    type: "POST",
+                    data: ({actionid: "{$action['id']}", imgs: imgs, type: 2, listid: "{$imglist['id']}"}),
+                    url: "{:U('Image/addimage')}",
+                    dataType: 'text',
+                    success: function (v) {
+                        var obj = $.parseJSON(v);
+                        if (obj.status == 1) {
+                            $("#resetbtn").click();
+                            swal({title: obj.msg, text: "", type: "success"});
+                            window.location.reload();
+                        } else {
+                            swal(obj.msg, "请刷新后重试！", "error");
+                        }
+                    }
+                });
+                return false;
+            });
+            $(".deletebtn,.hidebtn,.showbtn").click(function () {
+                var url = this.href;
+                $.ajax({
+                    type: 'get',
+                    dataType: 'text',
+                    url: url,
+                    success: function (v) {
+                        var obj = $.parseJSON(v);
+                        if (obj.status == 1) {
+                            $("#resetbtn").click();
+                            swal({title: obj.msg, text: "", type: "success"});
+                            window.location.reload();
+                        } else {
+                            swal(obj.msg, "请刷新后重试！", "error");
+                        }
+                    }
+                });
+                return false;
+            });
+        </script>    
+    </body>
+
+</html>

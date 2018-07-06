@@ -1,0 +1,43 @@
+<div class="inline-bolck text-center" style="margin:30px auto;">
+    <div class="wow fadeInUp animated" data-wow-delay="0.4s">
+        <volist name="tribunes" id="data">   
+            <div class="tribune-item">
+                <a>
+                    <if condition="$data.uoauth eq 1">
+                        <img class="user-head" src="{$data['uwxhead']|default='__IMG__/default_avatar.png'}" alt="">
+                        <else/>
+                        <img class="user-head" src="{$data['uqqhead']|default='__IMG__/default_avatar.png'}" alt="">
+                    </if> 
+                </a>
+                <if condition="$data.isboutique eq 1">  
+                    <img class="tribune-boutique" src="__PUBLICIMG__/j0.png" />          
+                </if>
+                <div class="col-md-12 col-sm-12 active-text active-text-img">
+                    <div class="wow fadein animated ">
+                        <div>
+                            <a href="{:U('Tribune/tribuneDetail',array('id'=>$data['id'],'cateid'=>$data['cateid']))}" style='text-decoration: none'>
+                                <p> 
+                                    【{$data['addusername']|default='匿名'}】
+                                    <small>{$data['uoauth']==0?'本站用户':($data['oauth']==1?'微信用户':'QQ用户')}</small> 
+                                    <small>{$data['ulevel']}</small> 
+                                    <img class="user-level-icon" src="{$data['ulevelicon']|default='__PUBLICIMG__/jx/jx1.png'}">
+                                </p>
+                                <p>
+                                    <a href="{:U('Tribune/tribuneDetail',array('id'=>$data['id'],'cateid'=>$data['cateid']))}" style='text-decoration: none'>
+                                        {$data['title']}
+                                    </a>
+                                </p>
+                            </a>
+                        </div>
+                        <div class="class-text myspan" style="padding-right: 50px;">
+                            <div class="single-one" style="width: auto"><span><a href="#" class="no-decoration"><i class="icon icon-time"> </i>{$data['addtime']|friend_date}</a></span></div>
+                            <div class="single-one" style="width: auto"><span><a href="#" class="no-decoration"><i class="icon-comment"> </i>{$data['comments']}</a></span></div>
+                            <div class="single-one" style="width: auto"><span><a href="#" class="no-decoration"><i class="icon-eye-open"> </i>{$data['views']}</a></span></div>  
+                            <div class="single-one" style="width: auto"><span><a href="#" class="no-decoration"><i class="icon-heart"> </i>{$data['collects']}</a></span></div>                
+                        </div>
+                    </div>                
+                </div>  
+            </div>
+        </volist>
+    </div> 
+</div>

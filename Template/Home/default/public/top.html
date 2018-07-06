@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<if condition="$islogin">
+    <!--=== current user ===-->
+    <div class="user_relavent">
+        <a href="{:U('User/index')}" style="display:block" id="user_picture">
+            <if condition="$Think.session.user.oauth eq 1">
+                <img width="55px" height="55px"  src="{$Think.session.user.wx_head|default='__IMG__/default_avatar.png'}" class="img index_user_img" style="border-radius: 35px !important">
+                <else />                        
+                <img width="55px" height="55px"  src="{$Think.session.user.qq_head|default='__IMG__/default_avatar.png'}" class="img index_user_img"  style="border-radius: 35px !important">
+            </if>  
+        </a>
+        <div class="user_box" id="user_box">
+            <div class="user_box_width">
+                <p>
+                <if condition="$Think.session.user.oauth eq 1">
+                    <h2 style="color:#008000; font-weight: bold; display: inline-block;">{$Think.session.user.wx_nick_name}</h2>
+                    <else />                        
+                    <h2 style="color:#008000; font-weight: bold; display: inline-block;">{$Think.session.user.qq_nick_name}</h2>
+                </if>
+                <h4 style=" display: inline-block; margin-left: 5px;">您好！</h4>
+                </p>
+                <p><a href="{:U('User/index')}">我的信息</a></p>
+                <p><a href="{:U('User/mytribune',array('status'=>1))}">我的文章</a></p>
+                <p><a href="{:U('User/collectvideo')}">我的收藏</a></p>
+            </div>
+            <div class="user_out"><a href="javascript:;" onclick="get_url('{:U(\'Login/logout\')}', '确定退出？');">退出登录</a></div>
+        </div>
+    </div>
+</if>
+
+
+<!--=== Top ===-->    
+<div class="top">
+    <div class="container">       
+        <!-- Logo -->     
+        <div class="logo">                                             
+            <a href="index.html"><img id="logo-header" src="__PUBLICIMG__/logo.png"  /></a>
+        </div><!-- /logo -->  
+
+        <ul class="loginbar pull-right">    
+            <li><a href="" class="login-btn" style="display: none;">帮助中心</a></li>  
+            <!--<li class="devider">&nbsp;</li>-->
+            <if condition="!$islogin">
+                <li><a href="#" class="login-btn CheckLogin">登陆/注册</a></li> 
+                <else />
+                <li><a href="javascript:;" onclick="get_url('{:U(\'Login/logout\')}', '确定退出？');">退出登录</a></li> 
+            </if>  
+        </ul>
+    </div>      
+</div><!--/top-->
+<!--=== End Top ===-->    
+<if condition="!$islogin">
+    <!--登录注册窗口-->
+    <include file='Public:login_modal' />
+    <!--/登录注册窗口-->
+</if>
+<!--=== Header ===-->
+<div class="header">               
+    <div class="container inline-bolck"> 
+        <!-- Menu -->  
+
+        <php>                   
+            if(CONTROLLER_NAME =='Index' && MODULE_NAME == 'Home'){
+        </php>
+        <!-- 当前为首页时的菜单 -->
+        <include file="Public:index_navbar"/>
+        <!-- //当前为首页时的菜单 -->
+        <php>}else{</php>
+
+        <!-- 当前不为首页时的菜单 -->
+        <include file="Public:orther_navbar"/>
+        <!-- //当前不为首页时的菜单 -->
+
+        <php>}</php>
+
+        <!-- /navbar -->                          
+    </div><!-- /container -->               
+</div><!--/header -->      
+

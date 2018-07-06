@@ -1,0 +1,43 @@
+<volist name='userlist' id='u'>
+    <div class="user-item black"> 
+        <div class="user-left inline-block">
+            <if condition="$Think.session.user.oauth eq 1">
+                <img class="user-head black" src="{$u.wx_head|default='__IMG__/default_head2.png'}"/><br/>
+                <else/>
+                <img class="user-head black" src="{$u.qq_head|default='__IMG__/default_head2.png'}"/><br/>
+            </if>
+            <span class="user-nickname black">{$u['nick_name']} <small>{$u['gender']==1?"先生":($u['gender']==0?"女士":"保密")}</small></span>
+        </div>
+        <div class="user-right inline-block ">
+            <div class="black">
+                <span class="key">来源：</span><span class="value">{$u['oauth']==0?'本站用户':($u['oauth']==1?'微信用户':'QQ用户')}</span>
+            </div>
+            <div class="black">
+                <span class="key">等级：</span><span class="value">{$u['level']}</span>
+            </div>
+            <div class="black">
+                <span class="key" >积分：</span><span id="user-point-{$u['id']}" class="value">{$u['point']}</span><span class="value">分</span>
+            </div>
+            <div class="black">
+                <span class="key">注册时间：</span><span class="value">{$u['reg_time']|friend_date}</span>
+            </div>
+            <div class="black">
+                <span class="key">用户状态：</span><span class="value">{$u['status'] ==1?"正常":(u['status'] ==2?"禁言":(u['status'] ==3?"封号":"其它"))}</span>
+            </div>
+        </div>
+        <div class="user-opt block">
+            <a class="option-btn opt-addpoint" data-id="{$u['id']}" href="###">加分</a>
+            <a class="option-btn opt-reducepoint" data-id="{$u['id']}" href="###">减分</a>
+            <if condition="$Think.session.user.status eq 2">
+                <a class="option-btn opt-handle" href="{:U('User/handle')}" data-userid="{$u['id']}" data-status='1' data-retext='禁言' data-restatus='2'>放言</a>
+                <else/>
+                <a class="option-btn opt-handle" href="{:U('User/handle')}" data-userid="{$u['id']}" data-status='2'  data-retext='放言' data-restatus='1'>禁言</a>
+            </if>        
+            <if condition="$Think.session.user.status neq 3">
+                <a class="option-btn opt-handle" href="{:U('User/handle')}" data-userid="{$u['id']}" data-status='3' data-retext='解封' data-restatus='1'>封号</a>
+                <else/>
+                <a class="option-btn opt-handle" href="{:U('User/handle')}" data-userid="{$u['id']}" data-status='1' data-retext='封号' data-restatus='3'>解封</a>
+            </if>
+        </div>
+    </div>
+</volist>

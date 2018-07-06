@@ -1,0 +1,66 @@
+<div class="container inline-bolck text-center" style="margin:20px auto;">
+    <volist name='actionlist' id='data'>
+        <div class="wow fadeInUp animated " data-wow-delay="0.2s">
+            <!-- start content_slider -->           
+            <div class="activity">
+                <div class="w-300 col-md-4 welcome-img pull-left">
+                    <a href="{:U('Action/actionDetail',array('id'=>$data['id']))}" class="mask">
+                        <img src="{$data['propaganda_img']}" alt="image" class="zoom-img">
+                    </a>               
+                </div>  
+                <div class="w-600 col-md-8 col-sm-12 active-text pull-right" data-wow-delay="0.3s">
+                    <div class="wow rollIn animated ">
+                        <h5>{$data['addtime']|friend_date} [{$data['status']==0?'未开始':($data['status']==1?'进行中':'已结束')}]</h5>
+                        <a href="{:U('Action/actionDetail',array('id'=>$data['id']))}"  style=" text-decoration: none;">
+                            <h4>{$data['title']|getSubstr=0,50}</h4>
+                        </a>
+                        <p>{$data['intro']|htmlspecialchars_decode|getSubstr=0,150}</p>
+                    </div>
+                    <if condition="$data.status eq 2">
+                        <div class="activity-img inline-bolck">  
+                            <div class="r-l-menu menu-l"></div>
+                            <div class="r-l-menu menu-r"></div>
+                            <ul class="ulimg">	
+                                <volist name='data.videos' id='i' >
+                                    <li>
+                                        <div class="ac-img-item">                       
+                                            <a href="{:U('WonderfulVideo/videoDetail',array('id'=>$i['id'],'type'=>$i['type']))}">
+                                                <img src="{$i['img_src']}" alt=""/>
+                                                <i class="replay replaytwo"></i>
+                                            </a>
+                                        </div>
+                                    </li>
+                                </volist>
+                            </ul>
+                        </div>  
+
+                        <div class="activity-img inline-bolck">  
+                            <div class="r-l-menu menu-l"></div>
+                            <div class="r-l-menu menu-r"></div>
+                            <ul class="ulimg">	
+                                <volist name='data.imgs' id='v' >
+                                    <li>
+                                        <div class="ac-img-item">                       
+                                            <a href="{:U('WonderfulImg/imgDetail',array('id'=>$v['id'],'type'=>$v['type']))}">
+                                                <img src="{$v['url']}" alt=""/>                                        
+                                            </a>
+                                        </div>
+                                    </li>
+                                </volist>
+                            </ul>
+                        </div>  
+                    </if>
+                    <div class="comments pull-right wow fadeInUp animated">
+                        <ul class="links">
+                            <li><i class="blog_icon1"> </i><br><span>{$data['addtime']|friend_date}</span></li>
+                            <li><a href="#"><i class="blog_icon2"> </i><br><span>{$data['addusername']}</span></a></li>
+                            <li><a href="#"><i class="blog_icon3"> </i><br><span>{$data['views']}</span></a></li>
+                            <li><a href="#"><i class="blog_icon4"> </i><br><span>{$data['comments']}</span></a></li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>           
+            </div>
+        </div> 
+    </volist>
+</div>

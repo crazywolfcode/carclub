@@ -1,0 +1,119 @@
+
+<extend name="public:base" /></extend>
+<!--默认title配置的时候就不要再写继承title了-->
+<block name='top'> 
+    <include file='public:top'/>
+    <div class="user-top">
+        <div class="container">
+            <include file='User:user_top'/>
+        </div><!--/container-->
+    </div>
+</block>
+<block name='main'>
+    <div class="container">		
+        <div class="row-fluid">      
+            <!--菜单-->
+            <include file='User:user_menu'/>
+            <!--/菜单-->
+            <!--主体-->
+            <div class="span9" style="padding-top: 50px;">
+                <form class="form-horizontal">
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">头像</label>
+                        <div class="controls">
+                            <a href="{:U('user/updatehead',array('id'=>$user['id']))}">
+                                <if condition="$Think.session.user.oauth eq 1">                             
+                                    <img class="block" src="{$user['wx_head']|default='__IMG__/s5.jpg'}" style="width: 120px;height: 120px;border-radius: 60px !important;" />
+                                    <else />
+                                    <img class="block" src="{$user['qq_head']|default='__IMG__/s5.jpg'}" style="width: 120px;height: 120px;border-radius: 60px !important;"/>
+                                </if> 
+                            </a>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">真实姓名</label>
+                        <div class="controls">
+                            <span class=" inline-block">{$user.name}</span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">昵称</label>
+                        <div class="controls">
+                            <if condition="$Think.session.user.oauth eq 1">                             
+                                <span class=" inline-block">{$user.wx_nick_name}</span>
+                                <else /> 
+                                <span class=" inline-block">{$user.qq_nick_name}</span>
+                            </if> 
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">性别</label>
+                        <div class="controls">
+                            <span class="gender-type"> {$user['gender']==1?"男":($user['gender']==0?"女":"保密")} </span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">手机</label>
+                        <div class="controls">
+                            <span class=" inline-block">{$user.mobile}</span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">邮箱</label>
+                        <div class="controls">
+                            <span class=" inline-block">{$user.email}</span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">联系地址</label>
+                        <div class="controls">
+                            <span class=" inline-block">{$user.address}</span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">车牌号</label>
+                        <div class="controls">
+                            <span class=" inline-block">{$user.car_number}</span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">职业</label>
+                        <div class="controls">
+                            <span class=" inline-block">{$user.work}</span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputEmail">单位</label>
+                        <div class="controls">
+                            <span class=" inline-block">{$user.department}</span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">                       
+                            <a href="{:U('User/finishInfo')}" class="btn-u">修改</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!--/主体-->
+        </div>
+    </div>
+</block>
+<block name='footer'>
+    <include file='public:footer'/>
+</block>
+<block name='js'>
+    <include file='public:footerjs'/>   
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".accordion-body").removeClass("in");
+            $(".accordion-body").css({"height": "0px;"});
+            $("#collapseOne1").addClass("in");
+            $("#collapseOne1").css({"height": "auto"});
+            $(".a-menu").removeClass("active");
+            $("#index").addClass("active");
+        });
+
+    </script> 
+</block>
+</extends>

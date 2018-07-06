@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{$web_info['WEB_SITE_TITLE']}</title>
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <link rel="shortcut icon" href="favicon.ico"> <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+        <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+
+        <!-- Data Tables -->
+        <link href="__CSS__/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+        <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+        <link href="__CSS__/animate.css" rel="stylesheet">
+        <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    </head>
+
+    <body class="gray-bg">
+        <div class="wrapper wrapper-content animated fadeInRight">      
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>文章管理</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <div class="bars"><div class="btn-group hidden-xs" id="exampleTableEventsToolbar" role="group">
+                                    <button type="button" id="addbtn" class="btn btn-outline btn-default">
+                                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline btn-default">
+                                        <i class="glyphicon glyphicon-pencil" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-outline btn-default">
+                                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>                      
+                            <table class="table table-striped table-bordered table-hover dataTables-example" id="editable">
+                                <thead>
+                                    <tr>                                      
+                                        <th>标题</th>
+                                        <th>简介</th>
+                                        <th>分类</th>
+                                        <th>发布者</th>
+                                        <th>查看次数</th>
+                                        <th>评论次数</th>
+                                        <th>是否审核</th>
+                                        <th>发布时间</th>
+                                        <th>精华文章</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <volist name='tribunelist' id='data'>
+                                    <tr class="gradeX">                                       
+                                        <td>{$data['title']|getSubstr=0,20}</td>
+                                        <td>{$data['content']|getSubstr=0,50|htmlspecialchars_decode}</td>
+                                        <td>{$data['cateid']|getCateName}</td>
+                                        <td>{$data['addusername']}</td>
+                                        <td>{$data['views']}</td>
+                                        <td>{$data['comments']}</td>
+                                        <td>{$data['status'] == 1?"审核":"未审核"}</td> 
+                                        <td>{$data['addtime']|friend_date}</td> 
+                                        <td id="td-boutique-{$data.id}" style="color: red;">{$data['isboutique'] == 1?"是":"否"}</td> 
+                                        <td>
+                                            <a href="{:U('Tribune/update',array('id'=>$data['id']))}">修改</a>
+                                            <eq name="data.status" value="0">
+                                            <a class="hidebtn" href="{:U('Tribune/checkok',array('id'=>$data['id']))}">审核</a>
+                                    <else/>
+                                    <a class="showbtn" href="{:U('Tribune/checkno',array('id'=>$data['id']))}">返审核</a>
+                                    </eq>
+                                    <if condition="$data['isboutique'] eq 0">
+                                        <a class="no-decoration opt-boutique" data-url="{:U('Tribune/boutique')}" data-type="1" data-id="{$data['id']}">加精</a>
+                                        <else/>
+                                        <a class="no-decoration opt-boutique" data-url="{:U('Tribune/boutique')}" data-type="0" data-id="{$data['id']}">取精</a>
+                                    </if> 
+                                    <eq name="data.isdelete" value="0">
+                                    <a class="deletebtn" href="{:U('Tribune/delete',array('id'=>$data['id']))}">删除</a>
+                                    <else/>
+                                    <a class="deletebtn" href="{:U('Tribune/delete',array('id'=>$data['id'],'isdel'=>1))}">删除</a>
+                                    </eq>
+                                    </td>
+                                    </tr>
+                                </volist>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal inmodal" id="myaddModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated flipInY">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">添加分类</h4>
+                    </div>
+                    <div class="modal-body">                 
+                        <form id="addform" class="form-horizontal inline">
+                            <div class="col-md-12">                            
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">分类名称</label>
+                                    <div class="col-sm-8">
+                                        <input name="name" id="names"    class="form-control" placeholder="请输入分类名称" type="text"> <span class="help-block m-b-none">分类名称</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">属于：</label>
+                                    <div class="col-sm-8">
+                                        <select name="type" class="form-control" >
+                                            <option value="1">论版</option>
+                                        </select>                                     
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">级别：</label>
+                                    <div class="col-sm-8">
+                                        <input name="level" id="levels" class="form-control" placeholder="请输入分类级别" type="text" value="1" readonly /> 
+                                        <span class="help-block m-b-none">分类级别，论版下只分一级所有为1</span>                                   
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">排序：</label>
+                                    <div class="col-sm-8">
+                                        <input name="sort" id="sorts" class="form-control" placeholder="请输入分类级别" type="text" value="10" /> 
+                                        <span class="help-block m-b-none">排序，值越小越在前面</span>                                   
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">是否显示：</label>
+                                    <div class="col-sm-8">
+                                        <label class="radio-inline">
+                                            <input name="isshow" checked="true" value="1" id="optionsRadios1" type="radio">显示</label>
+                                        <label class="radio-inline">
+                                            <input name="isshow" value="0" id="optionsRadios0" type="radio">隐藏</label>
+                                    </div>
+                                </div>
+                            </div>      
+                            <input name="id" id="idid" type="hidden"/>
+                            <button type="reset" class="hidden" id = "resetbtn">重置</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary mybtnsave">保存</button>                
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 全局js -->
+        <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+        <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+        <script src="__JS__/plugins/jeditable/jquery.jeditable.js"></script>
+        <script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+        <!-- Data Tables -->
+        <script src="__JS__/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="__JS__/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+        <!-- 自定义js -->
+        <script src="__JS__/content.js?v=1.0.0"></script>
+        <!-- Sweet alert -->
+        <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+
+        <!-- Page-Level Scripts -->
+        <script>
+            $(document).ready(function () {
+                $('.dataTables-example').dataTable();
+            });
+            //add button
+            $('#addbtn').click(function () {
+                $('#myaddModal').modal('show');
+            });
+            //commit add save form
+            $(".mybtnsave").unbind('click').click(function () {
+                var data = $("#addform").serialize();
+                var url;
+                if ($("#idid").val() > 0) {
+                    url = "{:U('Category/update')}";
+                } else {
+                    url = "{:U('Category/add')}";
+                }
+
+                $.ajax({
+                    type: 'post',
+                    dataType: 'text',
+                    url: url,
+                    data: data,
+                    success: function (v) {
+                        var obj = $.parseJSON(v);
+                        if (obj.status == 1) {
+                            $("#resetbtn").click();
+                            swal({title: obj.msg, text: "", type: "success"});
+                            $('#myaddModal').modal('hide');
+                            window.location.href = obj.url;
+                        } else {
+                            swal("失败", "请刷新后重试！", "error");
+                        }
+                    }
+                });
+                return false;
+            });
+
+            $(".deletebtn,.hidebtn,.showbtn").click(function () {
+                var url = this.href;
+                $.ajax({
+                    type: 'get',
+                    dataType: 'text',
+                    url: url,
+                    success: function (v) {
+                        var obj = $.parseJSON(v);
+                        if (obj.status == 1) {
+                            $("#resetbtn").click();
+                            swal({title: obj.msg, text: "", type: "success"});
+                            window.location.reload();
+                        } else {
+                            swal(obj.msg, "请刷新后重试！", "error");
+                        }
+                    }
+                });
+                return false;
+            });
+            $(".opt-boutique").click(function () {
+                var _this = $(this);
+                var temptext, temptype;
+                var text = _this.text();
+                var type = _this.attr("data-type");
+                var boutiquetext;
+                if (type == 0) {
+                    temptext = "加精";
+                    boutiquetext = "否";
+                    temptype = 1;
+                } else {
+                    temptext = "取精";
+                    boutiquetext = "是";
+                    temptype = 0;
+                }
+                var l = layer.confirm("是否要" + text + "该文章", {
+                    btn: ['确定', '取消'],
+                    shade: false
+                }, function () {
+                    var url = _this.attr("data-url");
+                    var id = _this.attr("data-id");
+                    $.post(url, {
+                        id: id, type: type
+                    }, function (result) {
+                        if (result.status == 1) {
+                            layer.msg(result.info, {time: 1000});
+                            _this.attr("data-type", temptype);
+                            _this.text(temptext);
+                            $("#td-boutique-" + id).text(boutiquetext);                         
+                        } else {
+                            layer.msg(result.info);
+                        }
+                    });
+                }, function () {
+                    layer.close(l);
+                });
+                return false;
+            });
+        </script>
+    </body>
+
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+<div class="navbar">                                
+    <div class="navbar-inner">          
+        <div class="nav-collapse collapse">                                     
+            <ul style="display:block;">
+                <li  id="homeNavIndex">
+                    <a href="{:U('Index/index')}">首页                                           
+                    </a>                                       
+                </li>
+                <volist name="catelist" id="data" offset="0" length="6">
+                    <if condition="$cateid eq $data['id']"> 
+                        <li id="tribune-cate-{$data['id']}" class="active"><a href="{:U('Tribune/tribuneList',array('cateid'=>$data['id']))}">{$data['name']}</a></li>
+                        <else /> 
+                        <li id="tribune-cate-{$data['id']}" class=""><a href="{:U('Tribune/tribuneList',array('cateid'=>$data['id']))}">{$data['name']}</a></li>
+                    </if>
+                </volist>
+                <li id="toggle">
+                <php> if(count($catelist) >6 ){</php>
+                <a class="togglemore" href="javascript:void(0)">更多</a>
+                <a class="togglesingle" href="javascript:void(0)" style="display: none">收起</a>
+                <php> }</php>
+                </li>
+            </ul>
+            <ul class="navmore" <if condition="$cateid gt $catelist[5]['id']">style="display:block;"</if> >
+                <volist name="catelist" id="data" offset="5">
+                    <if condition="$cateid eq $data['id']"> 
+                        <li id="tribune-cate-{$data['id']}" class="active"><a href="{:U('Tribune/tribuneList',array('cateid'=>$data['id']))}">{$data['name']}</a></li>
+                        <else /> 
+                        <li id="tribune-cate-{$data['id']}" class=""><a href="{:U('Tribune/tribuneList',array('cateid'=>$data['id']))}">{$data['name']}</a></li>
+                    </if>
+                </volist>
+            </ul>           
+        </div>                           
+    </div>
+</div>

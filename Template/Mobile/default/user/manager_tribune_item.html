@@ -1,0 +1,44 @@
+<volist name="tribunelist" id="tribune">
+    <div class="article-item white-bg" id="article-item-{$tribune['id']}">
+        <div class="share" data-title="{$tribune['title']}" data-summary="{$tribune['id']}" data-url="{$tribune['id']}">
+        </div>
+        <div>
+            <a href="{:U('Tribune/tribuneDetail',array('id'=>$tribune['id'],'cateid'=>$tribune['cateid']))}">
+                <if condition="$tribune['isboutique'] eq 1">
+                    <div class="title boutique-title" id="boutique-title-{$tribune['id']}">
+                        {$tribune['title']|getSubstr=0,20}
+                    </div>
+                    <else/>
+                    <div class="title" id="boutique-title-{$tribune['id']}">
+                        {$tribune['title']|getSubstr=0,20}
+                    </div>
+                </if>
+                <div class="from">{$tribune['addtime']|friend_date} </div>
+                <div class="intro introfont" style="padding-right: 6px; ">
+                    {$tribune['intro']|htmlspecialchars_decode|getSubstr=0,100}
+                </div>
+            </a>
+        </div>
+        <div class="my-option" >
+            <if condition="$tribune['status'] eq 0">
+                <a class="no-decoration opt-showorhide" data-url="{:U('Tribune/showorhide')}" data-type="1" data-id="{$tribune['id']}">公开</a>
+                <else/>
+                <a class="no-decoration opt-showorhide" data-url="{:U('Tribune/showorhide')}" data-type="0" data-id="{$tribune['id']}">不公开</a>
+            </if> 
+            <if condition="$tribune['isboutique'] eq 0">
+                <a class="no-decoration opt-boutique" data-url="{:U('Tribune/boutique')}" data-type="1" data-id="{$tribune['id']}">加精</a>
+                <else/>
+                <a class="no-decoration opt-boutique" data-url="{:U('Tribune/boutique')}" data-type="0" data-id="{$tribune['id']}">取精</a>
+            </if> 
+            <a class="no-decoration opt-update">修改</a>
+            <a class="no-decoration opt-delete" data-url=" {:U('Tribune/delete',array('id'=>$tribune['id']))}" >删除</a>
+            <a class="no-decoration" href=" {:U('User/managercomment',array('id'=>$tribune['id']))}" >查看评论</a>
+        </div>
+        <div class="statistic" style="padding-left: 24px;margin-top: 10px;"> 
+            <span class="img-comment">作者  {$tribune['addusername']}</span>
+            <span class="img-comment">收藏  {$tribune['collects']}</span>
+            <span class="img-comment">跟贴  {$tribune['comments']}</span>
+            <span class="view-num">浏览 {$tribune['views']}</span>
+        </div>
+    </div>
+</volist>

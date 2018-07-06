@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<div class="tophead">
+    <div class="header"> 
+        <span class="logo"></span>
+        <div class="user">
+            <if condition="$Think.session.user.id gt 0">
+                <a id="loginUser" href="{:U('User/index')}" class="user_bg_2">
+                    <if condition="$Think.session.user.oauth eq 1">
+                        <img class="userheader" style="border-radius: 27px;" src="{$Think.session.user.wx_head|default='__IMG__/default_head2.png'}"/>
+                        <else /> 
+                        <img class="userheader" style="border-radius: 27px;" src="{$Think.session.user.qq_head|default='__IMG__/default_head2.png'}"/>
+                    </if> 
+                </a>
+                <else/>
+                <a id="unLoginUser" href="{:U('Login/login')}" class="user_bg"></a>
+            </if>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,144 @@
+<div class="container">		
+    <div class="pub_block">
+        <!----大图查看---->
+        <div class="ebord whi_bg w_mt20 pub_view" id="view_imgview">
+            <div class="block_in">
+                <div class="photo_head w_mt10">
+                    <h2 class="p_tits" id="WebShareTitle">{$list['title']|getSubstr=0,100}</h2>                
+                </div>
+                <div class="photo_mid">
+                    <!-----焦点图-----> 
+                    <div class="slider" id="sliderphoto"> 
+                        <ul>
+                            <assign name='f' value='1'/>
+                            <volist name="imagelist" id="v">
+                                <li data-desp="{$list['intro']}" data-loves=50 id="sImg_{$f}">
+                                    <img src="{$v['url']}" />
+                                </li>
+                                <php>$f++;</php>
+                            </volist>
+                        </ul>
+
+                        <div class="brief clearfix w_mt20">
+                            <div class="desp" id="WebShareSummary">
+                                <p>
+                                    {$list['intro']|htmlspecialchars_decode}
+                                    <br />
+                                </p>
+                            </div>
+                            <span class="index"><em id="curInd" class="curInd"></em><em id="totInd" class="totInd"></em></span>
+                            <div id="like_div">
+                                <a href="javascript:void(0)" id="like_a_181240">
+                                    <span class="loves hidden">
+                                        <i>推荐</i>
+                                        <p><cite class="love" id="like_text"></cite></p>
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="page clearfix">
+                            <div class="pageNei">
+                                <div class="pageUl">
+                                    <volist name="imagelist" id="v">
+                                        <if condition="$v['id'] eq $currid">
+                                            <a href="javascript:void(0);" class="numbs">
+                                                <img src="{$v['url']}" />
+                                            </a>
+                                            <else />
+                                            <a href="javascript:void(0);" class="active numbs">
+                                                <img src="{$v['url']}" />
+                                            </a>
+                                        </if>
+                                    </volist>
+                                </div>
+                            </div>
+                            <a class="page_prev small_nums" href="javascript:void(0);"></a>
+                            <a class="page_next small_nums" href="javascript:void(0);"></a>
+                        </div>
+                        <notempty name="pre.id">
+                            <a href="{:U('WonderfulImg/imgDetail',array('id'=>$pre['id'],'type'=>$pre['type']))}" class="prev_photo">
+                                <img src="{$pre['url']}" />
+                            </a>
+                        </notempty>
+
+                        <notempty name="next.id">   <div id="next_photo">
+                                <a href="{:U('WonderfulImg/imgDetail',array('id'=>$next['id'],'type'=>$next['type']))}" class="next_photo">
+                                    <img src="{$next['url']}" />
+                                </a>
+                            </div> 
+                        </notempty>
+
+
+                        <div id="last_photo">
+                            <span class="ph_close">×</span>
+                            <div class="ph_head">
+                                <span class="left"><i class="rig"></i>已浏览完毕</span>
+                                <span class="right" id="reviews"><i class="rev"></i>重新预览</span>
+                            </div>
+                            <div class="ph_list">
+                                <div class="each_ph">
+                                    <a  href="{:U('WonderfulImg/imgDetail',array('id'=>$pre['id'],'type'=>$pre['type']))}">
+                                        <img src="{$pre['url']}" />
+                                    </a>
+                                    <span class="ph_masks"></span>
+                                    <p></p>
+                                </div>
+
+                                <div class="each_ph">
+                                    <a href="{:U('WonderfulImg/imgDetail',array('id'=>$next['id'],'type'=>$next['type']))}" class="next_photo">
+                                        <img src="{$next['url']}" />
+                                    </a>
+                                    <span class="ph_masks"></span>
+                                    <p></p>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div> 
+                    <!-----焦点图-----> 
+                </div>
+            </div>
+            <div class="photo_btm">
+                <div class="block_in operate_div clearfix">
+                    <span style="margin-left: 6px;">
+                        <i class="icon-user"> </i>作者 {$list.addusername|default="未知"}
+                    </span>
+                    <span style="margin-left: 6px;">
+                        <i class="icon-time"> </i><span class="num">{$list['addtime']|friend_date}</span>
+                    </span>
+                    <span class="collect-btn" style="margin-left: 6px;"
+                          data-url="{:U('Collect/add')}" 
+                          data-parentid="{$video['id']}" 
+                          data-userid="{$Think.session.user.id}" 
+                          data-option="1" 
+                          data-type="{$collectType}"
+                          data-adduserid="{$video['adduserid']}" 
+                          login-url="{:U('Login/Login')}">
+                        <i class="myi collect"> </i>收藏<span class="collect-num">{$list.collects}</span>
+                    </span>
+                    <span  style="margin-left: 6px;">
+                        <i class="icon-comment"> </i>评论<span class="num">{$list.comments}</span>
+                    </span>
+                    <span style="margin-left: 6px;">
+                        <i class="icon-eye-open"> </i>观看<span class="num">{$list.views}次</span>
+                    </span>
+                    <span style="margin-left: 6px;">
+                        <a class="jiathis_button_qzone"><img src="__PUBLICIMG__/share_qq.png"  style="width: 25px;float: right;margin-right: 10px;"></a>    
+                    </span>
+                    <span style="margin-left: 6px;">
+                        <a class="jiathis_button_weixin"><img src="__PUBLICIMG__/share_wechat.png" style="width: 25px;float: right;margin-right: 10px;"></a>
+                    </span>      
+                </div>
+            </div>
+        </div>
+        <!----!大图查看---->
+        <style>
+            .form_div2{ width: 749px;  border: 1px solid #cccccc; margin-top: 0px;}
+            .content-area{width: 725px;border:1px #ccc solid;padding: 10px;font-size: 14px; }
+        </style>
+        <!--评论-->
+        <include file='Public:comments'/>
+        <!--/评论-->
+    </div>	
+</div>

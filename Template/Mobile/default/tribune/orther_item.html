@@ -1,0 +1,18 @@
+<assign name="f" value="1" />
+<volist name='alist' id="same">
+    <div class="tribune-same-item">
+        <div class="item-info">
+            <i class="sort-hot">{$f++}</i>
+            <p class="title inline-block">
+                <a href="{:U('Tribune/tribuneDetail',array('id'=>$same['id'],'cateid'=>$same['cateid']))}">
+                    {$same['title']|getSubstr=0,20}
+                </a>
+            </p>
+            <div class="statistic" >
+                <span class="vides-time"> {$same['addtime']|friend_date}</span>    
+                <span class="img-comment">跟贴 {$same['comments']}</span>
+                <span class="view-num">{$same['views']}次</span>
+            </div>
+        </div>
+    </div> 
+</volist> 

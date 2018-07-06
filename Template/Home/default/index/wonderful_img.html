@@ -1,0 +1,13 @@
+<div class="slider" id="vandeful_image">        
+    <div class="arrival-grids">			 
+        <ul id="flexiselDemo1">
+            <volist name="imglist" id="data">                
+                <li>
+                    <a href="{:U('WonderfulImg/imgDetail',array('id'=>$data['id'],'type'=>$data['type']))}">
+                        <img src="{$data.url}" alt=""/>
+                    </a>
+                </li>
+            </volist>
+        </ul>
+    </div>
+</div>

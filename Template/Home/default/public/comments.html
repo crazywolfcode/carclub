@@ -1,0 +1,109 @@
+
+<!-- 评论记录 评论 弹窗登陆注册  -->
+<div class="media">
+    <h3 class="color-green">评论记录</h3>
+    <div class="comment-body" id="comment-body">
+        <volist name="comentlist" id ="c" >
+            <div class="media" id="comment-item">
+                <a class="pull-left" href="#">
+                    <img class="media-object" src="{$c['uhead']|default='__IMG__/default_head2.png'}" alt="">
+                </a>
+                <div class="media-body">
+                    <h5 class="media-heading">
+                        【{$c['uname']|default="匿名"}】
+                        <small>{$c['uoauth']==0?'本站用户':($c['uoauth']==1?'微信用户':'QQ用户')}</small> 
+                        <small>{$c['ulevel']}</small>                       
+                        <span class="qh-up-btn qh-cmt-icon"
+                              data-id="{$c['id']}" 
+                              data-adduserid="{$c['userid']}" 
+                              style="float: right;margin-right: 20px;padding-left: 16px;line-height: 14px">
+                            {$c['usefuls']|default='0'}
+                        </span>
+                        <small style="float: right;margin-right: 10px;">{$c['addtime']|friend_date}</small>
+                    </h5>
+                    <p>{$c['content']|getSubstr=0,150} </p>
+                    <hr>         
+                    <volist name="c.replay" id ="r">
+                        <div class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object" src="{$r['head']}" alt="">
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    {$r['uname']}
+                                    <span>
+                                        {$r['addtime']|friend_date}
+                                    </span>
+                                </h4>
+                                <p>{$r['content']|getSubstr=0,150} </p>
+                            </div>
+                        </div><!--/media-->
+                        <hr>
+                    </volist>
+                </div>
+            </div>
+        </volist>
+    </div>
+    <div class="block text-center">
+        <php> if(count($comentlist)>5){</php>
+        <button class="btn-u" style="margin: 0 auto;">更多评论...</button>
+        <php>}</php>
+    </div>
+
+</div>
+
+<!--历史活动评论表单-->
+<div class="post_comment">
+    <div class="comment_div1">
+        <div class="fontcomment">评论</div>
+        <div class="comment_right">
+            <font style="color:#72c02c"><Php> echo count($comentlist);</php></font>&nbsp条评论&nbsp 
+            <if condition="!$islogin">
+                <a href="javascript:;" class="CheckLogin">登录 </a> ︳ <a href="javascript:;" class="CheckLogin">注册</a>
+            </if>
+        </div>
+    </div>
+    <form action="{:U('Comment/addcomment')}" method="Post" id='comment-form'>
+        <div class="form_div1">
+            <div class="fom_img">
+                <if condition="$islogin">
+                    <if condition="$Think.session.user.oauth eq 1">
+                        <img class="block" style="width: 100px;height: 100px;border-radius: 50px !important;" src="{$Think.session.user.wx_head|default='__IMG__/default_avatar.png'}"/>
+                        <span class="log-user block">{$Think.session.user.wx_nick_name}</span>
+                        <else /> 
+                        <img class="block" style="width: 100px;height: 100px;border-radius: 50px !important;" src="{$Think.session.user.qq_head|default='__IMG__/default_avatar.png'}"/>
+                        <span class="log-user block">{$Think.session.user.qq_nick_name}</span>
+                    </if>  
+                    <else />
+                    <img class="form_img" src="__IMG__/default_avatar.png" alt="">
+                    <a class="frmname" href="#">未登录</a>
+                </if>
+            </div>
+            <div class="comment_div">
+                <textarea name="content" onkeyup="checkLen(this)" id="checklen" class="CheckLogin content-area" placeholder="我来说两句。。。">             
+                </textarea>
+                <div class="form_div2">
+                    <div style="margin-left:5px;">您还可以输入 <span id="count">200</span> 个字符</div>
+                    <if condition="$Think.session.user.status eq 2">
+                        <div><button type="submit" class="btn_u" disabled="true">禁言中</button></div>
+                        <else/>
+                        <div><button type="submit" class="send_btn_u btn_u">发布</button></div>
+                    </if>
+                </div>
+            </div>
+        </div>
+        <input name="controller" id="controller" value="<php> echo CONTROLLER_NAME ;</php>" type="hidden"/>
+        <input name="userid" id="adduserids" value="{$Think.session.user.id}" type="hidden"/>
+        <if condition="$Think.session.user.oauth eq 1">
+            <input name="username" id="addusernames" value="{$Think.session.user.wx_nick_name}" type="hidden"/>
+            <input name="userhead" id="userheads" value="{$Think.session.user.wx_head}" type="hidden"/>
+            <else /> 
+            <input name="username" id="addusernames" value="{$Think.session.user.qq_nick_name}" type="hidden"/>
+            <input name="userhead" id="userheads" value="{$Think.session.user.qq_head}" type="hidden"/>
+        </if> 
+        <input name="parentid" id="parentids" value="{$commentparent}" type="hidden"/>
+        <input name="type" value="{$commenttype}" type="hidden"/>
+    </form>
+</div>
+
+

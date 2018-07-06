@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<style>
+    .navbar-inner {margin:0;width: 100%;}
+    .nav-collapse{width: 100%}
+    ul.nav li{width: 20%;margin: 0;}
+</style>
+<div class="navbar">                                
+    <div class="navbar-inner">          
+        <div class="nav-collapse ">                                     
+            <ul class="nav">
+                <li class="active" id="homeNavIndex">
+                    <a href="{:U('Index/index')}">首页                                           
+                    </a>                                       
+                </li>
+                <li id="homeNav-tribune">
+                    <a href="{:U('Tribune/tribuneList')}" >论坛                                                
+                    </a>                    
+                </li>
+                <li  id="homeNav-img">
+                    <a href="{:U('WonderfulImg/imgList')}">图集                                                    
+                    </a>                                                
+                </li>
+                <li  id="homeNav-video">
+                    <a href="{:U('WonderfulVideo/videoList')}">视频                                                     
+                    </a>                                            
+                </li>
+                <li  id="homeNav-action">
+                    <a href="{:U('Action/actionList')}" >活动                                                       
+                    </a>            
+                </li>                                       
+            </ul>
+            <php>    
+                if(CONTROLLER_NAME =='WonderfulImg' && MODULE_NAME == 'Mobile'){
+            </php>
+            <ul class="subnav" style="display:inline-block;">
+                <if condition="$currtype eq 1"> 
+                    <li  class="active2"><a href="{:U('WonderfulImg/imgList',array('type'=>1))}">来于活动</a></li>
+                    <li  class=""><a href="{:U('WonderfulImg/imgList',array('type'=>2))}">来于图集</a></li>
+                    <else /> 
+                    <li  class=""><a href="{:U('WonderfulImg/imgList',array('type'=>1))}">来于活动</a></li>
+                    <li class="active2"><a href="{:U('WonderfulImg/imgList',array('type'=>2))}">来于图集</a></li>
+                </if>
+            </ul>
+            <php>}</php>
+        </div>                           
+    </div>
+</div>

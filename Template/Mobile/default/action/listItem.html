@@ -1,0 +1,22 @@
+<volist name='actionlist' id='v'>
+    <div class="actilist-item">
+        <a href="{:U('Action/actionDetail',array('id'=>$v['id']))}">
+            <div class="actilist-thumb">
+                <img src="{$v['propaganda_img']}" width="84" height="120">
+            </div>
+            <div class="actilist-info">
+                <p class="title">{$v['title']|getSubstr=0,14}</p>
+                <div class="intro">
+                    {$v['intro']|htmlspecialchars_decode|getSubstr=0,80}
+                </div>
+                <div class="statistic">
+                    <span class="videos-time">{$v['addtime']|friend_date}</span>
+                    <span class="videos-num">贴{$v['comments']}</span>
+                    <span class="videos-num">视频{$v['videos']}</span>
+                    <span class="img-num">图{$v['images']}</span>
+                    <span class="view-num">{$v['views']}次</span>
+                </div>
+            </div>
+        </a>
+    </div>
+</volist>

@@ -1,0 +1,35 @@
+<div class="tit-2">
+    <p>话题．文章</p>
+    <em class="hot">来自论版的执门文章</em>
+    <a class="more" href="{:U('Tribune/tribuneList')}">&nbsp;&nbsp;更多</a>
+</div>
+<div class="content-box">
+    <volist name="tribunelist" id="tribune">
+        <div class="article-item" id="article-item-{$tribune['id']}">
+            <div class="share" data-title="{$tribune['title']}" data-summary="{$tribune['id']}" data-url="{$tribune['id']}">
+            </div>
+            <div>
+                <a href="{:U('Tribune/tribuneDetail',array('id'=>$tribune['id'],'cateid'=>$tribune['cateid']))}">
+                    <div class="title">
+                        {$tribune['title']|getSubstr=0,20}
+                    </div>
+
+                    <div class="from">
+                        <img class="user-level-icon" src="{$author['level_icon']|default='__PUBLICIMG__/jx/jx1.png'}">
+                        {$tribune['level']|default="注册会员"} 
+                        {$tribune['addusername']|default="匿名"}
+                    </div>
+                    <div class="intro">
+                        {$tribune['content']|htmlspecialchars_decode|getSubstr=0,70}
+                    </div>
+                </a>
+            </div>
+            <div class="statistic" style="padding-left: 24px;">
+                <span class="vides-time"> {$tribune['addetime']}</span>
+                <span class="img-comment">藏  {$tribune['collects']}</span>
+                <span class="img-comment">跟贴  {$tribune['comments']}</span>
+                <span class="view-num"> {$tribune['views']}次</span>
+            </div>
+        </div>
+    </volist>
+</div>

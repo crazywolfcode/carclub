@@ -1,0 +1,24 @@
+<!--=== 滚动图片===-->
+<!--=== Slider ===-->
+<div class="fullwidthbanner-container">
+    <div class="fullwidthabnner">
+        <ul>
+            <!-- THE FIRST SLIDE -->
+            <li data-transition="3dcurtain-vertical" data-slotamount="10" data-masterspeed="300" data-thumb="assets/img/sliders/revolution/thumbs/thumb1.jpg">
+                <img src="{$barners[0]['url']}" />
+                <div class="caption large_text sfb bg-black-opacity" data-x="176" data-y="12" data-speed="300" data-start="800" data-easing="easeOutExpo">
+                    欢迎访问 
+                    <span style="color: #ffcc00;">曲靖爨行天下</span> 
+                    户外俱乐部
+                </div>
+            </li>
+            <volist name='barners' id='barner' offset='1'>
+                <li data-transition="papercut" data-slotamount="15" data-masterspeed="300" data-delay="9400" data-thumb="assets/img/sliders/revolution/thumbs/thumb2.jpg">
+                    <img src="{$barner.url}" />
+                </li>
+            </volist>
+        </ul>
+        <div class="tp-bannertimer tp-bottom"></div>
+    </div>
+</div>
+<!--=== End Slider ===-->

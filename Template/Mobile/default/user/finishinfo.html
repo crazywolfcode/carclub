@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<extend name="public:mobilebase" /></extend>
+<block name='top'> 
+    <include file='public:top2'/>
+</block>
+
+<block name='main'>
+    <div class="main_content">
+        <div class="login_panel">
+            <div class="form-body container">
+                <form class="login-form" id="f-finish">
+                    <div class="container text-center block">
+                        <div class="">
+                            <span class="input-name block">真实姓名：</span>
+                            <input name="name" id='names'   data-required="true"  placeholder="请输入真实姓名" type="text" value="{$user['name']}" >
+                        </div>
+                        <div class="">
+                            <span class="input-name block">性别：</span>
+                            <div style="text-align: left;padding-left:12%;vertical-align: middle ">                               
+                                <input class="inline-block" name="gender" type="radio" value="1" <if condition="$user['gender']==1">checked="checked"</if> style="width: 20px"/>
+                                <span class="gender-type">先生</span>
+                                <input class="inline-block" name="gender" type="radio" value="0" <if condition="$user['gender']==0">checked="checked"</if> style="width: 20px"/>
+                                <span class="gender-type">小姐</span>
+                                <input class="inline-block" name="gender" type="radio" value="2" <if condition="$user['gender']==2">checked="checked"</if> style="width: 20px"/>
+                                <span class="gender-type">保密</span>
+                            </div>                            
+                        </div>
+                        <div class="">
+                            <span class="input-name block">手机号：</span>
+                            <input name="mobile" id='mobiles'   data-required="true"  placeholder="请输入常用的手机号" type="text" value="{$user['mobile']}">
+                        </div>
+                        <div class="">
+                            <span class="input-name block">邮箱：</span>
+                            <input name="email" id='emails'   data-required="true"  placeholder="请输入常用的邮箱" type="text" value="{$user['email']}">
+                        </div>
+                        <div class="">
+                            <span class="input-name block">联系地址：</span>
+                            <input name="address" id='addresss'   data-required="true"  placeholder="请输入联系地址" type="text" value="{$user['address']}">
+                        </div>
+                        <div class="">
+                            <span class="input-name block">车牌号：</span>
+                            <input name="car_number" id='car_numbers'   data-required="true"  placeholder="请输入车牌号" type="text" value="{$user['car_number']}">
+                        </div>        
+                        <div class="">
+                            <span class="input-name block">职业：</span>
+                            <input name="work" id='car_numbers'   data-required="true"  placeholder="请输入车职业" type="text" value="{$user['work']}">
+                        </div> 
+                        <div class="">
+                            <span class="input-name block">单位：</span>
+                            <input name="department" id='car_numbers'   data-required="true"  placeholder="请输入车单位" type="text" value="{$user['department']}">
+                        </div> 
+                    </div>
+                    <div class="login-btn" id="finish-btn">
+                        保存 
+                    </div>
+                    <input type="hidden" name='id' value="{$user['id']}">
+                </form> 
+            </div>       
+        </div>
+    </div>
+
+</block>
+
+<block name='js'>
+    <include file='public:footerjs'/>  
+    <script type="text/javascript">
+        $("#finish-btn").click(function () {
+            var url = "{:U('User/finishInfo')}";
+            $.ajax({
+                type: "post",
+                url: url,
+                dataType: "text",
+                data: $("#f-finish").serialize(),
+                success: function (res) {
+                    var obj = $.parseJSON(res);
+                    if (obj.status == 1) {
+                        layer.open({
+                            title: '成功',
+                            content: '保存成功，重先登录',
+                            style: 'background-color:#09C1FF; color:#fff; border:none;',
+                            time: 500
+                        });
+                        location.href = "{:U('User/info')}" ;
+                    } else {
+                        layer.open({
+                            title: '保存成功',
+                            content: obj.info,
+                            style: 'background-color:#09C1FF; color:#fff; border:none;',
+                            time: 500
+                        });
+                    }
+
+                },
+                error: function (e) {
+                    layer.open({
+                        title: '请求出错',
+                        content: 无法访问,
+                        style: 'background-color:#09C1FF; color:#fff; border:none;',
+                        time: 500
+                    });
+                }
+            });
+            return false;
+        });
+    </script>
+</block>

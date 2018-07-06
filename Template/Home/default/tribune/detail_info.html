@@ -1,0 +1,112 @@
+<div class="container">		
+    <div class="row-fluid blog-page blog-item">       
+        <!-- Right Sidebar -->
+        <div class="span9">
+            <div class="blog margin-bottom-30">
+                <h3 id="WebShareTitle"> {$tribune['title']}</h3>
+                <ul class="unstyled inline blog-info" style="height: 50px;line-height: 50px;">
+                    <li><i class="icon-calendar"></i>{$tribune['addtime']|friend_date}</li>
+                    <li><i class="icon-pencil"></i>{$tribune['addusername']}</li>
+                    <li><i class="icon-comments"></i> <a href="#">评论<Php> echo count($comentlist);</php></a></li>
+                    <li><span style="color: red;">{$tribune['isboutique']==1?'精':''}</span></li>
+                </ul>              
+                {$tribune['content']|htmlspecialchars_decode}               
+            </div><!--/blog-->
+            <div class="content hidden" id='WebShareSummary'>
+                {$tribune['intro']|htmlspecialchars_decode|getSubstr=0,110}
+            </div>
+            <div class="share">
+                <div class="inline-block">
+                    <p class="inline-block">分享  </p>
+                    <div  data-title="" data-summary="" data-url="">
+                        <span style="margin-left: 10px;margin-right: 20px;font-size: 14px;position: relative;top: 10px;">
+                            <span style="margin-left: 6px;">
+                                <i class="icon-user"> </i>作者 {$tribune.addusername|default="未知"}
+                            </span>
+                            <span style="margin-left: 6px;">
+                                <i class="icon-time"> </i><span class="num">{$tribune['addtime']|friend_date}</span>
+                            </span>
+                            <span class="collect-btn" style="margin-left: 6px;" 
+                                  data-url="{:U('Collect/add')}" 
+                                  data-parentid="{$tribune['id']}" 
+                                  data-userid="{$Think.session.user.id}" 
+                                  data-option="1" 
+                                  data-type="3"
+                                  data-adduserid="{$tribune['adduserid']}" 
+                                  login-url="{:U('Login/Login')}">
+                                <i class="myi collect"> </i>收藏<span class="collect-num">{$tribune.collects}</span>
+                            </span>
+                            <span  style="margin-left: 6px;">
+                                <i class="icon-comment"> </i>评论<span class="num">{$tribune.comments}</span>
+                            </span>
+                            <span style="margin-left: 6px;">
+                                <i class="icon-eye-open"> </i>观看<span class="num">{$tribune.views}次</span>
+                            </span>
+                        </span>
+                        <a class="jiathis_button_qzone"><img src="__PUBLICIMG__/share_qq.png"></a>    
+                        <a class="jiathis_button_weixin"><img src="__PUBLICIMG__/share_wechat.png"></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <!--评论-->
+            <include file='Public:comments'/>
+            <!--/评论-->           
+        </div><!--/span9-->
+        <div class="span3">    
+            <div class="blog-twitter">
+                <div class="author-area block">
+                    <div class="author-p1 block">
+                        <if condition="$author.oauth eq 1">
+                            <img class="author-head" src="{$author.wx_head|default='__IMG__/default_head2.png'}"/>
+                            <else/>
+                            <img class="author-head" src="{$author.qq_head|default='__IMG__/default_head2.png'}"/>
+                        </if>
+                        <div class="author-infor">
+                            <if condition="$author.oauth eq 1">
+                                <span class="author-nick" >作者：</span>   <span class="author-nick-name" >{$author.wx_nick_name|default='未知'}</span><br/>
+                                <else/>
+                                <span class="author-nick" >作者：</span>   <span class="author-nick-name" >{$author.qq_nick_name|default='未知'}</span><br/>
+                            </if>
+                            <span class="author-nick" >等级：</span><span class="author-level" >{$author.level|default='注册会员'}</span>
+                            <img class="user-level-icon" src="{$author['level_icon']|default='__PUBLICIMG__/jx/jx1.png'}">
+                        </div>
+                    </div> 
+                    <div class="author-p2 block">
+
+                    </div> 
+                </div>                
+            </div>
+            <div class="blog-twitter">
+                <div class="headline"><h3>相关文章</h3></div>
+                <assign name='f' value='1'/>
+                <volist name="samelist" id="sl" offset='0' lenght='9' empty="没有相关的数据。。。">
+                    <p >
+                        <i class="sort-hot">{$f}</i>                        
+                        <a href="{:U('Tribune/tribuneDetail',array('id'=>$sl['id']))}">{$sl['title']|getSubstr=0,50}</a>                      
+                        <span>{$sl['addtime']|friend_date}</span>
+                    </p>
+                    <php>$f++;</php>
+                </volist>
+                <php> if(count($samelist)>6){</php>
+                <button class="btn-u">更多...</button>
+                <php>}</php>
+            </div>
+            <div class="blog-twitter">
+                <div class="headline"><h3>其它精彩文章</h3></div>
+                <assign name='ft' value='1'/>
+                <volist name="alist" id="al"  offset='0' lenght='9' empty="没有相关的数据。。。">
+                    <p>
+                        <i class="sort-hot">{$ft}</i>                        
+                        <a href="{:U('Tribune/tribuneDetail',array('id'=>$al['id']))}">{$al['title']|getSubstr=0,50}</a>                      
+                        <span>{$al['addtime']|friend_date}</span>
+                    </p>
+                    <php>$ft++;</php>
+                </volist>
+                <php> if(count(alist)>9){</php>
+                <button class="btn-u">更多...</button>
+                <php>}</php>
+            </div>
+        </div>
+    </div><!--/row-fluid-->        
+</div>

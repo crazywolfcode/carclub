@@ -1,0 +1,25 @@
+<div class="tit-2">
+    <p>精彩视频</p>
+    <em class="hot"></em>
+    <a class="more" href="{:U('WonderfulVideo/videoList')}">&nbsp;&nbsp;更多</a>
+</div>
+<div class="content-box">
+    <volist name="videolist" id="video">
+        <div class="videolist-item" id="videolist-item-{$video['id']}">
+            <a href="{:U('WonderfulVideo/videoDetail',array('id'=>$video['id'],'type'=>$video['type'],'aid'=>$video['action_id']))}">
+                <img src="{$video['img_src']}" class="img-responsiveup" alt="">
+                <i class="replay"></i> 
+            </a>     
+            <div class="bottom-color">
+                <h4><attr title=" {$video['title']}"> {$video['title']|getSubstr=0,16}</attr></h4>
+                <p> {$video['come']|default="爨行天下"}[{$video['addusername']|default="管理员"}]    </p>     
+                <div class="statistic" style="padding-left: 24px;">
+                    <span class="vides-time">{$video['addtime']|friend_date}</span>
+                    <span class="img-collect">跟贴 {$video['collects']}</span>
+                    <span class="img-comment">藏{$video['collects']}</span>
+                    <span class="view-num">看{$video['views']}</span>
+                </div>
+            </div>
+        </div>
+    </volist>
+</div>

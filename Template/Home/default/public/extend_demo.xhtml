@@ -1,0 +1,24 @@
+<extend name="public:base" />
+<block name='title'>
+    <title>{$title|default=":C('DEFAULT_TITLE')"}</title>
+</block> 
+<block name='main'>
+
+    <!--这里Html的内容-->
+
+</block>
+<block name='footer'>
+    <include file='public:footer'/>
+</block>
+<block name='js'>
+    <include file='public:footerjs'/>
+    <script>
+        $(function ()
+        {
+            alter("aaaaa");
+            //所有自己写的Js代码
+
+        });
+    </script>  
+</block>
+</extends>

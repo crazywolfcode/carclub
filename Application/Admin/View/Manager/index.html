@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>管理员管理</title>
+        <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+        <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+        <link rel="shortcut icon" href="favicon.ico"> <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+        <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+        <link href="__CSS__/animate.css" rel="stylesheet">
+        <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+        <link rel="stylesheet" href="__LAYUI__/css/layui.css"  media="all">
+
+    </head>
+
+    <body class="gray-bg">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row" id="userlist">
+                <include file="Manager:item"/>
+            </div>
+            <div class="pagination pagination-centered col-sm-12 text-center">
+                <div class="pages">
+                    {$page}
+                </div>
+            </div>
+        </div>
+        <!--  加分 -->
+        <div class="modal inmodal" id="addpointmodal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated fadeInUp">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="modal-title">会员加分</h4>
+                    </div>
+                    <div class="modal-body">                 
+                        <form id="gagform" class="form-horizontal inline" action="{:U('User/setmoderater')}">
+                            <div class="col-md-12">  
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">分数：</label>
+                                    <div class="col-sm-8">
+                                        <input id='pointnum' name ="point" class="form-control"/>                           
+                                    </div>
+                                </div>
+                            </div>      
+                            <input name="userid" id="m_userid" type="hidden"/>   
+                            <button type="reset" class="hidden" id = "resetbtn">重置</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary " id="addpoinsavebtn">保存</button>                
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!-- 全局js -->
+        <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+        <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+
+
+
+        <!-- 自定义js -->
+        <script src="__JS__/content.js?v=1.0.0"></script>
+        <script type="text/javascript" src="__LAYER__/layer.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('.contact-box').each(function () {
+                    animationHover(this, 'pulse');
+                });
+            });
+            //取消 版主
+            $('.moderater-opt').click(function () {
+                var userid = $(this).attr("data-userid");
+                var cateid = $(this).attr("data-cateid");
+                var type = 0;
+                var url = $(this).attr("data-url");
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'text',
+                    data: {
+                        userid: userid, cateid: cateid, type: type
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.status == 1) {
+                            layer.msg(obj.info);
+                            $("#moderater-opt-" + userid).fadeOut();
+                        } else {
+                            layer.msg(obj.info);
+                        }
+                    },
+                    error: function () {
+                        layer.msg("请求出错！", {time: 1200});
+                    }
+                });
+
+            });
+            //取消超管
+            $(".admin-opt").click(function () {
+                var _this = $(this);
+                var userid = $(this).attr("data-userid");
+                var type = $(this).attr("data-type");
+                var url = $(this).attr("data-url");
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'text',
+                    data: {
+                        userid: userid, type: type
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.status == 1) {
+                            layer.msg(obj.info);
+                            _this.parent().parent().parent().fadeOut();
+                        } else {
+                            layer.msg(obj.info);
+                        }
+                    },
+                    error: function () {
+                        layer.msg("请求出错！", {time: 1200});
+                    }
+                });
+            });
+            //addpoint-btn
+            $(".addpoint-btn").click(function () {
+                var userid = $(this).attr("data-userid");
+                if ("{$Think.session.admin_user.id}" == userid) {
+                    layre.msg("自己不可以为自己加分", {time: 800});
+                    return false;
+                }
+                reduce = 0;
+                $("#modal-title").text("会员加分");
+                $("#m_userid").val(userid);
+                $("#addpointmodal").modal('show');
+            });
+            $(".reducepoint-btn").click(function () {
+                var userid = $(this).attr("data-userid");
+                if ("{$Think.session.admin_user.id}" == userid) {
+                    layre.msg("自己不可以为自己减分", {time: 800});
+                    return false;
+                }
+                $("#modal-title").text("会员减分");
+                reduce = 1;
+                $("#m_userid").val(userid);
+                $("#addpointmodal").modal('show');
+            });
+            $("#addpoinsavebtn").click(function () {
+                var userid = $("#m_userid").val();
+                var point = $("#pointnum").val();
+                var url;
+                if (reduce == 1) {
+                    url = "{:U('User/reducepoint')}";
+                } else {
+                    url = "{:U('User/addpoint')}";
+                }
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'text',
+                    data: {
+                        userid: userid, point: point
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.status == 1) {
+                            layer.msg(obj.info);
+                            $("#addpointmodal").modal('hide');
+                            var currP = $("#user-point-" + userid);
+                            var oldP = currP.text();
+                            if (reduce == 1) {
+                                currP.text((parseInt(oldP) - parseInt(point)));
+                            } else {
+                                currP.text((parseInt(oldP) + parseInt(point)));
+                            }
+                        } else {
+                            layer.msg(obj.info);
+                        }
+                    },
+                    error: function () {
+                        layer.msg("请求出错！", {time: 1200});
+                    }
+                });
+                return false;
+            });
+        </script>
+    </body>
+
+</html>

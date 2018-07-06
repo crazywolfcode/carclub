@@ -1,0 +1,65 @@
+<div class='action-detail'>
+    <div class="action-content">
+        <p class="title">{$tribune['title']}</p>
+        <div class="dfrom">          
+            {$Think.session.user.level} 
+            {$tribune['addusername']|default="未知"}            
+        </div>
+        <div class="content">
+            {$tribune['content']|htmlspecialchars_decode}
+        </div>
+        <div class="option_area">         
+            <div class="share shareTwo share-page-btn" style="top:2px;" s>
+            </div>
+            <div class="statistic statisticTwo">
+                <span class="vides-time">{$tribune['addtime']|friend_date}</span>    
+                <span class="collects collect-btn"
+                      data-url="{:U('Collect/add')}" 
+                      data-parentid="{$tribune['id']}" 
+                      data-userid="{$Think.session.user.id}" 
+                      data-option="1" 
+                      data-type="3"
+                      data-adduserid="{$tribune['adduserid']}" 
+                      login-url="{:U('Login/Login')}"
+                      >
+                    <i class="myi collect"></i>
+                    <span class="collect-num" style='margin: 0'> {$tribune['collects']}</span>                       
+                </span>
+                <span class="img-comment">跟贴 {$tribune['comments']}</span>          
+                <span class="view-num">{$tribune['views']}次</span>
+            </div>
+        </div>
+    </div>
+    <div class="act-tab-opt">
+        <ul>
+            <li><a class="tab-control" href="#act-coment"> 评论 </a></li>
+            <li><a class="tab-control"  href="#act-img"> 猜你喜欢 </a></li>
+            <li class="active"><a  class="tab-control" href="#act-video"> 同类文章 </a></li>
+        </ul>
+    </div>
+    <div class="act-tab-cont">
+        <div class="tab-item" id="act-video">
+            <include file="Tribune:same_item"/>
+        </div>
+        <div class="tab-item hidden" id="act-img">
+            <div class="">
+                <include file="Tribune:orther_item"/>
+            </div>
+        </div>
+        <div class="tab-item hidden" id="act-coment">
+            <div class="comment-list" id="detail-comment-body">                
+                <include file="Comment:comment_item"/>
+            </div>        
+            <!--点击加加载更多评论-->
+            <div class="down-more" id="detail-morecomment"
+                 data-parentid="{$tribune['id']}"
+                 data-target="#detail-comment-body" 
+                 data-url="{:U('Comment/ajaxGetComment',array('type'=>4,'p'=>CURRPAGE,'parentid'=>PARENTID))}"
+                 data-page="2">
+                <span id="moremore"> 更多评论 </span>
+            </div>
+            <!--点击加加载更多评论-->
+            <include file="Comment:comment_form"/>
+        </div>
+    </div>
+</div>

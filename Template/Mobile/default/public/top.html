@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<!--=== Header ===-->
+<div class="header">               
+    <div class="container inline-bolck"> 
+         <include file="Public:tophead"/>
+      
+        <php>                   
+            if(CONTROLLER_NAME =='Tribune' && MODULE_NAME == 'Mobile'){
+        </php>
+        <!-- 当前为论版时的菜单 -->
+        <include file="Public:navbar"/>
+       
+        <php>}else{</php>
+        <!-- 当前不为论版时的菜单 -->
+       <include file="Public:indexnavbar"/> 
+       
+        <php>}</php>
+                           
+    </div>      
+</div>  

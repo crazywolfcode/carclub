@@ -1,0 +1,43 @@
+<extend name="public:base" /></extend>
+<block name='title'>
+    <notempty name="pagetitle">
+        <title>{$pagetitle}</title>
+        <else/>
+        <title>{:C('WEB_SITE_TITLE')}</title>
+    </notempty>
+</block> 
+<block name='top'> 
+    <include file='public:top'/>
+</block>
+<block name='main'>
+    <!--活动 -->
+    <include file="Tribune:detail_info"/>     
+    <!-- //活动 -->  
+</block>
+<block name='footer'>
+    <include file='public:footer'/>
+</block>
+<block name='js'>
+    <include file='public:footerjs'/>
+    <script  type="text/javascript" src="__PUBLICJS__/slider.js"></script>    
+    <script>
+        $(function ()
+        {
+            //改变导航条的状态    
+            $('ul.nav li').removeClass("active");
+            $('#homeNav-tribune').addClass("active");
+        });
+    </script>  
+    <script src="__PUBLICJS__/mycollect.js" type="text/javascript"></script>
+    <!-- JiaThis Button BEGIN -->
+    <script type="text/javascript">
+        var jiathis_config = {
+            url: window.location.href,
+            title: $("#WebSahreTitle").text(),
+            summary: $("#WebSahreSummary").children('p').text()
+        };
+    </script> 
+    <script type="text/javascript" src="http://v3.jiathis.com/code_mini/jia.js" charset="utf-8"></script>
+    <!-- JiaThis Button END -->
+</block>
+

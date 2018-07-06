@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{$web_info['WEB_SITE_TITLE']}</title>
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <link rel="shortcut icon" href="favicon.ico">
+        <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+        <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+        <!-- Data Tables -->
+        <link href="__CSS__/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+        <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+        <link href="__CSS__/animate.css" rel="stylesheet">
+        <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="__CSS__/plugins/simditor/simditor.css" />
+    </head>
+
+    <body class="gray-bg">
+        <div class="wrapper wrapper-content animated fadeInRight">      
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins col-sm-8">
+                        <div class="ibox-title">
+                            <h5>视频管理</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <form class="form-horizontal m-t" id="imgformtemp" method="POST" enctype="multipart/form-data">                          
+                                <div class="form-group">
+                                    <div class="col-sm-8 col-sm-offset-3">
+                                        <img src="{$video['img_src']}" id='preview' style="width:100%;height:280px;"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">封面图片：</label>
+                                    <div class="col-sm-8">
+                                        <input  onchange="autoup(0)" name='file' class="form-control" type="file" >  
+                                        <button class="btn btn-default hidden" id="temprest" type="reset">重置</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <form class="form-horizontal m-t" id="videoform" method="POST" action="{:U('Video/addvideo')}" enctype="multipart/form-data">                           
+                                <input id="idid"  name="id" class="hidden" value="{$video['id']}">                          
+                                <input id='propaganda_imgs' name='img_src' class="hidden" type="text" value="{$video['img_src']}"> 
+                                <if condition="$video.id gt 0">
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">视频地址：</label>
+                                        <div class="col-sm-8">                                      
+                                            <input  name='src' class="form-control" type="text" value="{$video['src']}" readonly>     
+                                            <span class="help-block m-b-none"><i class="fa fa-info-circle"></i>视频不支持修改，可以删除重先增加，属于活动的请到活动详细页面操作</span>
+                                        </div>
+                                    </div>
+                                    <else/>
+                                    <div class="form-group">
+                                        <label class="col-sm-3 control-label">视频：</label>
+                                        <div class="col-sm-8">
+                                            <input  onchange="autoup(1)" name='file' class="form-control" type="file" placeholder="请选择要上传的视频" >    
+                                            <input id='srcid' name='src' class="hidden" type="text">  
+                                            <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 格式支持：flv,mp4,mkv.real,3gp,wmv,navi</span>
+                                        </div>
+                                    </div>
+                                </if>
+
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">简介：</label>
+                                    <div class="col-sm-8">                                      
+                                        <textarea id="descriptions" name='description' placeholder="这里输入内容" autofocus>
+                                    {$video['description']|htmlspecialchars_decode}
+                                        </textarea>                                        
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-sm-8 col-sm-offset-3">
+                                        <button class="btn btn-primary" type="submit" id="upvideobtn">提交</button>
+                                        <button class="btn btn-default " type="reset" id="videoresetbtn">重置</button>
+                                    </div>                                      
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 全局js -->
+        <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+        <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+        <script src="__JS__/plugins/jeditable/jquery.jeditable.js"></script>
+
+        <!-- Data Tables -->
+        <script src="__JS__/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="__JS__/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+        <!-- 自定义js -->
+        <script src="__JS__/content.js?v=1.0.0"></script>
+        <!-- Sweet alert -->
+        <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+
+
+        <!-- simditor -->
+        <script type="text/javascript" src="__JS__/plugins/simditor/module.js"></script>
+        <script type="text/javascript" src="__JS__/plugins/simditor/uploader.js"></script>
+        <script type="text/javascript" src="__JS__/plugins/simditor/hotkeys.js"></script>
+        <script type="text/javascript" src="__JS__/plugins/simditor/simditor.js"></script>
+        <!-- Page-Level Scripts -->
+
+
+        <script src="__JS__/jquery-form.js" type="text/javascript"></script>
+        <script>
+
+                                                $(function () {
+                                                    var editor = new Simditor({
+                                                        textarea: $('#descriptions'),
+                                                        toolbar: false,
+                                                        upload: false
+                                                    });
+                                                });
+
+                                                //commit add save form
+                                                $("#upvideobtn").unbind('click').click(function () {
+                                                    var data = $("#videoform").serialize();
+                                                    var url;
+                                                    if ($("#idid").val() > 0) {
+                                                        url = "{:U('Video/update')}";
+                                                    } else {
+                                                        url = "{:U('Video/addorther')}";
+                                                    }
+                                                    $.ajax({
+                                                        type: 'post',
+                                                        dataType: 'text',
+                                                        url: url,
+                                                        data: data,
+                                                        success: function (v) {
+                                                            var obj = $.parseJSON(v);
+                                                            if (obj.status == 1) {
+                                                                $("#resetbtn").click();
+                                                                swal({title: obj.msg, text: "", type: "success"});
+                                                                $('#upvideoModal').modal('hide');
+                                                              window.location.href = obj.url;                                                               
+                                                            } else {
+                                                                swal("失败", "请刷新后重试！", "error");
+                                                            }
+                                                        }
+                                                    });
+                                                    return false;
+                                                });
+                                                //自动上传
+                                                function autoup(a) {
+                                                    var url, form;
+                                                    if (a == 1) {
+                                                        form = $("#videoform");
+                                                        url = "{:U('Myupload/videoUp')}";
+                                                    } else {
+                                                        form = $("#imgformtemp");
+                                                        url = "{:U('Myupload/imageUp')}";
+                                                    }
+                                                    form.ajaxSubmit({
+                                                        type: "POST",
+                                                        url: url,
+                                                        dataType: 'text',
+                                                        success: function (v) {
+                                                            var obj = $.parseJSON(v);
+                                                            if (obj.status) {
+                                                                if (a == 1) {
+                                                                    $("#srcid").attr("value", obj.file_path);
+                                                                } else {
+                                                                    $('#preview').attr("src", obj.file_path);
+                                                                    $("#propaganda_imgs").attr("value", obj.file_path);
+                                                                }
+                                                            } else {
+                                                                alert(obj.msg);
+                                                            }
+                                                        },
+                                                        error: function (v) {
+                                                            alert(v.getMessage());
+                                                        }
+                                                    });
+                                                }
+
+        </script>
+    </body>
+</html>

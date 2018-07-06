@@ -1,0 +1,57 @@
+<div class="tab-pane active" id="index-cate-{$currcateid}">
+    <div class="row-fluid myrow">
+        <volist name="tribunelist" id="top">
+            <div class="span6 myspan booking-blocks" style="margin:0 auto; position: relative;">
+                <if condition="$top.isboutique eq 1">
+                    <div class="home-boutique">精</div>
+                </if>
+                <div class="pull-left booking-img" style="width: 110px;">
+                    <if condition="$user.oauth eq 1">
+                        <img class="topic-uhead inline-block" src="{$top['uwxhead']|default='__IMG__/default_head1.png'}" alt="{$user.uwxnickname}">
+                        <else/>
+                        <img class="topic-uhead inline-block" src="{$top['uqqhead']|default='__IMG__/default_head1.png'}" alt="{$user.uqqnickname}">
+                    </if> 
+                    <span>
+                        <small>【{$top['addusername']|default="匿名"}】</small> <br/>
+                        <small>{$top['uoauth']==0?'本站用户':($top['uoauth']==1?'微信用户':'QQ用户')}</small> <br/>
+                        <small>{$top['ulevel']}</small>   
+                        <img class="user-level-icon" src="{$top['ulevelicon']|default='__PUBLICIMG__/jx/jx1.png'}">
+                    </span> 
+                </div>
+                <div style="overflow:hidden;">
+                    <h2><a href="{:U('Tribune/tribuneDetail',array('id'=>$top['id'],'cateid'=>$top['cateid']))}">
+                            {$top['title']|getSubstr=0,16}
+                        </a>
+                    </h2>    
+
+                    <div style="width: 350px;height: 90px;overflow: hidden">
+                        {$top['intro']|htmlspecialchars_decode|getSubstr=0,100}
+                    </div>     
+                    <div data-title="" data-summary="" data-url=""style="text-align: right" >
+                        <span style="margin-left: 10px;margin-right: 0px;font-size: 12px;position: relative;top: 30px;color: #888;">
+
+                            <span style="margin-left: 6px;">
+                                <i class="icon-time"> </i><span class="num">{$top.addtime|friend_date}</span>
+                            </span>
+                            <span class="collect-btn" style="margin-left: 6px;" >
+                                <i class="myi collected"> </i>收藏<span class="collect-num">{$top.collects}</span>
+                            </span>
+                            <span style="margin-left: 6px;">
+                                <i class="icon-comment"> </i>评论<span class="num">{$top.comments}</span>
+                            </span>
+                            <span style="margin-left: 6px;">
+                                <i class="icon-eye-open"> </i>观看<span class="num">{$top.views}次</span>
+                            </span>
+                        </span>
+                    </div>
+                    <a href="{:U('Tribune/tribuneDetail',array('id'=>$top['id'],'cateid'=>$top['cateid']))}" class="btn-u btn-u-small info">参 与</a>
+                </div>
+            </div>
+        </volist>
+    </div>
+    <div class="pagination pagination-centered">
+        <ul>                               
+            <li class="active"><a href="{:U('Tribune/tribuneList',array('cateid'=>$currcateid))}" class="ursor-pointer mya">更多</a></li>                                
+        </ul>
+    </div>
+</div>

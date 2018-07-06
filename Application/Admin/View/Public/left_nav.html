@@ -1,0 +1,205 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="nav-close"><i class="fa fa-times-circle"></i>
+    </div>
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+            <li class="nav-header">
+                <div class="dropdown profile-element">
+                    <span>
+                        <if condition="$Think.session.admin.oauth eq 1">
+                            <img alt="image" class="img-circle" src="{$Think.session.admin.wx_head|default='__IMG__/profile_small.jpg'}"  width="65px;"  height="65px;"/>
+                            <else/>
+                            <img alt="image" class="img-circle" src="{$Think.session.admin.qq_head|default='__IMG__/profile_small.jpg'}"  width="65px;"  height="65px;"/>
+                        </if>
+                    </span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                            <span class="block m-t-xs">
+                                <if condition="$Think.session.admin.oauth eq 1">
+                                    <strong class="font-bold">{:session('admin.wx_nick_name')}</strong>
+                                    <else/>
+                                    <strong class="font-bold">{:session('admin.qq_nick_name')}</strong>
+                                </if>                                
+                            </span>                            
+                            <span class="text-muted text-xs block">管理员<b class="caret"></b></span>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a class="J_menuItem" >修改头像</a>
+                        </li>
+                        <li><a class="J_menuItem" >个人资料</a>
+                        </li>
+                        <li><a class="J_menuItem" >联系我们</a>
+                        </li>
+                        <li><a class="J_menuItem" >信箱</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="{:U('Login/logout')}">安全退出</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="logo-element">H+
+                </div>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">主页</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="index_v1.html" data-index="0">主页示例一</a>
+                    </li>
+                </ul>
+
+            </li>
+            <li>
+                <a  href="#"><i class="fa fa-gear"></i> <span class="nav-label">系统配置</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{:U('Index/seting',array('type'=>1))}">基本配置</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:U('Index/summary')}">俱乐部简介</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:U('Index/agreements')}">用户协议</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:U('Index/seting',array('type'=>4))}">积分配置</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:U('Barner/add')}">增加首页轮播图片</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:U('Barner/manager')}">首页轮播图片管理</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a  href="#"><i class="fa fa-wechat"></i> <span class="nav-label">微信管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a class="J_menuItem" href="{:U('Index/seting',array('type'=>5))}">公众号管理</a>
+                    </li>
+                    <li><a class="J_menuItem" href="{:U('Weichat/menu')}">菜单管理</a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a  href="#"><i class="fa fa-cutlery"></i> <span class="nav-label">活动管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li>
+                        <a class="J_menuItem" href="{:U('Action/add')}">发布活动</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:U('Action/manager',array('status'=>0))}">未开始</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:U('Action/manager',array('status'=>1))}">正在进行</a>  
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:U('Action/manager',array('status'=>2))}">历史活动</a>  
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:U('Action/manager',array('isdelete'=>1))}">已删除活动</a>  
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a  href="#"><i class="fa fa-tripadvisor"></i> <span class="nav-label">论坛管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">
+                    <li><a class="J_menuItem" href="{:U('Category/index')}">分类管理</a>
+                    </li>
+
+                    <li><a class="J_menuItem" href="{:U('tribune/add')}">发布文章</a>
+                    </li> 
+                    <li><a class="J_menuItem" href="{:U('tribune/manager',array('status'=>0))}">未审核文章</a>
+                    </li> 
+                    <li><a class="J_menuItem" href="{:U('tribune/deletelist')}">已删文章</a>
+                    </li> 
+                    <volist name="catelist" id="data">
+                        <li><a class="J_menuItem" href="{:U('tribune/manager',array('status'=>1,'cateid'=>$data['id']))}">{$data['name']}文章</a></li>
+                    </volist>
+
+                </ul>
+            </li>
+
+            <li>
+                <a  href="#"><i class="fa fa-book"></i> <span class="nav-label">评论管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">  
+                    <li>
+                        <a class="J_menuItem" href="{:U('Comment/manager',array('type'=>1))}">论坛文章评论</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:U('Comment/manager',array('type'=>3))}">视频评论</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:U('Comment/manager',array('type'=>4))}">活动评论</a>
+                    </li>
+
+                </ul>
+            </li>
+            <li>
+                <a  href="#"><i class="fa fa-users"></i> <span class="nav-label">会员管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">    
+                    <li>
+                        <a class="J_menuItem" href="{:U('Userlevel/index')}">会员等级</a>
+                    </li>
+                    <php>for ($i=0;$i< count($userLevellist); $i++){</php>
+                    <li>
+                        <a class="J_menuItem" href="{:U('User/userlist',array('id'=>$userLevellist[$i]['id'],'pointline'=>$userLevellist[$i]['pointline'],'uppointline'=>$userLevellist[$i+1]['pointline']))}">{$userLevellist[$i]['name']}</a>
+                    </li>    
+                    <php>}</php>
+                </ul>
+            </li>
+            <li>
+                <a  href="#"><i class="fa fa-user"></i> <span class="nav-label">管理员管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">    
+                    <li>
+                        <a class="J_menuItem" href="{:U('Manager/index',array('type'=>2))}">超级管理员</a>
+                    </li>
+                    <li>
+                        <a class="J_menuItem"  href="{:U('Manager/index',array('type'=>1))}" > 论坛版主</a>
+                    </li>    
+                </ul>
+            </li>
+            <li>
+                <a  href="#"><i class="fa fa-picture-o"></i> <span class="nav-label">图集管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">                           
+                    <li>
+                        <a class="J_menuItem" href="{:U('ImageList/add')}">发布图集</a> 
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:U('ImageList/manager')}">图集管理</a>
+                    </li> 
+                </ul>
+            </li>
+            <li>
+                <a  href="#"><i class="fa fa-picture-o"></i> <span class="nav-label">图片管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">                           
+                    <li>
+                        <a class="J_menuItem" href="{:U('Image/manager',array('type'=>1))}">活动图片</a> 
+                    </li>
+                    <li>
+                        <a class="J_menuItem" href="{:U('Image/manager',array('type'=>2))}">图集图片</a>
+                    </li> 
+                </ul>
+            </li>
+            <li>
+                <a  href="#"><i class="fa fa-video-camera"></i> <span class="nav-label">视频管理</span><span class="fa arrow"></span></a>
+                <ul class="nav nav-second-level">                           
+                    <li>
+                        <a class="J_menuItem" href="{:U('Video/manager',array('type'=>1))}">活动视频</a>
+                    </li>   
+                    <li>
+                        <a class="J_menuItem"  href="{:U('Video/manager',array('type'=>2))}">其它视频</a>
+                    </li>  
+                    <li>
+                        <a class="J_menuItem"  href="{:U('Video/addorther')}">发布其它视频</a>
+                    </li>  
+                </ul>
+            </li>
+        </ul>
+    </div>
+</nav>

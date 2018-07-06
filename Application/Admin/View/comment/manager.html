@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{$web_info['WEB_SITE_TITLE']}</title>
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <link rel="shortcut icon" href="favicon.ico">
+        <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+        <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+        <!-- Data Tables -->
+        <link href="__CSS__/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+        <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+        <link href="__CSS__/animate.css" rel="stylesheet">
+        <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+    </head>
+
+    <body class="gray-bg">
+        <div class="wrapper wrapper-content animated fadeInRight">      
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-title">
+                            <h5>评论管理</h5>
+                        </div>
+                        <div class="ibox-content">                                             
+                            <table class="table table-striped table-bordered table-hover dataTables-example" id="editable">
+                                <thead>
+                                    <tr>   
+                                        <th>类型</th>             
+                                        <th style="max-width: 500px;">内容</th>
+                                        <th>有用数</th> 
+                                        <th>时间</th>                                                                         
+                                        <th>评论者</th>                                        
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <volist name='commentlist' id='data'>
+                                    <tr class="gradeX">   
+                                        <td>{$data['type']==1?"关于论版文章":($data['type']==2?"关于图集":($data['type']==3?"关于视频 ":"关于活动"))}</td>                                                                           
+                                        <td style="max-width: 500px;" class="td-content">{$data['content']|htmlspecialchars_decode}</td>
+                                        <td>{$data['usefuls']}</td>  
+                                        <td>{$data['addtime']|friend_date}</td>  
+                                        <td>
+                                            {$data['ulevel']|default="未知道级别"} 
+                                            {$data['uoauth']==0?'本站用户':($data['uoauth']==1?'微信用户':'QQ用户')} 
+                                            {$data['uname']} 
+                                        </td> 
+                                        <td>
+                                            <a class="updatebtn" data-id="{$data['id']}" href="##">修改</a>
+                                            <eq name="data.status" value="0">
+                                            <a class="hidebtn" href="{:U('Comment/show',array('id'=>$data['id']))}">显示</a>
+                                    <else/>
+                                    <a class="showbtn" href="{:U('Comment/hide',array('id'=>$data['id']))}">不显示</a>
+                                    </eq>
+                                    <a class="replay-com" data-id="{$data['id']}" data-type="{$data['type']}"  href="##">回复</a>
+                                    <a class="" href="{:U('Comment/replaymanager',array('id'=>$data['id'],'type'=>$data['type']))}">回复列表</a>
+                                    <a class="deletebtn" href="{:U('Comment/delete',array('id'=>$data['id'],'type'=>$data['type'],'isreplay'=>$data['isreplay']))}">删除</a>
+                                    </td>
+                                    </tr>
+                                </volist>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <!--回复-->
+        <div class="modal" id="Modal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated flipInY">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">回复评论</h4>
+                    </div>
+                    <div class="modal-body">                 
+                        <form id="form" class="form-horizontal inline" action="{:U('Comment/repaly')}">
+                            <div class="col-md-12">                            
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">回复的内容：</label>
+                                    <div class="col-sm-8">
+                                        <textarea name="content" id="content" class="form-control" placeholder="请输入回复的内容" type="text" style="height: 150px;display: block;width: 300px;">
+                                            
+                                        </textarea>                                       
+
+                                    </div>
+                                </div>    
+                            </div>      
+                            <input name="parentid" id="parentids" type="hidden"/>
+                            <input name="type" id="types" type="hidden" />
+                            <input name="isreplay" id="parentids" type="hidden" value='1'/>
+                            <button type="reset" class="hidden" id = "resetbtn">重置</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary mybtnsave">保存</button>                
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--修改-->
+        <div class="modal" id="uModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content animated flipInY">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title">修改评论</h4>
+                    </div>
+                    <div class="modal-body">                 
+                        <form id="uform" class="form-horizontal inline" action="{:U('Comment/update')}">
+                            <div class="col-md-12">                            
+                                <div class="form-group">
+                                    <label class="col-sm-4 control-label">回复的内容：</label>
+                                    <div class="col-sm-8">
+                                        <textarea name="content" id="contents" class="form-control" placeholder="请输入回复的内容" type="text" style="height: 150px;display: block;width: 300px;">
+                                            
+                                        </textarea>     
+                                    </div>
+                                </div>    
+                            </div>      
+                            <input name="id" id="ids" type="hidden"/>                           
+                            <button type="reset" class="hidden" id = "resetbtn">重置</button>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary umybtnsave">保存</button>                
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- 全局js -->
+        <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+        <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+        <script src="__JS__/plugins/jeditable/jquery.jeditable.js"></script>
+
+        <!-- Data Tables -->
+        <script src="__JS__/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="__JS__/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+        <!-- 自定义js -->
+        <script src="__JS__/content.js?v=1.0.0"></script>
+        <!-- Sweet alert -->
+        <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+        <!-- Page-Level Scripts -->
+
+        <script>
+            var data_td;//为修改时间保存所点击的数据的内容的元素
+            $(document).ready(function () {
+                $('.dataTables-example').dataTable();
+                $("textarea").val("");
+            });
+
+            $(".deletebtn,.hidebtn,.showbtn").click(function () {
+                var url = this.href;
+                $.ajax({
+                    type: 'get',
+                    dataType: 'text',
+                    url: url,
+                    success: function (v) {
+                        var obj = $.parseJSON(v);
+                        if (obj.status == 1) {
+                            $("#resetbtn").click();
+                            swal({title: obj.msg, text: "", type: "success"});
+                            window.location.reload();
+                        } else {
+                            swal(obj.msg, "请刷新后重试！", "error");
+                        }
+                    }
+                });
+                return false;
+            });
+            //列表显示大图
+            var listPicZoom = $('<div class="list_pic_zoom" style="position:absolute; border:1px solid #ddd; background:#fff;padding:10px;display:none; z-index:10000;"><img width="400" height="300" src=""/></div>');
+            $('body').append(listPicZoom);
+            $('.list_img').mouseover(
+                    function () {
+                        var left = $(this).offset().left + 220;
+                        var top = $(this).offset().top + 5;
+                        var src = $(this).attr('src');
+
+                        $('.list_pic_zoom img').attr('src', src);
+                        listPicZoom.css({left: left, top: top}).show();
+                    });
+            $('.list_img').mouseout(function () {
+                listPicZoom.hide();
+                $('.list_pic_zoom img').attr('src', "");
+            });
+            //显示modal
+            $(".replay-com").click(function () {
+                var parentid = $(this).attr("data-id");
+                var type = $(this).attr("data-type");
+                $("#parentids").val(parentid);
+                $("#types").val(type);
+                $("#Modal").modal('show');
+                return false;
+            });
+            // 回复
+            $(".mybtnsave").unbind('click').click(function () {
+                var form = $("#form");
+                var data = form.serialize();
+                var url = form.attr("action");
+                $.ajax({
+                    type: 'post',
+                    dataType: 'text',
+                    url: url,
+                    data: data,
+                    success: function (v) {
+                        var obj = $.parseJSON(v);
+                        if (obj.status == 1) {
+                            $("#resetbtn").click();
+                            swal({title: obj.msg, text: "", type: "success"});
+                            $('#Modal').modal('hide');
+                        } else {
+                            swal("失败", "请刷新后重试！", "error");
+                        }
+                    }
+                });
+                return false;
+            });
+            //显示 修改modal
+            $(".updatebtn").click(function () {
+                var id = $(this).attr("data-id");
+                data_td = $(this).parent().parent().children(".td-content");
+                var content = data_td.text();
+                $("#ids").val(id);
+                $("#contents").val(content);
+                $("#uModal").modal('show');
+                return false;
+            });
+            // 修改
+            $(".umybtnsave").unbind('click').click(function () {
+                var form = $("#uform");
+                var data = form.serialize();
+                var url = form.attr("action");
+                $.ajax({
+                    type: 'post',
+                    dataType: 'text',
+                    url: url,
+                    data: data,
+                    success: function (v) {
+                        var obj = $.parseJSON(v);
+                        if (obj.status == 1) {
+                            data_td.text($("#contents").val());
+                            $("#resetbtn").click();
+                            swal({title: obj.msg, text: "", type: "success"});
+                            $('#uModal').modal('hide');
+                       //     window.location.reload();
+                        } else {
+                            swal("失败", "请刷新后重试！", "error");
+                        }
+                    }
+                });
+                return false;
+            });
+        </script>
+    </body>
+</html>

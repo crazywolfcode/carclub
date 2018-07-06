@@ -1,0 +1,54 @@
+<volist name="collectvideo" id="video" empty="您还没有收藏任何视频，快去收藏吧">
+    <div class="my-tribune-item">
+        <span class="share js-share" data-shareid="">
+            <i data-shareid="2222" class="icon-share"></i>
+            <div class="share-box" data-objtype="0" data-nickname="笑傲尘世" data-tuid="496" data-title="Jquery插件transform旋转焦点图 " data-img="">
+                <div class="a shareWrapBox">
+                    <div class="share-box-con">
+                        <div class="share-action" data-bd-bind="1488241972769" style="width: 90px;float: left;margin-top: 5px">
+                            <a class="no-decoration cursor-pointer " data-cmd="weixin" title="分享到QQ空间">
+                                <img class="share-img-icon" src="__PUBLICIMG__/share_qq.png">
+                            </a>                   
+                            <a class=" no-decoration cursor-pointer m-l-6" data-cmd="wechat" title="享到微信">
+                                <img class="share-img-icon" src="__PUBLICIMG__/share_wechat.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </span>
+        <img class="collect-video-propaganda-img" src="{$video['video']['img_src']}">
+        <i class="replay-collect"></i>
+        <div class="content fr">  
+            <div class="body pr h135">
+                <a href="{:U('WonderfulVideo/videoDetail',array('id'=>$video['id']))}" target="_blank" class="no-decoration">           
+                    <div class="content">
+                        <div class="subtitle"> 
+                            {$video['video']['title']}
+                              <small style="color: #888">[{$video['video']['type']==1?"来源于活动":"来源于其它"}]</small>
+                        </div> 
+                        <div class="detail">
+                            {$video['video']['description']|htmlspecialchars_decode|getSubStr=0,40}
+                        </div>
+
+                        <div class="describe">
+                            <span class="vides-time"><strong>  {$video['video']['addtime']|friend_date} </strong></span>
+                            <span class="collected collect-btn">
+                                <i class="myi collected"></i>
+                                <span class="collect-num" style="margin: 0"><strong>  {$video['video']['collects']}</strong></span>                       
+                            </span>
+                            <span class="img-comment">跟贴<strong>  {$video['video']['comments']}</strong></span>
+
+                            <span class="view-num"><strong>{$video['video']['views']}</strong> 次</span>
+                        </div>
+                        <div class="opttion">                           
+                            <a data-url="{:U('collect/delete',array('id'=>$video['id']))}" class="no-decoration opt-delete" tille="删除">
+                                <i class="icon-trash icon-danger"> </i>
+                            </a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</volist>

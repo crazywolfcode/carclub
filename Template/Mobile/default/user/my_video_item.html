@@ -1,0 +1,24 @@
+<volist name="videolist" id="v">
+    <div class="recomont-video-item">
+        <div class="video-img">
+            <a href="{:U('WonderfulVideo/videoDetail',array('id'=>$v['video']['id'],'type'=>$v['video']['type'],'aid'=>$v['video']['action_id']))}">
+                <img src="{$v['video']['img_src']}" style="width: 55px;height: 65px;"/>
+                <i class="replay replaytwo replayth" style="left:10px;top: 20px;"></i>
+            </a>
+        </div>
+        <div class="video-info">
+            <p class="title p-t-4" style="height: 40px;">
+                {$v['video']['title']|getSubstr=0,14}
+                <br/><span style="color: #4559e6;font-size: 12px">{$v['video']['type']==1?"来自活动":"来自其它"}</span>
+            </p>  
+            
+            <i class="trash-o trash-rl" data-url="{:U('Collect/delete',array('id'=>$v['id']))}">00</i>
+            <div class="statistic" >
+                <span class="vides-time">{$v['addtime']|friend_date}</span>
+                <span class="img-collect">跟贴 {$v['video']['collects']}</span>
+                <span class="img-comment">藏{$v['video']['collects']}</span>
+                <span class="view-num">看{$v['video']['views']}</span>
+            </div>
+        </div>
+    </div> 
+</volist>

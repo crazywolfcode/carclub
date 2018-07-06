@@ -1,0 +1,65 @@
+<volist name="tribunelist" id="tribune">
+    <div class="my-tribune-item">
+        <span class="share js-share" data-shareid="">
+            <i data-shareid="2222" class="icon-share"></i>
+            <div class="share-box" data-objtype="0" data-nickname="笑傲尘世" data-tuid="496" data-title="Jquery插件transform旋转焦点图 " data-img="">
+                <div class="a shareWrapBox">
+                    <div class="share-box-con">
+                        <div class="share-action" data-bd-bind="1488241972769" style="width: 90px;float: left;margin-top: 5px">
+                            <a class="no-decoration cursor-pointer " data-cmd="weixin" title="分享到QQ空间">
+                                <img class="share-img-icon" src="__PUBLICIMG__/share_qq.png">
+                            </a>                   
+                            <a class=" no-decoration cursor-pointer m-l-6" data-cmd="wechat" title="享到微信">
+                                <img class="share-img-icon" src="__PUBLICIMG__/share_wechat.png">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </span>
+        <div class="content fr">  
+            <div class="body pr h135">
+                <a href="{:U('Tribune/tribuneDetail',array('id'=>$tribune['id'],'cateid'=>$tribune['cateid']))}" target="_blank" class="no-decoration">           
+                    <div class="content">
+                        <div class="subtitle">   {$tribune['title']}
+                            <small style="color: #888">[{$tribune['status']==1?"已公开":"未公开"}]</small>
+                        </div> 
+                        <div class="detail">
+                            {$tribune['intro']|htmlspecialchars_decode|getSubStr=0,110}
+                        </div>
+
+                        <div class="describe">
+                            <span class="vides-time"><strong>  {$tribune['addtime']|friend_date} </strong></span>
+                            <span class="collected collect-btn">
+                                <i class="myi collected"></i>
+                                <span class="collect-num" style="margin: 0"><strong>  {$tribune['collects']}</strong></span>                       
+                            </span>
+                            <span class="img-comment">跟贴<strong>  {$tribune['comments']}</strong></span>
+
+                            <span class="view-num"><strong>{$tribune['views']}</strong> 次</span>
+                        </div>
+                        <div class="opttion">
+                            <a href="{:U('Tribune/update',array('id'=>$tribune['id']))}" class="no-decoration" tille="修改">
+                                <i class="icon-pencil"> </i></a>
+                            <if condition="$tribune['status'] eq 1" >
+                                <a  class="no-decoration opt-showorhide" data-url="{:U('Tribune/showorhide')}" data-type="0" data-id="{$tribune['id']}" title="不公开">
+                                    <i class="icon-eye-close"> </i>                            
+                                </a>
+                                <else/>
+                                <a  class="no-decoration opt-showorhide" data-url="{:U('Tribune/showorhide')}" data-type="1" data-id="{$tribune['id']}" title="公开">
+                                    <i class="icon-eye-open"> </i>                             
+                                </a>
+                            </if>
+                            <a href="{:U('User/lookcomment',array('id'=>$tribune['id'],'status'=>$status))}" class="no-decoration" tille="查看评论">
+                                <i class="icon-comments icon-danger"></i>{$tribune['comments']}
+                            </a>
+                            <a data-url="{:U('Tribune/delete',array('id'=>$tribune['id']))}" class="no-decoration opt-delete" tille="删除">
+                                <i class="icon-trash icon-danger"> </i>
+                            </a>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</volist>

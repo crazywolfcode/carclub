@@ -1,0 +1,89 @@
+<extend name="public:base" />
+<block name='title'>
+      <notempty name="pagetitle">
+        <title>{$pagetitle}</title>
+        <else/>
+        <title>{:C('WEB_SITE_TITLE')}</title>
+    </notempty>
+</block> 
+<block name='top'> 
+    <include file='public:top'/>
+</block>
+<block name='main'>
+    <div class="container">
+        <div class="row">
+            <div class="span1">
+                <div class="headline"><h3>来源</h3></div>
+                <ul class="unstyled blog-tags">
+                    <li><a href="{:U('WonderfulImg/imgList',array('type'=>1))}" class="a-imgList a-active"><i ></i> 活动</a></li>                   
+                    <li><a href="{:U('WonderfulImg/imgList',array('type'=>2))}" class="a-imgList"><i ></i> 图集</a></li>     
+                    <li><a href="{:U('WonderfulImg/imgList',array('type'=>3))}" class="a-imgList"><i></i> 其它</a></li>
+                </ul>
+            </div>
+
+            <div class="span8 ">
+                <include file="Wonderfulimg:listItem"/>     
+                <div class="pagination pagination-centered">
+                    <div class="pages">
+                        {$page}
+                    </div>
+                </div>
+            </div>
+
+            <div class="span3">
+                <div class="headline"><h3>最新图片</h3></div>
+
+                <ul class="unstyled blog-ads">
+                    <volist name='newimglist' id='n'>
+                        <li>
+                            <a href="{:U('WonderfulImg/imgDetail',array('id'=>$n['id'],'type'=>$n['type']))}">
+                                <img src="{$n['url']}" alt="" class="hover-effect">
+                            </a>
+                        </li>
+                    </volist>
+                </ul>
+
+                <div class="posts">
+                    <div class="headline"><h3>最新视频</h3></div>
+                    <volist name='newvideolist' id='v'>
+                        <dl class="dl-horizontal">
+                            <dt>
+                                <a href="{:U('WonderfulVideo/videoDetail',array('id'=>$v['id'],'type'=>$v['type']))}">
+                                    <img src="{$v.img_src}" alt="">
+                                </a>
+                                <i class="replay replayThree"></i>
+                            </dt>
+                            <dd>
+                                <p><a href="#">{$v['title']}</a></p> 
+                            </dd>
+                            <dd>
+                                <p><a href="#">{$v['addtime']|friend_date}</a></p> 
+                            </dd>
+                        </dl>
+                    </volist>
+                    <button class="btn-u">更多...</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</block>
+<block name='footer'>
+    <include file='public:footer'/>
+</block>
+<block name='js'>
+    <include file='public:footerjs'/>
+    <script>
+        $(function ()
+        {
+            //改变导航条的状态    
+            $('ul.nav li').removeClass("active");
+            $('#homeNav-img').addClass("active");
+        });
+    </script>  
+</block>
+</extends>

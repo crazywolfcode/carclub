@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<extend name="public:mobilebase" /></extend>
+<block name='top'> 
+    <include file='public:top2'/>
+</block>
+
+<block name='main'>
+    <div class="main_content">
+        <div class="login_panel">
+            <div class="form-body container">
+                <form class="login-form">
+                    <div class="container text-center block">
+                        <div class="">
+                            <input name="oldpwd" id='oldpwds'   data-required="true"  placeholder="请输入旧密码" type="password">
+                        </div>
+                        <div class="">
+                            <input placeholder="新密码" id='passwords' name="password" type="password" placeholder="请输入新密码">
+                        </div>
+                        <div class="">
+                            <input placeholder="新密码" id='passwordtwos' name="passwordtwo" type="password" placeholder="请再次输入新密码">
+                        </div>
+                        <div class="error-label hidden">
+                            <label>社交账号登录</label>
+                        </div>
+                    </div>
+                    <div class="login-btn" id="update-pwd-btn">
+                        修改 
+                    </div>
+                </form> 
+            </div>       
+            <div class="loginbox footerbox clearfix">
+                <div class="inline-block"><a href="{:U('Login/forgetPwd')}">忘记密码</a></div>
+                <div class="wall inline-block"></div>
+                <div class="inline-block"><a href="{:U('Login/login')}">立即登录</a></div>
+            </div>
+
+        </div>
+    </div>
+
+</block>
+
+<block name='js'>
+    <include file='public:footerjs'/>  
+    <script type="text/javascript">
+        $("#passwordtwos").blur(function () {
+            var pwd = $("#passwords").val();
+            var pwdtwo = $(this).val();          
+            if (pwd != pwdtwo) {
+                layer.msg("两次输入的密码不一致");
+                $(this).focus();
+            }
+        });
+
+        $("#update-pwd-btn").click(function () {
+            var url = "{:U('User/updatePwd')}";
+            var oldpwd = $("#oldpwds").val();
+            if (oldpwd.length < 6) {
+                layer.msg("旧密码输入不合法");
+                $("#oldpwds").focus();
+                return false;
+            }
+            var pwd = $("#passwords").val();
+            if (oldpwd == pwd) {
+                layer.msg("新密码不和旧密码一样");
+                return false;
+            }
+            $.ajax({
+                type: "post",
+                url: url,
+                dataType: "text",
+                data: ({
+                    oldpwd: oldpwd,
+                    password: pwd
+                }),
+                success: function (res) { 
+                  var obj =$.parseJSON(res);
+                    if (obj.status == 1) {
+                        layer.open({
+                            title: '修改成功',
+                            content: '修改成功，重先登录',
+                            style: 'background-color:#09C1FF; color:#fff; border:none;',
+                            time: 500
+                        });
+                        location.href = "{:U('Login/login')}";
+                    } else {
+                        layer.open({
+                            title: '修改失败',
+                            content: obj.info,
+                            style: 'background-color:#09C1FF; color:#fff; border:none;',
+                            time: 500
+                        });
+                    }
+
+                },
+                error: function (e) {
+                    layer.open({
+                        title: '请求出错',
+                        content: e.msg,
+                        style: 'background-color:#09C1FF; color:#fff; border:none;',
+                        time: 500
+                    });
+                }
+            });
+            return false;
+        });
+    </script>
+</block>

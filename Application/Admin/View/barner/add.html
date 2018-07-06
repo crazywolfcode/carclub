@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{$web_info['WEB_SITE_TITLE']}</title>
+        <meta name="keywords" content="">
+        <meta name="description" content="">
+        <link rel="shortcut icon" href="favicon.ico">
+        <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+        <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+        <!-- Data Tables -->
+        <link href="__CSS__/plugins/dataTables/dataTables.bootstrap.css" rel="stylesheet">
+        <link href="__CSS__/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+        <link href="__CSS__/animate.css" rel="stylesheet">
+        <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="__CSS__/plugins/simditor/simditor.css" />
+    </head>
+
+    <body class="gray-bg">
+        <div class="wrapper wrapper-content animated fadeInRight">      
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins col-sm-8">
+                        <div class="ibox-title">
+                            <h5>视频管理</h5>
+                        </div>
+                        <div class="ibox-content">
+                            <form class="form-horizontal m-t" id="imgformtemp" method="POST" enctype="multipart/form-data">                          
+                                <div class="form-group">
+                                    <div class="col-sm-8 col-sm-offset-3">
+                                        <img src="" id='preview' style="width:100%;height:280px;"/>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label">图片：</label>
+                                    <div class="col-sm-8">
+                                        <input  name='path' class="form-control" type="hidden" value="barner" >  
+                                        <input  onchange="autoup(0)" name='file' class="form-control" type="file" > 
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-3 control-label"></label>
+                                    <div class="col-sm-8">
+                                        <span >图片大小 建议为 1360*360 像素</span>
+                                    </div>
+                                </div>
+
+                            </form>
+                            <form class="form-horizontal m-t" id="videoform" method="POST" action="{:U('Barner/addbarner')}" enctype="multipart/form-data">                           
+
+                                <input id='url' name='img_src' class="hidden" type="text" value="{$video['img_src']}"> 
+
+                                <div class="form-group">
+                                    <div class="col-sm-8 col-sm-offset-3">
+                                        <button class="btn btn-primary" type="submit" id="upvideobtn">提交</button>
+                                    </div>                                      
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 全局js -->
+        <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+        <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+        <script src="__JS__/plugins/jeditable/jquery.jeditable.js"></script>
+
+        <!-- Data Tables -->
+        <script src="__JS__/plugins/dataTables/jquery.dataTables.js"></script>
+        <script src="__JS__/plugins/dataTables/dataTables.bootstrap.js"></script>
+
+        <!-- 自定义js -->
+        <script src="__JS__/content.js?v=1.0.0"></script>
+        <!-- Sweet alert -->
+        <script src="__JS__/plugins/sweetalert/sweetalert.min.js"></script>
+
+
+        <!-- Page-Level Scripts -->
+
+
+        <script src="__JS__/jquery-form.js" type="text/javascript"></script>
+        <script>
+                                            //commit add save form
+                                            $("#upvideobtn").unbind('click').click(function () {
+                                                var imgurl = $("#url").val();
+                                                if (imgurl.length < 1) {
+                                                    swal("失败", "没有上传图片！", "error");
+                                                    return false;
+                                                }
+                                                var url = "{:U('Barner/addbarner')}";
+                                                $.ajax({
+                                                    type: 'post',
+                                                    dataType: 'text',
+                                                    url: url,
+                                                    data: {imgurl: imgurl},
+                                                    success: function (v) {
+                                                        var obj = $.parseJSON(v);
+                                                        if (obj.status == 1) {
+                                                            swal({title: obj.msg, text: "", type: "success"});
+                                                            window.location.href = "{:U('Barner/manager')}";
+                                                        } else {
+                                                            swal("失败", "请刷新后重试！", "error");
+                                                        }
+                                                    }
+                                                });
+                                                return false;
+                                            });
+                                            //自动上传
+                                            function autoup() {
+                                                var url, form;
+                                                url = "{:U('Myupload/imageUp')}";
+                                                form = $("#imgformtemp");
+                                                form.ajaxSubmit({
+                                                    type: "POST",
+                                                    url: url,
+                                                    dataType: 'text',
+                                                    success: function (v) {
+                                                        var obj = $.parseJSON(v);
+                                                        if (obj.status) {
+                                                            $('#preview').attr("src", obj.file_path);
+                                                            $("#url").attr("value", obj.file_path);
+                                                        } else {
+                                                            alert(obj.msg);
+                                                        }
+                                                    },
+                                                    error: function (v) {
+                                                        alert(v.getMessage());
+                                                    }
+                                                });
+                                            }
+
+        </script>
+    </body>
+</html>

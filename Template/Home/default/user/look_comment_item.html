@@ -1,0 +1,49 @@
+<volist name="commentlist" id ="c" >
+    <div class="comment-item">
+        <div class="qh-cmt qh-reset-font">
+            <div class="qh-cmt-bar">
+                <div class="qh-avatar">
+                    <img src="{$c['uhead']|default='__IMG__/default_head2.png'}" alt="">
+                </div>
+                <div class="qh-user-nt">
+                    <div class="qh-u-name">
+                        {$c['unick_name']|default="匿名"}&nbsp;&nbsp;
+                        <small style="font-size: 12px;">{$c['uoauth']==0?'本站用户':($c['uoauth']==1?'微信用户':'QQ用户')}</small>  
+                        <small style="font-size: 12px;">{$c['ulevel']}</small>
+                    </div>
+                    <div class="qh-u-time block">
+                        {$c['addtime']|friend_date}
+                    </div>
+                </div>
+                <div class="qh-cmt-lr">
+                    <div class="qh-cmt-ups qh-cmt-up" >
+                        <a class="qh-cmt-icon" data-id="{$c['id']}" data-adduserid="{$c['userid']}"></a>
+                        <span class="qh-ups-num qh-up-btn">{$c['usefuls']|default='0'}</span>
+                        | 
+                        <a class="no-decoration opt-replay-btn cursor-pointer" style="font-size: 14px;color: #4595e6;margin-right: 6px;" data-id="{$c['id']}" data-url="{:U('Comment/replay')}" >回复</a>
+                    </div>
+                </div>
+            </div>
+            <div class="qh-cmt-cont-wrap">
+                <div class="qh-cmt-cont">
+                    <div class="qh-cmt-cont-t">
+                        {$c['content']}
+                    </div> 
+                    <div id="replay-body-{$c['id']}">
+                        <volist name="c.replay" id ="r">
+                            <include file="Comment:comment_replay_item"/> 
+                        </volist>
+                    </div>
+                </div>
+            </div>
+            <div class="my-option" style="text-align: right" >
+                <if condition="$c['status'] eq 0">
+                    <a class="no-decoration opt-showorhide" data-url="{:U('Comment/showorhide')}" data-type="1" data-id="{$c['id']}">公开</a>
+                    <else/>
+                    <a class="no-decoration opt-showorhide" data-url="{:U('Comment/showorhide')}" data-type="0" data-id="{$c['id']}">不公开</a>
+                </if>  
+                <a class="no-decoration opt-delete" data-url="{:U('Comment/delete',array('id'=>$c['id'],'isreplay'=>0))}" data-type="0" >删除</a>
+            </div>
+        </div>
+    </div>
+</volist>

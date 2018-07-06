@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>提示信息</title>
+<link href="__ERROR__/notice.css" rel="stylesheet"/>
+<script src="__ERROR__/jquery-1.10.1.min.js"></script>
+</head>
+
+<body>
+	<p class="notice-icon"><img src="__ERROR__/error.png" /></p>
+  <h2><?php echo($error);?></h2>
+  <div class="notice-link"><span><a href="javascript:history.go(-1);" class="link-back">返回</a><a href="{:U('Index/index')}" class="link-home">网站首页</a></span></div>
+  <p>友情提示：您可能输入了错误的网址，或者该网页已删除或移动</p>
+  
+  <script type="text/javascript">
+   (function(){
+			var wait = 8;
+			var interval = setInterval(function(){
+				var time = --wait;
+				if(time == 0) {
+					location.href = "<?php echo($jumpUrl); ?>";
+					clearInterval(interval);
+				};
+			}, 1000);
+	 })();
+  </script>
+</body>
+</html>

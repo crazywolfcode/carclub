@@ -1,0 +1,158 @@
+<!-- JS Global Compulsory -->			
+<script type="text/javascript" src="__JS__/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="__JS__/modernizr.custom.js"></script>		
+<script type="text/javascript" src="__PLUGINS__/bootstrap/js/bootstrap.min.js"></script>	
+<!-- JS Implementing Plugins -->    
+<script type="text/javascript" src="__PLUGINS__/parallax-slider/js/modernizr.js"></script>
+<script type="text/javascript" src="__PLUGINS__/parallax-slider/js/jquery.cslider.js"></script> 
+<script>
+    function getdomain() {
+        var url = document.domain;
+        if (url.indexOf('http://') === -1) {
+            url = 'http://' + url;
+        }
+        return url;
+    }
+    var Share_success_url = "{:U(Home/Index/sharesuccess)}";
+</script>
+<script type="text/javascript" src="__PLUGINS__/back-to-top.js"></script>
+<!-- JS Page Level -->  
+<script src="__JS__/jquery.min.js?v=2.1.4"></script>
+<script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+<script type="text/javascript" src="__JS__/function.js"></script>
+<script type="text/javascript" src="__STATIC__/plugins/flexslider/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="__STATIC__/plugins/revolution_slider/rs-plugin/js/jquery.themepunch.plugins.min.js"></script>
+<script type="text/javascript" src="__STATIC__/plugins/revolution_slider/rs-plugin/js/jquery.themepunch.revolution.min.js"></script> 
+<script type="text/javascript" src="__JS__/app.js"></script>
+<script type="text/javascript" src="__JS__/pages/index.js"></script>
+<script type="text/javascript">
+    jQuery(document).ready(function () {
+        App.init();
+        App.initSliders();
+        Index.initRevolutionSlider();
+    });
+</script>
+<!-- 首页个人相关显示隐藏-->
+<script type="text/javascript">
+    $(function () {
+        $(".content-area").val("");
+        $("#user_box").hide();
+        $("#user_picture").hover(function () {
+            $("#user_box").show();
+        }, function () {
+            $("#user_box").hide();
+        });
+        // 鼠标移动到user_box的div上的时候user_box div不会被隐藏
+        $("#user_box").hover(function () {
+            $("#user_box").show();
+        }, function () {
+            $("#user_box").hide();
+        });
+    });
+</script>
+<!-- 历史活动留言js控制textarea字数-->
+
+<script type="text/javascript">
+    function checkLen(obj)
+    {
+        var maxChars = 200;//最多字符数
+        if (obj.value.length > maxChars)
+            obj.value = obj.value.substring(0, maxChars);
+        var curr = maxChars - obj.value.length;
+        document.getElementById("count").innerHTML = curr.toString();
+    }
+</script>
+<script type="text/javascript">
+    //评论
+    $(".send_btn_u").click(function () {
+        var _this = $(this);
+        _this.css({"background": "#eee"});
+        var content_area = $(".content-area");
+        if (content_area.val().trim().length < 1) {
+            layer.msg("评论的内容不能为空！");
+            return false;
+        }
+        var form = $("#comment-form");
+        var commentbody = $("#comment-body");
+        var url = form.attr("action");
+        $.ajax({
+            type: 'POST',
+            dataType: 'text',
+            url: url,
+            data: form.serialize(),
+            success: function (response) {
+                var obj = $.parseJSON(response);
+                if (obj.status == 1) {
+                    commentbody.prepend(obj.data);
+                    content_area.val("");
+                    $("#count").text("200");
+                    layer.open({
+                        content: '评论成功',
+                        style: 'background-color:#09C1FF; color:#fff; border:none;',
+                        time: 500
+                    });
+                    _this.css({"background": "#72c02c"});
+                } else {
+                    alert(obj.info);
+                    _this.css({"background": "#72c02c"});
+                }
+            }
+        });
+        return false;
+    });
+</script>
+<script type="text/javascript">
+    //评论设置有用；
+    $(".qh-cmt-icon").click(function () {
+        //没有登陆不行
+        if ("{$Think.session.user.id}" == null || 　"{$Think.session.user.id}" < 1) {
+            var l = layer.confirm('您还没有登录！是否要登录？', {
+                btn: ['是', '否'] //按钮
+            }, function () {
+                location.href = "{:U('Login/login')}";
+            }, function () {
+                layer.close(l);
+                return false;
+            });
+            return false;
+        }
+        var id = $(this).attr("data-id");
+        var adduserid = $(this).attr("data-adduserid");
+        //自己和文章不行
+        if ("{$Think.session.user.id}" == adduserid) {
+            layer.msg("这是你的评论。");
+            return false;
+        }
+        if ($(this).hasClass('curr')) {
+            upsHandle($(this), id, adduserid, -1);
+            $(this).removeClass("curr");
+            $(this).css({"background": "url(__IMG__/handle_up.png) no-repeat"});
+        } else {
+            upsHandle($(this), id, adduserid, 1);
+            $(this).addClass("curr");
+            $(this).css({"background": "url(__IMG__/handle_up_active.png) no-repeat"});
+        }
+        return false;
+    });
+</script>
+<script type="text/javascript">
+    //点击有用图标里的处理
+    function upsHandle(_this, id, adduserid, type) {
+        var num = Number(_this.text());
+        if (type == -1) {
+            if (num > 0) {
+                _this.text(num - 1);
+            }
+        } else if (type == 1) {
+            _this.text(num + 1);
+        }
+        var url = "{:U('Comment/setuseful')}";
+        $.ajax({
+            type: 'post',
+            url: url,
+            dataType: 'text',
+            data: {id: id, num: type, authorid: adduserid},
+            function(res) {}
+        });
+    }
+</script>

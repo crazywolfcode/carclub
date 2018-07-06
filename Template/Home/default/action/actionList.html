@@ -1,0 +1,36 @@
+<extend name="public:base" />
+<block name='title'>
+     <notempty name="pagetitle">
+        <title>{$pagetitle}</title>
+        <else/>
+        <title>{:C('WEB_SITE_TITLE')}</title>
+    </notempty>
+</block> 
+<block name='top'> 
+    <include file='public:top'/>
+</block>
+<block name='main'>
+    <!--活动 -->
+    <include file="Action:listItem"/>     
+    <!-- //活动 -->
+    <div class="pagination pagination-centered">
+        <div class="pages">
+            {$page}
+        </div>
+    </div>
+</block>
+<block name='footer'>
+    <include file='public:footer'/>
+</block>
+<block name='js'>
+    <include file='public:footerjs'/>
+    <script>
+        $(function ()
+        {
+            //改变导航条的状态    
+            $('ul.nav li').removeClass("active");
+            $('#homeNav-action').addClass("active");
+        });
+    </script>  
+</block>
+</extends>

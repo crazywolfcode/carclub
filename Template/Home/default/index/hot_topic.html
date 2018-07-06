@@ -1,0 +1,18 @@
+<div class="row-fluid" id="hot_topic">
+    <div class="container">
+        <h2 class="text-center">热门话题</h2>       
+        <div style="min-height:  450px;">         
+            <ul class="nav nav-tabs tabs" style="padding: 0 auto" id="top-cate-nenu">
+                <volist name="catelist" id="data" offset="0" length="1">
+                    <li class="active"><a href="#index-cate-{$data['id']}"  class="top-tab-a" data-cateid="{$data['id']}" data-toggle="tab">{$data['name']}</a></li>
+                </volist>
+                <volist name="catelist" id="data" offset="1">
+                    <li><a href="#index-cate-{$data['id']}" class="top-tab-a" data-toggle="tab" data-cateid="{$data['id']}">{$data['name']}</a></li>
+                </volist>
+            </ul>
+            <div class="tab-content" id="topic-body">
+
+            </div>
+        </div>
+    </div>
+</div>

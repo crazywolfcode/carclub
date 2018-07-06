@@ -1,0 +1,29 @@
+<div class="tit-2 noborder">
+    <p>历史活动</p>
+    <em class="hot"></em>
+    <a class="more" href="{:U('Action/actionList')}">&nbsp;&nbsp;更多</a>
+</div>
+<div class="content-box">
+    <volist name="actionlist" id="action">
+        <div class="actilist-item" id="index-action-{$action['id']}">
+            <a href="{:U('Action/actionDetail',array('id'=>$action['id']))}">
+                <div class="actilist-thumb">
+                    <img src="{$action['propaganda_img']}" width="84" height="120">
+                </div>
+                <div class="actilist-info">
+                    <p class="title">{$action['title']|getSubstr=0,16}</p>
+                    <div class="intro">
+                        {$action['intro']|htmlspecialchars_decode|getSubstr=0,70}
+                    </div>
+                    <div class="statistic">
+                        <span class="videos-time">{$action['addtime']|friend_date}</span>
+                        <span class="videos-num">贴{$action['comments']}</span>
+                        <span class="videos-num">视频{$action['videos']}</span>
+                        <span class="img-num">图{$action['images']}</span>
+                        <span class="view-num">{$action['views']}次</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </volist>
+</div>

@@ -1,0 +1,32 @@
+<div class="flex-slider" id="active_user">
+    <h2 class="text-center" style="margin: 0 auto">会员</h2>
+    <div class="wrap">
+        <ul id="flexiselDemo2">	
+            <volist name='userlist' id='user'>
+                <li>
+                    <div class="media">
+                        <div class="media-text">
+                            <if condition="$user.oauth eq 1">
+                               <h3>{$user.wx_nick_name}</h3>
+                                <else/>
+                               <h3>{$user.qq_nick_name}</h3>
+                            </if>                           
+                            <p>{$user.level|default='注册会员'}&{$user.reg_time|friend_date}</p>	
+                        </div>
+                        <div class="border"></div>
+                        <div class="media-pos">
+                            <img src="__IMG__/uuu.png" alt=""/>
+                        </div>
+                        <div class="media-img">
+                            <if condition="$user.oauth eq 1">
+                                <img class="img-circle"  src="{$user['wx_head']|default='__IMG__/default_head1.png'}" alt="{$user.wx_nick_name}">
+                                <else/>
+                                <img class="img-circle"  src="{$user['qq_head']|default='__IMG__/default_head1.png'}" alt="{$user.qq_nick_name}">
+                            </if>  
+                        </div>
+                    </div>
+                </li>
+            </volist>
+        </ul>
+    </div>       
+</div>

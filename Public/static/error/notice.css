@@ -1,0 +1,12 @@
+body{font-family: "Microsoft Yahei", Verdana, Simsun, "Segoe UI Web Light", "Segoe UI Light", "Segoe UI Web Regular", "Segoe UI", "Segoe UI Symbol", "Helvetica Neue", Arial; font-size:14px; color:#000; background:url(../images/notice/error-bg.jpg) center top repeat-x #E5F1F6;}
+body.success{ background:url(../images/notice/success-bg.jpg) center top repeat-x #FFE7EC;}
+a{ color: #000; text-decoration: underline; }
+.notice-icon{ width:100%; height:163px; float:left; text-align:center; margin-top:130px;}
+h2{ width:100%; height:35px; float:left; text-align:center; font-size:24px; margin:0; padding:0; margin-top:30px;}
+h2.success-info{ color:#FB2650;}
+.notice-link{ width:100%; float:left; height:30px; line-height:30px; font-size:16px; margin-top:125px; margin-bottom:20px; position:relative;}
+.notice-link span{ width:180px; height:30px; position:absolute; top:0; left:50%; margin-left:-90px;}
+.notice-link a{ width:66px; padding-left:24px; float:left;}
+.notice-link a.link-back{ background:url(../images/notice/back.png) left center no-repeat;}
+.notice-link a.link-home{ background:url(../images/notice/home.png) left center no-repeat;}
+p{ width:100%; float:left; text-align:center;}

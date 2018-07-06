@@ -1,0 +1,65 @@
+<div class="inline-bolck text-center" style="margin:20px auto;">
+    <div class="wow fadeInUp animated" data-wow-delay="0.4s">
+        <!-- start content_slider -->   
+        <if condition='$type eq 1'>
+            <volist name='alist' id ='data'>
+                <div class="activity activity-imglist">
+                    <div class="col-md-12 col-sm-12 active-text active-text-img" data-wow-delay="0.3s">
+                        <div class="wow fadein animated ">
+                            <h5>{$data['starttime']|friend_date}</h5>
+                            <a href="{:U('Action/actionDetail',array('id'=>$data['id']))}"  style=" text-decoration: none;">
+                                <h4>{$data['title']|getSubstr=0,50}</h4>
+                            </a>
+                            {$data['intro']|htmlspecialchars_decode|getSubstr=0,150}
+
+                        </div>                
+                        <div class="activity-img inline-bolck"> 
+                            <ul class="ulimg" style="margin-left: 0px;">
+                                <volist name='data.imgs' id='i' offset="0" lenght="5">
+                                    <li>
+                                        <div class="ac-img-item">                       
+                                            <a href="{:U('WonderfulImg/imgDetail',array('id'=>$i['id'],'type'=>$i['type']))}">
+                                                <img src="{$i['url']}" alt=""/>                                           
+                                            </a>
+                                        </div>
+                                    </li>
+                                </volist>      
+                            </ul>
+                        </div>                        
+                    </div>           
+                </div>        
+            </volist>
+            <else/>
+            <!--
+            来源为图集的
+            -->
+            <volist name='ilist' id ='data'>
+                <div class="activity activity-imglist">
+                    <div class="col-md-12 col-sm-12 active-text active-text-img" data-wow-delay="0.3s">
+                        <div class="wow fadein animated ">
+                            <h5>{$data['starttime']|friend_date}</h5>
+                            <a style=" text-decoration: none;">
+                                <h4>{$data['title']|getSubstr=0,50}</h4>
+                            </a>
+                            {$data['intro']|htmlspecialchars_decode|getSubstr=0,150}
+
+                        </div>                
+                        <div class="activity-img inline-bolck"> 
+                            <ul class="ulimg" style="margin-left: 0px;">
+                                <volist name='data.imgs' id='i' offset="0" length="5" empty='没有上传精彩的图片'>
+                                    <li>
+                                        <div class="ac-img-item">                       
+                                            <a href="{:U('WonderfulImg/imgDetail',array('id'=>$i['id'],'type'=>$i['type']))}">
+                                                <img src="{$i['url']}" alt=""/>                                           
+                                            </a>
+                                        </div>
+                                    </li>
+                                </volist>      
+                            </ul>
+                        </div>  
+                    </div>           
+                </div>        
+            </volist>
+        </if>
+    </div> 
+</div>

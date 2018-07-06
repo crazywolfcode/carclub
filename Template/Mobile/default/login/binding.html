@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<extend name="public:mobilebase" /></extend>
+<block name='top'> 
+    <include file='public:top2'/>
+</block>
+
+<block name='main'>
+    <div class="main_content">
+        <div class="login_panel">
+            <div class="form-body container block">
+                <if condition="$user.oauth eq 1"><else/></if>
+                <div class="text-center block">
+                    <if condition="$user.oauth eq 1">
+                        <img src="{$user.headimgurl|default='__IMG__/default_head2.png'}" class="inline-block" style="width: 100px;height: 100px;border-radius: 50px;margin: 20px auto;"/>
+                        <div class="text-center block">
+                            {$user.nickname}
+                        </div>
+                        <else/>
+                        <notempty  name="user.figureurl_qq_2">
+                            <img src="{$user.figureurl_qq_2|default='__IMG__/default_head2.png'}" class="inline-block" style="width: 100px;height: 100px;border-radius: 50px;margin: 20px auto;"/>
+                            <else />
+                            <img src="{$user.figureurl_qq_1|default='__IMG__/default_head2.png'}" class="inline-block" style="width: 100px;height: 100px;border-radius: 50px;margin: 20px auto;"/>
+                        </notempty>  
+                        <div class="text-center block">
+                            {$user.nickname}
+                        </div>
+                    </if>
+                </div>
+                <form class="login-form" id="bindform">
+                    <div class="container text-center block">
+                        <if condition="$user.oauth eq 1">
+                            <input name="wx_head" type="hidden" value="{$user.headimgurl}"/>
+                            <input name="oauth" type="hidden" value="1"/>
+                            <input name="gender" type="hidden" value="{$user.sex}"/>
+                            <input name="wx_openid" type="hidden" value="{$user.openid}"/>                          
+                            <input name="wx_nick_name"type="hidden" value="{$user.nickname}"/>                           
+                            <else/>
+                            <notempty  name="user.figureurl_qq_2">
+                                <input name="qq_head" type="hidden" value="{$user.figureurl_qq_2}"/>
+                                <else />
+                                <input name="qq_head" type="hidden" value="{$user.figureurl_qq_1}"/>   
+                            </notempty>        
+                            <if condition="$user.gender eq '男'">
+                                <input name="gender" type="hidden" value="1"/>
+                                <else/>
+                                <input name="gender" type="hidden" value="0"/>
+                            </if>
+                            <input name="oauth" type="hidden" value="2"/>
+                            <input name="qq_openid" type="hidden" value="{$user.openid}"/>                          
+                            <input name="qq_nick_name"type="hidden" value="{$user.nickname}"/> 
+                        </if>
+                        <div class="">
+                            <input name="emailormobile" id='emailormobile' data-type="email" data-required="true"  placeholder="手机/邮箱" type="text">
+                        </div>
+                        <div class="">
+                            <input placeholder="密码" id='password' name="password" type="password"/>
+                        </div>      
+                        <div class="hidden" id="confirePwd">
+                            <input placeholder="密码确认" id='passwordtwo' name="" type="password"/>
+                        </div> 
+                        <div class="" id="msgalert">
+                            <span>账号绑定</span>
+                        </div> 
+                    </div>
+                    <input name="id" type="hidden" value="" id="userid"/>
+                    <div class="login-btn" id="binding-btn">
+                        确定
+                    </div>
+                    <div class="block text-center">
+                        <!-- <a href="{:U('Index/index')}" style="color: #0071ce">我不想绑定</a>-->
+                    </div>
+            </div>
+            </form> 
+        </div>
+    </div>
+</div>
+</block>
+
+<block name='js'>
+    <include file='public:footerjs'/>    
+    <script type="text/javascript">
+        new WOW().init();
+        $("#emailormobile").blur(function () {
+            var emailormobile = $(this).val();
+            if (emailormobile.length > 5) {
+                $.ajax({
+                    type: 'post',
+                    DataType: 'json',
+                    data: {emailormobile: emailormobile},
+                    url: "{:U('Login/checkAccount')}",
+                    success: function (res) {
+                        if (res.status == 1) {
+                            $("#userid").val(res.data);
+                            $("#msgalert").children('span').text(res.info);
+                            $("#confirePwd").addClass('hidden');
+                        } else if (res.status == -1) {
+                            layer.msg(res.info);
+                            $("#userid").val("");
+                            $("#emailormobile").val("").focus();
+                            $("#password").val("");
+                            return false;
+                        } else {
+                            $("#userid").val("");
+                            layer.msg(res.info);
+                            $("#msgalert").children('span').text(res.info);
+                            $("#confirePwd").removeClass('hidden');
+                        }
+                    },
+                    error: function () {
+                        layer.msg("请求或者是返回有错误！");
+                        return false;
+                    }
+                });
+            }
+        });
+        $("#binding-btn").click(function () {
+            if ($("#password").val().length < 6) {
+                layer.msg("密码输入不错误;");
+                $("#passwordtwo").val("");
+                $("#password").val("").focus();
+                return false;
+            }
+            if (!$("#confirePwd").hasClass('hidden') || $("#userid").val().length == 0) {
+                if ($("#passwordtwo").val() != $("#password").val()) {
+                    layer.msg("两次输入的密码不一样;");
+                    $("#passwordtwo").val("").focus();
+                    $("#password").val("");
+                    return false;
+                }
+            }
+            var pwd = $("#password").val();
+            var em = $("#emailormobile").val();
+            if (pwd.length < 1 || em.length < 1) {
+                layer.msg("手机号或者邮箱，密码不能为空");
+                $("#password").val("");
+                $("#emailormobile").val("").focus();
+            }
+            var url = "{:U('Login/binding')}";
+            $.ajax({
+                type: 'post',
+                DataType: 'json',
+                data: $("#bindform").serialize(),
+                url: url,
+                success: function (res) {
+                    if (res.status > 0) {
+                        $("#userid").val(res.data);
+                        $("#msgalert").children('span').text(res.info);
+                        setTimeout(function () {
+                            layer.msg("绑定成功 跳转到首页");
+                            window.location.href = "{:U('Index/index')}";
+                        }, 500);
+                    } else {
+                        layer.msg("绑定失败！");
+                        $("#msgalert").children('span').text("绑定失败");
+                        return false;
+                    }
+                },
+                error: function () {
+                    layer.msg("请求或者是返回有错误！");
+                    return false;
+                }
+            });
+        });
+    </script>
+</block>

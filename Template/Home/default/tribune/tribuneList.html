@@ -1,0 +1,107 @@
+<extend name="public:base" /></extend>
+<block name='title'>
+    <notempty name="pagetitle">
+        <title>{$pagetitle}</title>
+        <else/>
+        <title>{:C('WEB_SITE_TITLE')}</title>
+    </notempty>
+</block> 
+<block name='top'> 
+    <include file='public:top'/>
+</block>
+<block name='main'>
+    <div class="container">
+        <div class="row">
+            <div class="span1">
+                <div class="headline"><h3>分类</h3></div>
+                <ul class="unstyled blog-tags">
+                    <volist name='catelist' id='data'>
+                        <if condition="$data['id'] eq $cateid">
+                            <li class="cate-type-{$data['id']}">
+                                <a  href="{:U('Tribune/tribuneList',array('cateid'=>$data['id']))}" class="a-imgList a-active"><i ></i>{$data['name']}</a>
+                            </li>                                           
+                            <else/>
+                            <li class="cate-type-{$data['id']}">
+                                <a  href="{:U('Tribune/tribuneList',array('cateid'=>$data['id']))}" class="a-imgList"><i ></i>{$data['name']}</a>
+                            </li>                                           
+                        </if>
+                    </volist>
+                </ul>
+            </div>
+
+            <div class="span8 ">
+                <include file="Tribune:listItem"/>     
+
+                <div class="pagination pagination-centered">
+                    <div class="pages">
+                        {$page}
+                    </div>
+                </div>
+                <div class="block text-center">
+                    <div class="inline-block sendarticle">
+                        <if condition="$Think.session.user.id gt 0">
+                            <a href="{:U('User/addtribune',array('cateid'=>$cateid))}" class="sendarticle-btn"  >我要发新</a>
+                            <else />
+                            <a href="##" class="CheckLogin" class="sendarticle-btn" >我要发新</a>
+                        </if>
+                    </div>
+                </div>
+            </div>
+
+            <div class="span3">
+                <div class="blog-twitter" >
+                    <div class="headline"><h3>最新</h3></div>
+                    <assign name="f" value="1"/>
+                    <volist name="newlist" id="nl">
+                        <div style="overflow: hidden;position: relative;display: block;">
+                            <p>
+                                <i class="sort-hot">{$f}</i>                        
+                                <a href="{:U('Tribune/tribuneDetail',array('id'=>$nl['id']))}">{$nl['title']|getSubstr=0,50}</a> 
+                                <span> 
+                                    {$nl['addtime']|friend_date}
+                                </span>
+                            <if condition="$nl.isboutique eq 1">
+                                <div class="tribune-boutique2">精</div>
+                            </if>
+                            </p>
+                        </div>
+                        <php>$f++;</php>
+                    </volist>
+                    <php>if(count(newlist)>5){</php>
+                    <button class="btn-u">更多...</button>
+                    <php>}</php>
+                </div>
+
+                <div class="headline"><h3>最新会员</h3></div>
+                <ul class="unstyled blog-ads">
+                    <volist name="ulist" id="ul">
+                        <li>
+                            <a href="{:U('User/userCenter',array('user_id'=>ul['id']))}" style='text-align: center'>
+                                <if condition="$ul.oauth eq 1">
+                                    <img src="{$ul['wx_head']}" alt="" class="hover-effect b-r-30"/> 
+                                    <else/>
+                                    <img src="{$ul['qq_head']}" alt="" class="hover-effect b-r-30"/> 
+                                </if>
+                            </a>
+                        </li>                        
+                    </volist>
+                </ul>
+            </div>
+        </div>
+    </div>
+</block>
+<block name='footer'>
+    <include file='public:footer'/>
+</block>
+<block name='js'>
+    <include file='public:footerjs'/>
+    <script>
+        $(function ()
+        {
+            //改变导航条的状态    
+            $('ul.nav li').removeClass("active");
+            $('#homeNav-tribune').addClass("active");
+        });
+    </script>  
+</block>
+

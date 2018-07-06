@@ -1,0 +1,115 @@
+<!--登录注册模态框-->
+<link rel="stylesheet" type="text/css" href="__HOMELOGIN__/css/login.css" />
+
+<div class="container">
+    <div class="demo">
+        <nav class="main_nav" style="visibility: hidden;">
+            <!--<nav class="main_nav">-->
+            <ul>
+                <li><a class="cd-signin" href="#0">登录</a></li>
+                <!--<li><a class="cd-signup" href="#0">注册</a></li>-->
+            </ul>
+        </nav>
+    </div>
+    <div class="cd-user-modal" style=" z-index:998;"> 
+        <div class="cd-user-modal-container">
+            <ul class="cd-switcher">
+                <li class="on"><a href="#0">用户登录</a></li>
+                <li><a href="#0">注册新用户</a></li>
+            </ul>
+            <div id="cd-login"> <!-- 登录表单 -->
+                <form class="cd-form" id="login-form"  method="post" >
+                    <p class="fieldset">
+                        <label class="image-replace cd-username" for="signin-username">用户名</label>
+                        <input class="full-width has-padding has-border" name="loginName" id="signin-username" type="text" placeholder="邮箱号/手机号">
+                    </p>
+                    <p class="fieldset">
+                        <label class="image-replace cd-password" for="signin-password">密码</label>
+                        <input class="full-width has-padding has-border" name="password" id="signin-password" type="password"  placeholder="输入密码">
+                    </p>
+                    <p class="fieldset">
+                        <label for="remember-me"><input type="checkbox" id="remember-me" checked>&nbsp&nbsp记住登录状态</label>
+                        <a href="#" class="forget-psd">忘记密码？</a>
+                    </p>
+                    <p class="fieldset">
+                        <input class="full-width2" type="button" onclick="add_form('{:U(\'Login/index\')}', 'login-form');" value="登 录">
+                    </p>
+                    <div class="other_login">
+                        <span style="font-size:0.875rem; float:left; padding-top:10px;">使用其他方式登录</span>
+                        <a href="{:U('Home/Login/qclogin')}" id="qq_login"><img src="__HOMELOGIN__/images/qq.png"></a>
+                        <a href="#" id="weichat_login"><img src="__HOMELOGIN__/images/weixin.png"></a>
+                    </div>
+                </form>
+            </div>
+            <div id="cd-signup"> <!-- 注册表单 -->
+                <form class="cd-form" id="add_user_form" method="post" >                  
+                    <p class="fieldset">
+                        <label class="image-replace cd-email" for="signup-email">邮箱</label>
+                        <input class="full-width has-padding has-border" name="email" id="signup-email" type="email" placeholder="输入mail">
+                    </p>
+                    <p class="fieldset">
+                        <label class="image-replace cd-email" for="signup-email">手机号</label>
+                        <input class="full-width has-padding has-border" name="mobile" id="signup-email" type="phone" placeholder="输入手机号">
+                    </p>
+                    <p class="fieldset">
+                        <label class="image-replace cd-password" for="signup-password">密码</label>
+                        <input class="full-width has-padding has-border" id="signup-password" name="password" type="password"  placeholder="输入密码">
+                    </p>
+                    <p class="fieldset">
+                        <label class="image-replace cd-password" for="signup-password">确认密码</label>
+                        <input class="full-width has-padding has-border" id="sure-password" name="againpassword" type="password"  placeholder="确认密码">
+                    </p>
+                    <p class="fieldset">
+                        <label for="accept-terms"><input type="checkbox" name="protocol"  id="accept-terms"  >
+                            &nbsp&nbsp我已阅读并同意 
+                            <a data-toggle="modal" data-target="#agreenmentmodal" onclick='$("#agreenmentmodal").css({"z-index": 9999});'>用户协议</a>
+                        </label>
+                    </p>
+                    <p class="fieldset">
+                        <input class="full-width2" type="button" onclick="add_form('{:U(\'Login/register\')}', 'add_user_form');" value="注册新用户">
+                    </p>
+                </form>
+            </div>
+
+            <a href="#0" class="cd-close-form">关闭</a>
+        </div>
+    </div> 
+</div>
+<div class="modal fade" tabindex="-1" role="dialog" id="agreenmentmodal" style="z-index: -1">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">用户协议</h4>
+            </div>
+            <div class="modal-body">
+                {$user_agreements|htmlspecialchars_decode}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>      
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript" src="__HOMELOGIN__/js/login.js"></script> 
+<script src="__HOMELOGIN__/js/loginmain.js"></script>
+<script type="text/javascript">
+                            var checkLoginURL = "{:U('Home/Login/CheckIsLogin')}";
+                            $("#weichat_login").click(function () {
+                                if (isWeiXin() == false) {
+                                    layer.msg("请在微信上打开");
+                                    return false;
+                                }
+                            });
+                            function isWeiXin() {
+                                var ua = window.navigator.userAgent.toLowerCase();
+                                if (ua.match(/MicroMessenger/i) == 'micromessenger') {
+                                    return true;
+                                } else {
+                                    return false;
+                                }
+                            }
+                            $("#show-agreen").click(function () {
+                                $("#agreenmentmodal").css({"z-index": 9999});                               
+                            });
+</script> 

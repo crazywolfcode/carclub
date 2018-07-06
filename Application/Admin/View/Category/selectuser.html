@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>选择会员</title>
+        <meta name="keywords" content="H+后台主题,后台bootstrap框架,会员中心主题,后台HTML,响应式后台">
+        <meta name="description" content="H+是一个完全响应式，基于Bootstrap3最新版本开发的扁平化主题，她采用了主流的左右两栏式布局，使用了Html5+CSS3等现代技术">
+        <link rel="shortcut icon" href="favicon.ico"> <link href="__CSS__/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+        <link href="__CSS__/font-awesome.css?v=4.4.0" rel="stylesheet">
+        <link href="__CSS__/animate.css" rel="stylesheet">
+        <link href="__CSS__/style.css?v=4.1.0" rel="stylesheet">
+        <link rel="stylesheet" href="__LAYUI__/css/layui.css"  media="all">
+
+    </head>
+
+    <body class="gray-bg">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row" id="userlist">
+                <include file="Category:user_item"/>
+            </div>
+            <div class="pagination pagination-centered col-sm-12 text-center">
+                <div class="pages">
+                    {$page}
+                </div>
+            </div>
+        </div>
+
+        <!-- 全局js -->
+        <script src="__JS__/jquery.min.js?v=2.1.4"></script>
+        <script src="__JS__/bootstrap.min.js?v=3.3.6"></script>
+
+
+
+        <!-- 自定义js -->
+        <script src="__JS__/content.js?v=1.0.0"></script>
+        <script type="text/javascript" src="__LAYER__/layer.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('.contact-box').each(function () {
+                    animationHover(this, 'pulse');
+                });
+            });
+            //主
+            $('.moderater-opt').click(function () {
+                var userid = $(this).attr("data-userid");
+                var cateid = parent.$('#currentCateid').text();
+                var type = 1;
+                var url = $(this).attr("data-url");
+                $.ajax({
+                    type: 'post',
+                    url: url,
+                    dataType: 'text',
+                    data: {
+                        userid: userid, cateid: cateid, type: type
+                    },
+                    success: function (res) {
+                        var obj = $.parseJSON(res);
+                        if (obj.status == 1) {
+                            layer.msg(obj.info);
+                            parent.document.location.reload();
+                        } else {
+                            layer.msg(obj.info);
+                        }
+                    },
+                    error: function () {
+                        layer.msg("请求出错！", {time: 1200});
+                    }
+                });
+            });
+        </script>
+    </body>
+
+</html>
